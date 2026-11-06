@@ -1,0 +1,8 @@
+{
+  "kind": "v0_transport_smoke",
+  "model_calls": 0,
+  "checks": {},
+  "runs": [],
+  "error": "Traceback (most recent call last):\n  File \"/home/alexdtat/Documents/Codex/2026-10-31/claude-x20/work/project-feasibility-2026-11-06/a_transport_smoke.py\", line 20, in main\n    commands.docker(*compose,'up','-d','--build',timeout=60)\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/alexdtat/Documents/Codex/2026-10-31/claude-x20/work/project-feasibility-2026-11-06/common.py\", line 46, in docker\n    return self.run([\"docker\", *map(str, args)], **kwargs)\n           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/alexdtat/Documents/Codex/2026-10-31/claude-x20/work/project-feasibility-2026-11-06/common.py\", line 42, in run\n    raise RuntimeError(f\"Command failed: {argv!r}: {event['stderr'][-2000:]}\")\nRuntimeError: Command failed: ['docker', 'compose', '-p', 'course-a-5fb220cf', '-f', '/home/alexdtat/Documents/Codex/2026-10-31/claude-x20/work/project-feasibility-2026-11-06/track_a/compose.yaml', 'up', '-d', '--build']: time=\"2026-11-06T14:38:33+03:00\" level=warning msg=\"Docker Compose is configured to build using Bake, but buildx isn't installed\"\n\n",
+  "passed": false
+}

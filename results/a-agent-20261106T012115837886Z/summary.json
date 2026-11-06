@@ -1,0 +1,30 @@
+{
+  "config": {
+    "kind": "technical_agent_smoke",
+    "base_url": "http://127.0.0.1:18020/v1",
+    "model": "qwen3.8-27b",
+    "max_steps": 6,
+    "max_output_tokens": 256,
+    "temperature": 0,
+    "task": "Read /work/config.json and find the service port. Edit /work/report.txt: change only the line 'status: draft' to 'status: ready', preserving all other lines exactly. Finish with PORT=<the actual port>."
+  },
+  "checks": {
+    "correct_final_answer": true,
+    "only_requested_edit": true,
+    "tool_used_real_protocol": true,
+    "one_terminal_event_per_tool": true
+  },
+  "model_calls": 5,
+  "tool_calls": 4,
+  "answer": "PORT=8127",
+  "actual": {
+    "report": "header\nstatus: ready\nkeep: yes\n",
+    "port": 8127
+  },
+  "limitations": [
+    "One open technical task, not full BAF benchmark",
+    "No desktop UI or SSHFS integration in API runtime",
+    "Model eligibility for course quality benchmark not established"
+  ],
+  "passed": true
+}

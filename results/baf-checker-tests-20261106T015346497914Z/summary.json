@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "returncode": 0,
+  "scope": "Positive/negative fixture outputs plus tampering and actual-tool checks; no model calls"
+}

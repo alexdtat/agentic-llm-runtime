@@ -1,0 +1,11 @@
+{
+  "id": "B2.1",
+  "baf": "B2",
+  "level": "simple",
+  "messages": [
+    "В каком файле определена функция parse_date? Найди определение и запиши только относительный путь в answer.txt."
+  ],
+  "answer_file": "answer.txt",
+  "timeout_s": 180,
+  "mutable_fixture_files": []
+}

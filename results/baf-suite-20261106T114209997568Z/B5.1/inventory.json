@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "path": "answer.txt",
+      "bytes": 3
+    },
+    {
+      "path": "stats.py",
+      "bytes": 272
+    },
+    {
+      "path": "data.csv",
+      "bytes": 23
+    }
+  ],
+  "forbidden_nodes": []
+}

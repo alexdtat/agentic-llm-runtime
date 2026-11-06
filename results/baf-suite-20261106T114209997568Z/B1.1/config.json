@@ -1,0 +1,33 @@
+{
+  "version": "b1-b5-simple-smoke-v1",
+  "mode": "smoke",
+  "levels": [
+    "simple"
+  ],
+  "repeats": 1,
+  "bafs": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5"
+  ],
+  "model": "qwen3.8-27b",
+  "base_url": "http://127.0.0.1:18020/v1",
+  "max_steps": 6,
+  "max_output_tokens": 256,
+  "temperature": 0,
+  "enable_thinking": false,
+  "model_request_timeout_seconds": 60,
+  "tool_timeout_seconds": 3,
+  "per_task_timeout_seconds": 180,
+  "fresh_session_per_task": true,
+  "require_agent_finish": true,
+  "retries_for_valid_model_answers": 0,
+  "fixture_mutation_policy": "Original fixture files must remain byte-identical except README.md in B4",
+  "collection_max_files": 1000,
+  "collection_max_file_bytes": 1048576,
+  "collection_max_total_bytes": 4194304,
+  "note": "Open technical smoke only; not the full BAF benchmark or model eligibility confirmation",
+  "task": "На каком порту слушает сервис? Запиши только число в файл answer.txt в корне рабочей папки."
+}

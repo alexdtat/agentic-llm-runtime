@@ -1,0 +1,398 @@
+[
+  {
+    "id": "62621a89449041009f243e0e11165276",
+    "session_id": "8104829ec19046a09dc4a9408ff9dee4",
+    "status": "complete",
+    "request": {
+      "request_id": "setup-1",
+      "argv": [
+        "python3",
+        "-c",
+        "from pathlib import Path;p=Path('/work/README.md');p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b'')"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "7ec5db34a98045528827b993780f4e21",
+    "session_id": "8104829ec19046a09dc4a9408ff9dee4",
+    "status": "complete",
+    "request": {
+      "request_id": "setup-2",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;from pathlib import Path;p=Path('/work/README.md');f=p.open('ab');f.write(base64.b64decode('IyBEYXRlIHV0aWxpdHkKClRoZSBhcHBsaWNhdGlvbiBjYWxscyBwYXJzZV9kYXRlIHRvIHJlYWQgYW4gSVNPIGNhbGVuZGFyIGRhdGUuCg=='));f.close()"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "5b8979c252a94e108092d82f608a345d",
+    "session_id": "8104829ec19046a09dc4a9408ff9dee4",
+    "status": "complete",
+    "request": {
+      "request_id": "setup-3",
+      "argv": [
+        "python3",
+        "-c",
+        "from pathlib import Path;p=Path('/work/app.py');p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b'')"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "b0fdeba099b941798460d0470b8b89a3",
+    "session_id": "8104829ec19046a09dc4a9408ff9dee4",
+    "status": "complete",
+    "request": {
+      "request_id": "setup-4",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;from pathlib import Path;p=Path('/work/app.py');f=p.open('ab');f.write(base64.b64decode('ZnJvbSB1dGlsLmRhdGVfdG9vbHMgaW1wb3J0IHBhcnNlX2RhdGUKCgpkZWYgbWFpbigpOgogICAgcmV0dXJuIHBhcnNlX2RhdGUoIjIwMjYtMTEtMDYiKQo='));f.close()"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "30b5c2f86131419f907b8fcbf5a50105",
+    "session_id": "8104829ec19046a09dc4a9408ff9dee4",
+    "status": "complete",
+    "request": {
+      "request_id": "setup-5",
+      "argv": [
+        "python3",
+        "-c",
+        "from pathlib import Path;p=Path('/work/util/date_tools.py');p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b'')"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "0d09a320f43e42109e13091e84af7be6",
+    "session_id": "8104829ec19046a09dc4a9408ff9dee4",
+    "status": "complete",
+    "request": {
+      "request_id": "setup-6",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;from pathlib import Path;p=Path('/work/util/date_tools.py');f=p.open('ab');f.write(base64.b64decode('ZnJvbSBkYXRldGltZSBpbXBvcnQgZGF0ZQoKCmRlZiBwYXJzZV9kYXRlKHZhbHVlKToKICAgIHJldHVybiBkYXRlLmZyb21pc29mb3JtYXQodmFsdWUpCg=='));f.close()"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "ccb633dd9cbc471d8f33557496e40776",
+    "session_id": "8104829ec19046a09dc4a9408ff9dee4",
+    "status": "complete",
+    "request": {
+      "request_id": "collect-7",
+      "argv": [
+        "python3",
+        "-c",
+        "import os,json\nfrom pathlib import Path\nroot=Path('/work');files=[];errors=[]\nfor directory,dirs,names in os.walk(root,followlinks=False):\n for name in dirs[:]:\n  p=Path(directory)/name\n  if p.is_symlink():errors.append(str(p.relative_to(root)));dirs.remove(name)\n for name in names:\n  p=Path(directory)/name\n  if p.is_symlink():errors.append(str(p.relative_to(root)));continue\n  if not p.is_file():errors.append(str(p.relative_to(root)));continue\n  files.append({'path':str(p.relative_to(root)),'bytes':p.stat().st_size})\nprint(json.dumps({'files':files,'forbidden_nodes':errors}))\n"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "{\"files\": [{\"path\": \"answer.txt\", \"bytes\": 18}, {\"path\": \"app.py\", \"bytes\": 89}, {\"path\": \"README.md\", \"bytes\": 79}, {\"path\": \"util/date_tools.py\", \"bytes\": 88}], \"forbidden_nodes\": []}\n",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "{\"files\": [{\"path\": \"answer.txt\", \"bytes\": 18}, {\"path\": \"app.py\", \"bytes\": 89}, {\"path\": \"README.md\", \"bytes\": 79}, {\"path\": \"util/date_tools.py\", \"bytes\": 88}], \"forbidden_nodes\": []}\n",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "a7348a673fe342808db4f01790071b64",
+    "session_id": "8104829ec19046a09dc4a9408ff9dee4",
+    "status": "complete",
+    "request": {
+      "request_id": "collect-8",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;f=open('/work/answer.txt','rb');f.seek(0);print(base64.b64encode(f.read(8192)).decode())"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "dXRpbC9kYXRlX3Rvb2xzLnB5\n",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "dXRpbC9kYXRlX3Rvb2xzLnB5\n",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "18b5b193006e481e82de39a67011b8c6",
+    "session_id": "8104829ec19046a09dc4a9408ff9dee4",
+    "status": "complete",
+    "request": {
+      "request_id": "collect-9",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;f=open('/work/app.py','rb');f.seek(0);print(base64.b64encode(f.read(8192)).decode())"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "ZnJvbSB1dGlsLmRhdGVfdG9vbHMgaW1wb3J0IHBhcnNlX2RhdGUKCgpkZWYgbWFpbigpOgogICAgcmV0dXJuIHBhcnNlX2RhdGUoIjIwMjYtMTEtMDYiKQo=\n",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "ZnJvbSB1dGlsLmRhdGVfdG9vbHMgaW1wb3J0IHBhcnNlX2RhdGUKCgpkZWYgbWFpbigpOgogICAgcmV0dXJuIHBhcnNlX2RhdGUoIjIwMjYtMTEtMDYiKQo=\n",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "6de72b0d33434e968f169b449b3764f2",
+    "session_id": "8104829ec19046a09dc4a9408ff9dee4",
+    "status": "complete",
+    "request": {
+      "request_id": "collect-10",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;f=open('/work/README.md','rb');f.seek(0);print(base64.b64encode(f.read(8192)).decode())"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "IyBEYXRlIHV0aWxpdHkKClRoZSBhcHBsaWNhdGlvbiBjYWxscyBwYXJzZV9kYXRlIHRvIHJlYWQgYW4gSVNPIGNhbGVuZGFyIGRhdGUuCg==\n",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "IyBEYXRlIHV0aWxpdHkKClRoZSBhcHBsaWNhdGlvbiBjYWxscyBwYXJzZV9kYXRlIHRvIHJlYWQgYW4gSVNPIGNhbGVuZGFyIGRhdGUuCg==\n",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "fbcfcb02724d4b2a9530d9ce821a39a4",
+    "session_id": "8104829ec19046a09dc4a9408ff9dee4",
+    "status": "complete",
+    "request": {
+      "request_id": "collect-11",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;f=open('/work/util/date_tools.py','rb');f.seek(0);print(base64.b64encode(f.read(8192)).decode())"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "ZnJvbSBkYXRldGltZSBpbXBvcnQgZGF0ZQoKCmRlZiBwYXJzZV9kYXRlKHZhbHVlKToKICAgIHJldHVybiBkYXRlLmZyb21pc29mb3JtYXQodmFsdWUpCg==\n",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "ZnJvbSBkYXRldGltZSBpbXBvcnQgZGF0ZQoKCmRlZiBwYXJzZV9kYXRlKHZhbHVlKToKICAgIHJldHVybiBkYXRlLmZyb21pc29mb3JtYXQodmFsdWUpCg==\n",
+      "stderr": ""
+    }
+  }
+]

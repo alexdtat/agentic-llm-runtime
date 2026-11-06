@@ -1,0 +1,84 @@
+{
+  "track": "A",
+  "model_calls": 0,
+  "checks": [
+    {
+      "argv": [
+        "/home/alexdtat/Documents/Codex/2026-10-31/claude-x20/work/project-feasibility-2026-11-06/runtime/arena-venv/bin/python",
+        "-m",
+        "unittest",
+        "test_runtime_cli",
+        "test_baf_checkers",
+        "-v"
+      ],
+      "returncode": 0,
+      "log": "check-1.log"
+    },
+    {
+      "argv": [
+        "/home/alexdtat/Documents/Codex/2026-10-31/claude-x20/work/project-feasibility-2026-11-06/runtime/arena-venv/bin/python",
+        "a_transport_smoke.py"
+      ],
+      "returncode": 0,
+      "log": "check-2.log"
+    },
+    {
+      "argv": [
+        "/home/alexdtat/Documents/Codex/2026-10-31/claude-x20/work/project-feasibility-2026-11-06/runtime/arena-venv/bin/python",
+        "baf_runner.py",
+        "--replay-from",
+        "results/baf-suite-20261106T015237658406Z"
+      ],
+      "returncode": 0,
+      "log": "check-3.log"
+    }
+  ],
+  "passed": true,
+  "source_sha256": {
+    "gateway_live_smoke.py": "daf03fe2b2453abfb73dd1fe28edd12c58a6786fcf8467507eeeae3421281a7e",
+    "b_probe.py": "d5a4358505c4bc2bf2e94c11d1de5e2a6e4ebbebac609e464b0dcd7f511f83c1",
+    "svg_adversarial_audit.py": "404e37f194ee1201b480be1b6fb0ab1b2ec8a099dd803b5ce8dbee3b57cf200a",
+    "test_action_adapter_v2.py": "aada55bb80566b29d58ce0684aa53bc11edfdfdc0c2f5054330763c5583f162d",
+    "svg_checker.py": "ca709089802ee206e8aecab21df917fbbef912a5891e7e6d1b1be4bf20f54cfe",
+    "b_arena_contract_smoke.py": "f291b0483ade799b180c96a6e1b69df817a9504dcf02489334a30e9639fe1a1b",
+    "vlm_probe_v2.py": "4fab9d838b7571e473f3c822858e0fa998afb1669a92b4308fa735f9b85aaaab",
+    "a_transport_smoke.py": "ff9c4a8693c3a9eaa066fdfe6ba5d473cf257f499d87de9ed6ec9c50e91837ad",
+    "a_probe.py": "27d807924e011e5c8c679c3429e533a5c40d6aa8c0f2f39509bfc3b6be90175a",
+    "checkpoint_checks.py": "d5407384f05384c755eceb00b5c0f2c355977d1549ceef80643da496ca0fd93a",
+    "common.py": "d2d821f7dc4b34c437ae52a7f86972a7c1af6a354d1c753b799fefc70ce1b052",
+    "arena_probe.py": "a4b2b82b963c89ccf030e911d2504963bd03526f720cc8ad9b3cfec557f3b120",
+    "test_svg_checker.py": "b169fd74e2885e732b20cc0decb52186fb65562dc48667956793c7f4c075d13d",
+    "vision_client.py": "cf3756c8a031ddd1e4da34e5e807343ec70ed733b94b21ac69282dfe1016af94",
+    "action_adapter_v2.py": "0aa7900bc39a051390c731ecbe6ac5c95e0d4c7931642953dba4d1492bb05179",
+    "vlm_probe.py": "fbee6224b8ee288726b5752fe51932bfc9f7c205af135be5432e94b8e8337e58",
+    "vlm_gui_probe.py": "b414a54e8e01fba5a6d5ce8f8e986b967148acae4d1a5b76f7763566284727f7",
+    "summarize.py": "0fcefbd5ac39fe37a1cd4b933393f0eeb25d92f6e055ddc37a4a840f2ce2dfd7",
+    "test_baf_checkers.py": "a75f53ea4050259b8740bdc0ba9a43a70d89a7faa5080c50d06091d14fa600c1",
+    "gui_session.py": "9d9400f35274bba0411414c5ab381628f1e6d4924253bdfb674c735870b7b842",
+    "test_metric_documents.py": "a7c2a51ae280b3d493fed2cb797a671e33cf683f75b9a52e97a97e51f84c249b",
+    "a_agent_smoke.py": "a9e773f11e44202779224d7d5f083fdf96d6c44e93df8038f0df939ab02b2065",
+    "test_metric_proposal.py": "f5afd708d88e466d90dbdc2f87c99e9fadab45e92a2b75cf4bcfd0de1014f7cb",
+    "a_edge_probe.py": "ba906fa626ca75393359265d6c5aa4bcfaed2ba40b980ad99c75735a51fec164",
+    "baf_runner.py": "d9f72fae5bbdfb7158422d2f2fb94e4b4b0ea9b1550caa2ba613f7be608d206d",
+    "arena_vision_audit.py": "e1db819e4c7978c679ac2ee346a1db4c4db577bda5260720d90cd24011a85885",
+    "draft_gateway_patch.py": "d83d9ff02bdf58eb671ed106d389ba444984bd002af7536f946ace35dffc8067",
+    "a_fixture.py": "bd5dc6ce2d7c7d531eab20fdc91f42d0277bf2d3da3009a7ac8ecde96508cecb",
+    "test_runtime_cli.py": "74203bb62d743cf24f690079f0fde3eaba21371eb70bbbb471c3688ab7324e1b",
+    "track_a/server.py": "5222ded7c8e6f727fed1400e6c43709519efe07c732e100d191fe7c7cbb5b2ce",
+    "track_a/worker.py": "b1f39890c6170a1e91380e87bedd0eddf2e7915a07aac413e45e80bee98b931d",
+    "track_a/harness.py": "73231f11aade9247cb1a6396e38afcbd8a2938fe024110d54723841bb9c355d9",
+    "track_a/cli.py": "a8391fc69abd61c756e8e76269b2895f317135bb3a1a5429a553e5237cad17c8",
+    "track_a/baf_support.py": "878a9c29e75d3d89ee6f76dc875432311071968fa28bea67d4b717625b8fa15a",
+    "track_a/client.py": "239e7867beeaf3ba32d94a6662cb8a1389a431b3405ab82fd4f2411b31d6b0e5",
+    "track_a/baf/B4-edit/B4.1-install-version/check.py": "867f75e494d19fe0ba7f7c408f9720d3cb3fc4324b74a9aee2dedc1a43ce8d9c",
+    "track_a/baf/B3-create/B3.1-json-config/check.py": "88cbcbddcf2be010680adeda1a9d7185c8ba77ceea82f7c214bfad51bcee6072",
+    "track_a/baf/B1-read/B1.1-service-port/check.py": "ae46ff621e8d867bc7e4bfb4d99947ffd3a5da3567cc41ccd2b8a570190de44b",
+    "track_a/baf/B1-read/B1.1-service-port/fixture/src/main.py": "e8bc64c3e7bf42284fd46486a2d82cd4e5779e6bff92d73dd79790eff9a63690",
+    "track_a/baf/B5-tool/B5.1-run-stats/check.py": "443c86746c7ef8ddcf38b2b6455af79459cab3944dd299b38ca11fd2317f833d",
+    "track_a/baf/B5-tool/B5.1-run-stats/fixture/stats.py": "170fe25af322bcb0677cfce681ce9b2b00ac47bce26796b1e7302d5f2771cb3e",
+    "track_a/baf/B2-search/B2.1-function-file/check.py": "918201ccf6050bdc8f953a5fb2ce30451ac64e89cfe5daa3decbaddc5f063a90",
+    "track_a/baf/B2-search/B2.1-function-file/fixture/app.py": "8d75e6b0a65dd0a2d4ad6aebf56b184e31c8ac4407fb994619aca1a2270e3bb3",
+    "track_a/baf/B2-search/B2.1-function-file/fixture/util/date_tools.py": "8f72bf46a2bf6522b7cb3390a040639b5ff53de25651687a7ca5482d34615f19"
+  },
+  "scope": "Technical CPU checks; not a new quality experiment or a campaign"
+}

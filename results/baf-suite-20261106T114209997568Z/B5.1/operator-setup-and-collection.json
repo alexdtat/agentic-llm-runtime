@@ -1,0 +1,290 @@
+[
+  {
+    "id": "90de8654e972446eb1af4e7a33935a7a",
+    "session_id": "751fc3afc26245baad239aa99d018002",
+    "status": "complete",
+    "request": {
+      "request_id": "setup-1",
+      "argv": [
+        "python3",
+        "-c",
+        "from pathlib import Path;p=Path('/work/data.csv');p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b'')"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "22c9be72a4374a70bde87f0d9b21f1e2",
+    "session_id": "751fc3afc26245baad239aa99d018002",
+    "status": "complete",
+    "request": {
+      "request_id": "setup-2",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;from pathlib import Path;p=Path('/work/data.csv');f=p.open('ab');f.write(base64.b64decode('dmFsdWUKMQozCjUKNwo5CjExCjEwMAo='));f.close()"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "50769a14f26a45829c704591962d72ad",
+    "session_id": "751fc3afc26245baad239aa99d018002",
+    "status": "complete",
+    "request": {
+      "request_id": "setup-3",
+      "argv": [
+        "python3",
+        "-c",
+        "from pathlib import Path;p=Path('/work/stats.py');p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b'')"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "e3d38d6293ab4cd2af49b80c83fa3705",
+    "session_id": "751fc3afc26245baad239aa99d018002",
+    "status": "complete",
+    "request": {
+      "request_id": "setup-4",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;from pathlib import Path;p=Path('/work/stats.py');f=p.open('ab');f.write(base64.b64decode('aW1wb3J0IGNzdgppbXBvcnQganNvbgppbXBvcnQgc3RhdGlzdGljcwppbXBvcnQgc3lzCgp3aXRoIG9wZW4oc3lzLmFyZ3ZbMV0sbmV3bGluZT0nJykgYXMgc3RyZWFtOgogICAgdmFsdWVzPVtmbG9hdChyb3dbJ3ZhbHVlJ10pIGZvciByb3cgaW4gY3N2LkRpY3RSZWFkZXIoc3RyZWFtKV0KcHJpbnQoanNvbi5kdW1wcyh7J2NvdW50JzpsZW4odmFsdWVzKSwnbWVhbic6c3RhdGlzdGljcy5tZWFuKHZhbHVlcyksJ21lZGlhbic6c3RhdGlzdGljcy5tZWRpYW4odmFsdWVzKX0pKQo='));f.close()"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "2a7f022a94574d3f8debe9d47267c4fb",
+    "session_id": "751fc3afc26245baad239aa99d018002",
+    "status": "complete",
+    "request": {
+      "request_id": "collect-5",
+      "argv": [
+        "python3",
+        "-c",
+        "import os,json\nfrom pathlib import Path\nroot=Path('/work');files=[];errors=[]\nfor directory,dirs,names in os.walk(root,followlinks=False):\n for name in dirs[:]:\n  p=Path(directory)/name\n  if p.is_symlink():errors.append(str(p.relative_to(root)));dirs.remove(name)\n for name in names:\n  p=Path(directory)/name\n  if p.is_symlink():errors.append(str(p.relative_to(root)));continue\n  if not p.is_file():errors.append(str(p.relative_to(root)));continue\n  files.append({'path':str(p.relative_to(root)),'bytes':p.stat().st_size})\nprint(json.dumps({'files':files,'forbidden_nodes':errors}))\n"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "{\"files\": [{\"path\": \"answer.txt\", \"bytes\": 3}, {\"path\": \"stats.py\", \"bytes\": 272}, {\"path\": \"data.csv\", \"bytes\": 23}], \"forbidden_nodes\": []}\n",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "{\"files\": [{\"path\": \"answer.txt\", \"bytes\": 3}, {\"path\": \"stats.py\", \"bytes\": 272}, {\"path\": \"data.csv\", \"bytes\": 23}], \"forbidden_nodes\": []}\n",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "5f564c8447be44178aeb9c7ea6f37554",
+    "session_id": "751fc3afc26245baad239aa99d018002",
+    "status": "complete",
+    "request": {
+      "request_id": "collect-6",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;f=open('/work/answer.txt','rb');f.seek(0);print(base64.b64encode(f.read(8192)).decode())"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "Ny4w\n",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "Ny4w\n",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "243435b56d0d4a8a925d7d44b45a9e12",
+    "session_id": "751fc3afc26245baad239aa99d018002",
+    "status": "complete",
+    "request": {
+      "request_id": "collect-7",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;f=open('/work/stats.py','rb');f.seek(0);print(base64.b64encode(f.read(8192)).decode())"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "aW1wb3J0IGNzdgppbXBvcnQganNvbgppbXBvcnQgc3RhdGlzdGljcwppbXBvcnQgc3lzCgp3aXRoIG9wZW4oc3lzLmFyZ3ZbMV0sbmV3bGluZT0nJykgYXMgc3RyZWFtOgogICAgdmFsdWVzPVtmbG9hdChyb3dbJ3ZhbHVlJ10pIGZvciByb3cgaW4gY3N2LkRpY3RSZWFkZXIoc3RyZWFtKV0KcHJpbnQoanNvbi5kdW1wcyh7J2NvdW50JzpsZW4odmFsdWVzKSwnbWVhbic6c3RhdGlzdGljcy5tZWFuKHZhbHVlcyksJ21lZGlhbic6c3RhdGlzdGljcy5tZWRpYW4odmFsdWVzKX0pKQo=\n",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "aW1wb3J0IGNzdgppbXBvcnQganNvbgppbXBvcnQgc3RhdGlzdGljcwppbXBvcnQgc3lzCgp3aXRoIG9wZW4oc3lzLmFyZ3ZbMV0sbmV3bGluZT0nJykgYXMgc3RyZWFtOgogICAgdmFsdWVzPVtmbG9hdChyb3dbJ3ZhbHVlJ10pIGZvciByb3cgaW4gY3N2LkRpY3RSZWFkZXIoc3RyZWFtKV0KcHJpbnQoanNvbi5kdW1wcyh7J2NvdW50JzpsZW4odmFsdWVzKSwnbWVhbic6c3RhdGlzdGljcy5tZWFuKHZhbHVlcyksJ21lZGlhbic6c3RhdGlzdGljcy5tZWRpYW4odmFsdWVzKX0pKQo=\n",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "37975b1f459d411c8f546f7cbf908bc5",
+    "session_id": "751fc3afc26245baad239aa99d018002",
+    "status": "complete",
+    "request": {
+      "request_id": "collect-8",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;f=open('/work/data.csv','rb');f.seek(0);print(base64.b64encode(f.read(8192)).decode())"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "dmFsdWUKMQozCjUKNwo5CjExCjEwMAo=\n",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "dmFsdWUKMQozCjUKNwo5CjExCjEwMAo=\n",
+      "stderr": ""
+    }
+  }
+]

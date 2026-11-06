@@ -1,0 +1,50 @@
+{
+  "probe": "A",
+  "kind": "technical_diagnostic",
+  "checks": {
+    "real_fuse_mount": true,
+    "client_to_sandbox": true,
+    "sandbox_to_client": true,
+    "client_edit_visible": true,
+    "sandbox_edit_visible": true,
+    "cancel_process_tree": true,
+    "outage_does_not_return_stale_new_file": true,
+    "automatic_reconnect": true,
+    "recovery_with_remount_if_needed": true,
+    "mount_released": true
+  },
+  "model_calls": 0,
+  "gpu_used": false,
+  "errors": [],
+  "limitations": [
+    "Same physical host, isolated container network namespaces",
+    "Diagnostic sandbox has SYS_ADMIN/FUSE/AppArmor exception",
+    "No desktop client, LLM harness, full hardening or BAF runner"
+  ],
+  "mount": {
+    "filesystems": [
+      {
+        "target": "/work",
+        "source": "root@client:/client-workdir",
+        "fstype": "fuse.sshfs",
+        "options": "rw,nosuid,nodev,relatime,user_id=0,group_id=0"
+      }
+    ]
+  },
+  "cancellation": {
+    "parent_exit": -15,
+    "children": [
+      "59"
+    ],
+    "running_children": []
+  },
+  "outage": {
+    "seconds": 2.269131136999931,
+    "returncode": 1,
+    "timed_out": false,
+    "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/lib/python3.12/pathlib.py\", line 1029, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/pathlib.py\", line 1015, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nOSError: [Errno 5] Input/output error: '/work/during-outage.txt'\n"
+  },
+  "disconnected_container_state": "running",
+  "seconds": 4.26096629300082,
+  "passed": true
+}

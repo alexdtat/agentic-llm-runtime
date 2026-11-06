@@ -1,0 +1,21 @@
+{
+  "files": [
+    {
+      "path": "answer.txt",
+      "bytes": 4
+    },
+    {
+      "path": "README.md",
+      "bytes": 90
+    },
+    {
+      "path": "src/main.py",
+      "bytes": 113
+    },
+    {
+      "path": "config/app.yaml",
+      "bytes": 166
+    }
+  ],
+  "forbidden_nodes": []
+}

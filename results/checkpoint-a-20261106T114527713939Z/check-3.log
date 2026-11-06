@@ -1,0 +1,6 @@
+{"task_id": "B1.1", "pass": true, "model_calls": 0, "tool_calls": 4, "seconds": 0.4170429780000404, "reason": "ok"}
+{"task_id": "B2.1", "pass": true, "model_calls": 0, "tool_calls": 2, "seconds": 0.22916263199999776, "reason": "ok"}
+{"task_id": "B3.1", "pass": true, "model_calls": 0, "tool_calls": 3, "seconds": 0.2872623729999759, "reason": "ok"}
+{"task_id": "B4.1", "pass": true, "model_calls": 0, "tool_calls": 3, "seconds": 0.3941717080000444, "reason": "ok"}
+{"task_id": "B5.1", "pass": true, "model_calls": 0, "tool_calls": 2, "seconds": 0.2247004600000082, "reason": "ok"}
+{"result": "/home/alexdtat/Documents/Codex/2026-10-31/claude-x20/work/project-feasibility-2026-11-06/checkpoint-options/20261106T114450Z/A/results/baf-suite-20261106T114531455277Z", "passed": true, "tasks_passed": 5, "tasks_total": 5, "error": null}

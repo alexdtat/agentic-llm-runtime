@@ -1,0 +1,182 @@
+[
+  {
+    "id": "b447e4a145cb48abb8d974750fe8c3f3",
+    "session_id": "76071621b2da4da2a0d7edfb4532b426",
+    "status": "complete",
+    "request": {
+      "request_id": "setup-1",
+      "argv": [
+        "python3",
+        "-c",
+        "from pathlib import Path;p=Path('/work/spec.md');p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b'')"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "ef67d96a81a54e84bc879d29bb73d0f1",
+    "session_id": "76071621b2da4da2a0d7edfb4532b426",
+    "status": "complete",
+    "request": {
+      "request_id": "setup-2",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;from pathlib import Path;p=Path('/work/spec.md');f=p.open('ab');f.write(base64.b64decode('IyBDb25maWd1cmF0aW9uIHNwZWNpZmljYXRpb24KCkNyZWF0ZSBgY29uZmlnLmpzb25gIGluIHRoZSB3b3JrZGlyIHJvb3QuIEl0IG11c3QgYmUgYSBKU09OIG9iamVjdCB3aXRoIGV4YWN0bHkgdGhlc2UgZmllbGRzOgoKLSBgc2VydmljZWA6IHN0cmluZyBgcmVwb3J0c2AuCi0gYGhvc3RgOiBzdHJpbmcgYDEyNy4wLjAuMWAuCi0gYHBvcnRgOiBpbnRlZ2VyIGA4MTM3YC4KLSBgZGVidWdgOiBib29sZWFuIGBmYWxzZWAuCi0gYGxpbWl0c2A6IGFuIG9iamVjdCBjb250YWluaW5nIG9ubHkgaW50ZWdlciBgdGltZW91dF9zZWNvbmRzYCBlcXVhbCB0byBgMzBgIGFuZCBpbnRlZ2VyIGByZXRyaWVzYCBlcXVhbCB0byBgMmAuCgpObyBhZGRpdGlvbmFsIGZpZWxkcyBhcmUgYWxsb3dlZC4gRG8gbm90IG1vZGlmeSB0aGlzIHNwZWNpZmljYXRpb24uCg=='));f.close()"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "acbaabfb9204445a8a71ed361ece8276",
+    "session_id": "76071621b2da4da2a0d7edfb4532b426",
+    "status": "complete",
+    "request": {
+      "request_id": "collect-3",
+      "argv": [
+        "python3",
+        "-c",
+        "import os,json\nfrom pathlib import Path\nroot=Path('/work');files=[];errors=[]\nfor directory,dirs,names in os.walk(root,followlinks=False):\n for name in dirs[:]:\n  p=Path(directory)/name\n  if p.is_symlink():errors.append(str(p.relative_to(root)));dirs.remove(name)\n for name in names:\n  p=Path(directory)/name\n  if p.is_symlink():errors.append(str(p.relative_to(root)));continue\n  if not p.is_file():errors.append(str(p.relative_to(root)));continue\n  files.append({'path':str(p.relative_to(root)),'bytes':p.stat().st_size})\nprint(json.dumps({'files':files,'forbidden_nodes':errors}))\n"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "{\"files\": [{\"path\": \"config.json\", \"bytes\": 146}, {\"path\": \"spec.md\", \"bytes\": 424}], \"forbidden_nodes\": []}\n",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "{\"files\": [{\"path\": \"config.json\", \"bytes\": 146}, {\"path\": \"spec.md\", \"bytes\": 424}], \"forbidden_nodes\": []}\n",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "55223a5de83c4de990f53297360f1e44",
+    "session_id": "76071621b2da4da2a0d7edfb4532b426",
+    "status": "complete",
+    "request": {
+      "request_id": "collect-4",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;f=open('/work/config.json','rb');f.seek(0);print(base64.b64encode(f.read(8192)).decode())"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "ewogICJzZXJ2aWNlIjogInJlcG9ydHMiLAogICJob3N0IjogIjEyNy4wLjAuMSIsCiAgInBvcnQiOiA4MTM3LAogICJkZWJ1ZyI6IGZhbHNlLAogICJsaW1pdHMiOiB7CiAgICAidGltZW91dF9zZWNvbmRzIjogMzAsCiAgICAicmV0cmllcyI6IDIKICB9Cn0=\n",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "ewogICJzZXJ2aWNlIjogInJlcG9ydHMiLAogICJob3N0IjogIjEyNy4wLjAuMSIsCiAgInBvcnQiOiA4MTM3LAogICJkZWJ1ZyI6IGZhbHNlLAogICJsaW1pdHMiOiB7CiAgICAidGltZW91dF9zZWNvbmRzIjogMzAsCiAgICAicmV0cmllcyI6IDIKICB9Cn0=\n",
+      "stderr": ""
+    }
+  },
+  {
+    "id": "ca28f36e07bc441d9eb94b7f6f71f9ec",
+    "session_id": "76071621b2da4da2a0d7edfb4532b426",
+    "status": "complete",
+    "request": {
+      "request_id": "collect-5",
+      "argv": [
+        "python3",
+        "-c",
+        "import base64;f=open('/work/spec.md','rb');f.seek(0);print(base64.b64encode(f.read(8192)).decode())"
+      ],
+      "timeout_seconds": 3
+    },
+    "events": [
+      {
+        "type": "started",
+        "sequence": 0
+      },
+      {
+        "type": "result",
+        "sequence": 1,
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "IyBDb25maWd1cmF0aW9uIHNwZWNpZmljYXRpb24KCkNyZWF0ZSBgY29uZmlnLmpzb25gIGluIHRoZSB3b3JrZGlyIHJvb3QuIEl0IG11c3QgYmUgYSBKU09OIG9iamVjdCB3aXRoIGV4YWN0bHkgdGhlc2UgZmllbGRzOgoKLSBgc2VydmljZWA6IHN0cmluZyBgcmVwb3J0c2AuCi0gYGhvc3RgOiBzdHJpbmcgYDEyNy4wLjAuMWAuCi0gYHBvcnRgOiBpbnRlZ2VyIGA4MTM3YC4KLSBgZGVidWdgOiBib29sZWFuIGBmYWxzZWAuCi0gYGxpbWl0c2A6IGFuIG9iamVjdCBjb250YWluaW5nIG9ubHkgaW50ZWdlciBgdGltZW91dF9zZWNvbmRzYCBlcXVhbCB0byBgMzBgIGFuZCBpbnRlZ2VyIGByZXRyaWVzYCBlcXVhbCB0byBgMmAuCgpObyBhZGRpdGlvbmFsIGZpZWxkcyBhcmUgYWxsb3dlZC4gRG8gbm90IG1vZGlmeSB0aGlzIHNwZWNpZmljYXRpb24uCg==\n",
+        "stderr": ""
+      }
+    ],
+    "result": {
+      "status": "complete",
+      "error_kind": null,
+      "exit_code": 0,
+      "stdout": "IyBDb25maWd1cmF0aW9uIHNwZWNpZmljYXRpb24KCkNyZWF0ZSBgY29uZmlnLmpzb25gIGluIHRoZSB3b3JrZGlyIHJvb3QuIEl0IG11c3QgYmUgYSBKU09OIG9iamVjdCB3aXRoIGV4YWN0bHkgdGhlc2UgZmllbGRzOgoKLSBgc2VydmljZWA6IHN0cmluZyBgcmVwb3J0c2AuCi0gYGhvc3RgOiBzdHJpbmcgYDEyNy4wLjAuMWAuCi0gYHBvcnRgOiBpbnRlZ2VyIGA4MTM3YC4KLSBgZGVidWdgOiBib29sZWFuIGBmYWxzZWAuCi0gYGxpbWl0c2A6IGFuIG9iamVjdCBjb250YWluaW5nIG9ubHkgaW50ZWdlciBgdGltZW91dF9zZWNvbmRzYCBlcXVhbCB0byBgMzBgIGFuZCBpbnRlZ2VyIGByZXRyaWVzYCBlcXVhbCB0byBgMmAuCgpObyBhZGRpdGlvbmFsIGZpZWxkcyBhcmUgYWxsb3dlZC4gRG8gbm90IG1vZGlmeSB0aGlzIHNwZWNpZmljYXRpb24uCg==\n",
+      "stderr": ""
+    }
+  }
+]

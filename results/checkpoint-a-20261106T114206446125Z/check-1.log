@@ -1,0 +1,11 @@
+test_auth_error_is_reported_without_token (test_runtime_cli.RuntimeCliTests.test_auth_error_is_reported_without_token) ... ok
+test_command_is_forwarded_as_argv_without_host_shell (test_runtime_cli.RuntimeCliTests.test_command_is_forwarded_as_argv_without_host_shell) ... ok
+test_watch_prints_each_event_once_and_command_failure_is_failure (test_runtime_cli.RuntimeCliTests.test_watch_prints_each_event_once_and_command_failure_is_failure) ... ok
+test_b5_answer_without_tool_rejected (test_baf_checkers.BafCheckers.test_b5_answer_without_tool_rejected) ... ok
+test_five_positive_and_negative_outputs (test_baf_checkers.BafCheckers.test_five_positive_and_negative_outputs) ... ok
+test_fixture_tampering_rejected (test_baf_checkers.BafCheckers.test_fixture_tampering_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.300s
+
+OK

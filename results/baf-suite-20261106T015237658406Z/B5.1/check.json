@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "checks": {
+    "file_checker": true,
+    "immutable_fixtures_preserved": true,
+    "required_tool_actually_executed": true
+  },
+  "file_checker": {
+    "pass": true,
+    "reason": "ok"
+  },
+  "changed_immutable_files": []
+}

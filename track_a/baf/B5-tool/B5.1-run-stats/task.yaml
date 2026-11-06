@@ -1,0 +1,11 @@
+{
+  "id": "B5.1",
+  "baf": "B5",
+  "level": "simple",
+  "messages": [
+    "Выполни команду python3 stats.py data.csv. Запиши только полученную медиану числом в answer.txt. Не меняй stats.py и data.csv."
+  ],
+  "answer_file": "answer.txt",
+  "timeout_s": 180,
+  "mutable_fixture_files": []
+}

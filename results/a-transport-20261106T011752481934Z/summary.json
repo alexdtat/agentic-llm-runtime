@@ -1,0 +1,281 @@
+{
+  "kind": "v0_transport_smoke",
+  "model_calls": 0,
+  "checks": {
+    "auth_rejects_wrong_token": true,
+    "idempotent_session": true,
+    "command_in_sandbox": true,
+    "idempotent_run": true,
+    "conflicting_request_id_rejected": true,
+    "session_workdir_persists": true,
+    "command_error_distinguished": true,
+    "timeout_distinguished": true,
+    "cancelled_status": true,
+    "cancel_kills_descendant": true,
+    "cancel_does_not_duplicate_terminal_event": true,
+    "one_terminal_event_per_run": true,
+    "release_session": true,
+    "release_removes_sandbox": true
+  },
+  "runs": [
+    {
+      "id": "c6975ede4f5f4fcbb10505d6428f1499",
+      "session_id": "034402681cee412393be504322fc51bc",
+      "status": "complete",
+      "request": {
+        "request_id": "write",
+        "argv": [
+          "python3",
+          "-c",
+          "from pathlib import Path;Path('/work/note.txt').write_text('alpha');print('written')"
+        ],
+        "timeout_seconds": 3
+      },
+      "events": [
+        {
+          "type": "started",
+          "sequence": 0
+        },
+        {
+          "type": "result",
+          "sequence": 1,
+          "status": "complete",
+          "error_kind": null,
+          "exit_code": 0,
+          "stdout": "written\n",
+          "stderr": ""
+        }
+      ],
+      "result": {
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "written\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "609323c03b9242a08afdcb5fa04becba",
+      "session_id": "034402681cee412393be504322fc51bc",
+      "status": "complete",
+      "request": {
+        "request_id": "read",
+        "argv": [
+          "python3",
+          "-c",
+          "print(open('/work/note.txt').read())"
+        ],
+        "timeout_seconds": 3
+      },
+      "events": [
+        {
+          "type": "started",
+          "sequence": 0
+        },
+        {
+          "type": "result",
+          "sequence": 1,
+          "status": "complete",
+          "error_kind": null,
+          "exit_code": 0,
+          "stdout": "alpha\n",
+          "stderr": ""
+        }
+      ],
+      "result": {
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "alpha\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "8b3825f59b0d4f5b859f7257c7b31917",
+      "session_id": "034402681cee412393be504322fc51bc",
+      "status": "failed",
+      "request": {
+        "request_id": "command-error",
+        "argv": [
+          "python3",
+          "-c",
+          "import sys;print('expected-error',file=sys.stderr);sys.exit(3)"
+        ],
+        "timeout_seconds": 3
+      },
+      "events": [
+        {
+          "type": "started",
+          "sequence": 0
+        },
+        {
+          "type": "result",
+          "sequence": 1,
+          "status": "failed",
+          "error_kind": "command",
+          "exit_code": 3,
+          "stdout": "",
+          "stderr": "expected-error\n"
+        }
+      ],
+      "result": {
+        "status": "failed",
+        "error_kind": "command",
+        "exit_code": 3,
+        "stdout": "",
+        "stderr": "expected-error\n"
+      }
+    },
+    {
+      "id": "63f1881cf75c4518a32bc502e066a85d",
+      "session_id": "034402681cee412393be504322fc51bc",
+      "status": "timed_out",
+      "request": {
+        "request_id": "timeout",
+        "argv": [
+          "python3",
+          "-c",
+          "import time;time.sleep(5)"
+        ],
+        "timeout_seconds": 0.2
+      },
+      "events": [
+        {
+          "type": "started",
+          "sequence": 0
+        },
+        {
+          "type": "result",
+          "sequence": 1,
+          "status": "timed_out",
+          "error_kind": "timeout",
+          "exit_code": -15,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "result": {
+        "status": "timed_out",
+        "error_kind": "timeout",
+        "exit_code": -15,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "9161ec02ae84427dbf828f2b4599f34f",
+      "session_id": "034402681cee412393be504322fc51bc",
+      "status": "complete",
+      "request": {
+        "request_id": "child-pid",
+        "argv": [
+          "python3",
+          "-c",
+          "from pathlib import Path;p=Path('/work/child.pid');print(p.read_text() if p.exists() else '')"
+        ],
+        "timeout_seconds": 3
+      },
+      "events": [
+        {
+          "type": "started",
+          "sequence": 0
+        },
+        {
+          "type": "result",
+          "sequence": 1,
+          "status": "complete",
+          "error_kind": null,
+          "exit_code": 0,
+          "stdout": "43\n",
+          "stderr": ""
+        }
+      ],
+      "result": {
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "43\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "243d4812188a489a8b9dcb54d0e69c1a",
+      "session_id": "034402681cee412393be504322fc51bc",
+      "status": "cancelled",
+      "request": {
+        "request_id": "cancel",
+        "argv": [
+          "python3",
+          "-c",
+          "import subprocess,time;from pathlib import Path;p=subprocess.Popen(['sleep','30']);Path('/work/child.pid').write_text(str(p.pid));time.sleep(30)"
+        ],
+        "timeout_seconds": 10
+      },
+      "events": [
+        {
+          "type": "started",
+          "sequence": 0
+        },
+        {
+          "type": "result",
+          "sequence": 1,
+          "status": "cancelled",
+          "error_kind": "cancelled",
+          "exit_code": -15,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "result": {
+        "status": "cancelled",
+        "error_kind": "cancelled",
+        "exit_code": -15,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "fda5879564b34847be97272adf220e4f",
+      "session_id": "034402681cee412393be504322fc51bc",
+      "status": "complete",
+      "request": {
+        "request_id": "verify-child",
+        "argv": [
+          "python3",
+          "-c",
+          "from pathlib import Path;p=Path('/proc/43/stat');print('gone' if not p.exists() or p.read_text().split()[2]=='Z' else 'running')"
+        ],
+        "timeout_seconds": 3
+      },
+      "events": [
+        {
+          "type": "started",
+          "sequence": 0
+        },
+        {
+          "type": "result",
+          "sequence": 1,
+          "status": "complete",
+          "error_kind": null,
+          "exit_code": 0,
+          "stdout": "gone\n",
+          "stderr": ""
+        }
+      ],
+      "result": {
+        "status": "complete",
+        "error_kind": null,
+        "exit_code": 0,
+        "stdout": "gone\n",
+        "stderr": ""
+      }
+    }
+  ],
+  "base_url": "http://127.0.0.1:32768",
+  "session": {
+    "id": "034402681cee412393be504322fc51bc",
+    "container": "course-probe-a-api-034402681cee",
+    "status": "open"
+  },
+  "passed": true
+}

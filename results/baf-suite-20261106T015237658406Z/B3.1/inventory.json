@@ -1,0 +1,13 @@
+{
+  "files": [
+    {
+      "path": "config.json",
+      "bytes": 146
+    },
+    {
+      "path": "spec.md",
+      "bytes": 424
+    }
+  ],
+  "forbidden_nodes": []
+}

@@ -1,0 +1,42 @@
+{
+  "scope": "technical_failure_modes",
+  "model_calls": 0,
+  "gpu_used": false,
+  "limitations": [
+    "Single physical host; no production hardening",
+    "One deterministic interleaving, not a concurrency benchmark"
+  ],
+  "readonly": {
+    "write_succeeded": false,
+    "errno": 30,
+    "error": "[Errno 30] Read-only file system: '/work_ro/forbidden.txt'",
+    "client_file_created": false
+  },
+  "concurrent_edit_interleaving": {
+    "client_read": 0,
+    "sandbox_read": 0,
+    "final_value": 1,
+    "logical_increments": 2,
+    "interpretation": "Last-writer-wins; SSHFS does not merge application updates or report this conflict"
+  },
+  "git_metadata_visible": true,
+  "credential_can_read_outside_export": true,
+  "interrupted_write": {
+    "writer": {
+      "phase": "error",
+      "acked_before": 27,
+      "acked_after": 17,
+      "write_error": {
+        "errno": 5,
+        "message": "[Errno 5] Input/output error"
+      },
+      "error": "[Errno 5] Input/output error"
+    },
+    "client_before": "acknowledged-before-outage\n",
+    "client_after": "acknowledged-before-outage\n",
+    "acknowledged_prefix_preserved": true,
+    "writer_finished": true
+  },
+  "completed": true,
+  "seconds": 4.290571602001364
+}

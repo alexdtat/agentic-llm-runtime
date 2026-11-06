@@ -1,0 +1,1023 @@
+{
+  "sha": "034d2e5e27f8959147456a73a7d7bda7403cbf0f",
+  "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/034d2e5e27f8959147456a73a7d7bda7403cbf0f",
+  "tree": [
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "039effdb4acb2b5aa71bf1b2c2187ff487a4e1bb",
+      "size": 17907,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/039effdb4acb2b5aa71bf1b2c2187ff487a4e1bb"
+    },
+    {
+      "path": "admissions",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8aa01c0b133f58b3a9e0ab44dc781ce0949a554a",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/8aa01c0b133f58b3a9e0ab44dc781ce0949a554a"
+    },
+    {
+      "path": "admissions/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2b67bf30950a601163ab24d60d19ad5edd3deca",
+      "size": 6093,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/d2b67bf30950a601163ab24d60d19ad5edd3deca"
+    },
+    {
+      "path": "admissions/sem1",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8527a163b077d5b9421f52a6bcbbe435f6b1ba5e",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/8527a163b077d5b9421f52a6bcbbe435f6b1ba5e"
+    },
+    {
+      "path": "admissions/sem1/1301.3781-word2vec",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7d5b87ceacc2db37c7f17944ab2a3f4069866e9d",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/7d5b87ceacc2db37c7f17944ab2a3f4069866e9d"
+    },
+    {
+      "path": "admissions/sem1/1301.3781-word2vec/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "15d97e28e8009e916275e654802d43411f250677",
+      "size": 12016,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/15d97e28e8009e916275e654802d43411f250677"
+    },
+    {
+      "path": "admissions/sem1/1409.3215-seq2seq",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "862f1606e57613d19849ef2b75e048f6ba22fdd2",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/862f1606e57613d19849ef2b75e048f6ba22fdd2"
+    },
+    {
+      "path": "admissions/sem1/1409.3215-seq2seq/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c981af0d98aa4d9dc739b86dc38e7117ced0631f",
+      "size": 11623,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/c981af0d98aa4d9dc739b86dc38e7117ced0631f"
+    },
+    {
+      "path": "admissions/sem1/1506.02078-visualizing-rnns",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "59fceee42a42d1c5bd9a7dc9e8607c3c8f53a312",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/59fceee42a42d1c5bd9a7dc9e8607c3c8f53a312"
+    },
+    {
+      "path": "admissions/sem1/1506.02078-visualizing-rnns/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7174270e1dce8d9b5a6e9dc6af7a241cd2608690",
+      "size": 13826,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/7174270e1dce8d9b5a6e9dc6af7a241cd2608690"
+    },
+    {
+      "path": "admissions/sem2",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e4cbcae772201e3445e0acbe34d5393202da1fde",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/e4cbcae772201e3445e0acbe34d5393202da1fde"
+    },
+    {
+      "path": "admissions/sem2/2404.11018-many-shot-icl",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "659b88bfde4e4cc8acb2de5d8e5f1cade284949e",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/659b88bfde4e4cc8acb2de5d8e5f1cade284949e"
+    },
+    {
+      "path": "admissions/sem2/2404.11018-many-shot-icl/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd8052c571d38d5bf489432c4f4a7335f65b56c2",
+      "size": 15422,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/fd8052c571d38d5bf489432c4f4a7335f65b56c2"
+    },
+    {
+      "path": "admissions/sem2/2502.05167-nolima",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1073feb0506761d31a0bf4a68c6756a7f78896ff",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/1073feb0506761d31a0bf4a68c6756a7f78896ff"
+    },
+    {
+      "path": "admissions/sem2/2502.05167-nolima/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c20962dfe072c29d47a29820a2026a65dcb1daf1",
+      "size": 15229,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/c20962dfe072c29d47a29820a2026a65dcb1daf1"
+    },
+    {
+      "path": "admissions/sem2/2504.13837-rl-reasoning-boundary",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b8c77ba54b20bd4704f809a3788c6a8176957481",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/b8c77ba54b20bd4704f809a3788c6a8176957481"
+    },
+    {
+      "path": "admissions/sem2/2504.13837-rl-reasoning-boundary/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b9173d4f61149c4a70b3a588d2d4a96d612660c",
+      "size": 15913,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/0b9173d4f61149c4a70b3a588d2d4a96d612660c"
+    },
+    {
+      "path": "admissions/sem3",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5423ff1b34fec62f045c89fe567003d6d0b324e3",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/5423ff1b34fec62f045c89fe567003d6d0b324e3"
+    },
+    {
+      "path": "admissions/sem3/2502.00640-collabllm",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b2bf2eb16c9c00c045758461bb1cd6d2d12ed9ad",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/b2bf2eb16c9c00c045758461bb1cd6d2d12ed9ad"
+    },
+    {
+      "path": "admissions/sem3/2502.00640-collabllm/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "791bd188a0681db00b1667649cdc18883d7a761b",
+      "size": 16134,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/791bd188a0681db00b1667649cdc18883d7a761b"
+    },
+    {
+      "path": "admissions/sem3/2505.06120-lost-in-conversation",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "27409b0bcccf6190e5c205c59b380c807b5cdd84",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/27409b0bcccf6190e5c205c59b380c807b5cdd84"
+    },
+    {
+      "path": "admissions/sem3/2505.06120-lost-in-conversation/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af2a9253ebafe21bcd87a591e5848c62733c8651",
+      "size": 15950,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/af2a9253ebafe21bcd87a591e5848c62733c8651"
+    },
+    {
+      "path": "admissions/sem3/2510.05592-agentflow",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5c5070fe10ac1291409ae9787f619116b51dfc72",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/5c5070fe10ac1291409ae9787f619116b51dfc72"
+    },
+    {
+      "path": "admissions/sem3/2510.05592-agentflow/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "19d01f7a9359abefc8d7a29b06ffb9288a2c0a6e",
+      "size": 15806,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/19d01f7a9359abefc8d7a29b06ffb9288a2c0a6e"
+    },
+    {
+      "path": "admissions/sem4",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c200743a624ce08f38f7f657ca9fefdd66a118ac",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/c200743a624ce08f38f7f657ca9fefdd66a118ac"
+    },
+    {
+      "path": "admissions/sem4/2504.19413-mem0",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0ddf1fbb086cba896a3aae792f685d977b5e2a88",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/0ddf1fbb086cba896a3aae792f685d977b5e2a88"
+    },
+    {
+      "path": "admissions/sem4/2504.19413-mem0/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c5bfc62f0a2997f0d15362677cecc022c27b3e2c",
+      "size": 18184,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/c5bfc62f0a2997f0d15362677cecc022c27b3e2c"
+    },
+    {
+      "path": "admissions/sem4/2602.12670-skillsbench",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "150317224db0e68a5a4187930928d11273875fd4",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/150317224db0e68a5a4187930928d11273875fd4"
+    },
+    {
+      "path": "admissions/sem4/2602.12670-skillsbench/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aaa42d9f7443ed005cc9deae8122e978523735db",
+      "size": 19185,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/aaa42d9f7443ed005cc9deae8122e978523735db"
+    },
+    {
+      "path": "admissions/sem4/2605.12493-longmemeval-v2",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6e96e7cfa410f56ceaeacbf2f42357c2ea7aa4ce",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/6e96e7cfa410f56ceaeacbf2f42357c2ea7aa4ce"
+    },
+    {
+      "path": "admissions/sem4/2605.12493-longmemeval-v2/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6513d8d3c78ea729178de2cad5ee7a2520497292",
+      "size": 20956,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/6513d8d3c78ea729178de2cad5ee7a2520497292"
+    },
+    {
+      "path": "admissions/sem5",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "be718b44c116a4b02ebb772f1566bf3b94596d11",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/be718b44c116a4b02ebb772f1566bf3b94596d11"
+    },
+    {
+      "path": "admissions/sem5/2503.13657-mast",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b019593d4595d532c5fa4108ae16c69a2ab4cf13",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/b019593d4595d532c5fa4108ae16c69a2ab4cf13"
+    },
+    {
+      "path": "admissions/sem5/2503.13657-mast/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de875f4913db561fcbefa19770e662f07cb02e05",
+      "size": 14047,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/de875f4913db561fcbefa19770e662f07cb02e05"
+    },
+    {
+      "path": "admissions/sem5/2505.22954-darwin-godel-machine",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2d084cbcb0c226a8182ab84cbedcad932c2c123a",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/2d084cbcb0c226a8182ab84cbedcad932c2c123a"
+    },
+    {
+      "path": "admissions/sem5/2505.22954-darwin-godel-machine/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5213528f8644fe45035378bbdbf05d359f9e67a5",
+      "size": 12779,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/5213528f8644fe45035378bbdbf05d359f9e67a5"
+    },
+    {
+      "path": "admissions/sem5/2507.19457-gepa",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "14de935a5340d28f3a31f043ee1d8adcd813b5e8",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/14de935a5340d28f3a31f043ee1d8adcd813b5e8"
+    },
+    {
+      "path": "admissions/sem5/2507.19457-gepa/admission.ipynb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7251ddf6425e70b4bc07ee5e08ccc894e2f4d80b",
+      "size": 12438,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/7251ddf6425e70b4bc07ee5e08ccc894e2f4d80b"
+    },
+    {
+      "path": "lectures",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "948a6dc0a8faa35ea660e0625c690958d5f2fd4a",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/948a6dc0a8faa35ea660e0625c690958d5f2fd4a"
+    },
+    {
+      "path": "lectures/02.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0853a2f6b9993d8cc5bb204c4bcb22a8c94b8b66",
+      "size": 67693,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/0853a2f6b9993d8cc5bb204c4bcb22a8c94b8b66"
+    },
+    {
+      "path": "lectures/02.pdf",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "247e14f7f85cc67c809600c8d783ff0c052dcbbe",
+      "size": 961134,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/247e14f7f85cc67c809600c8d783ff0c052dcbbe"
+    },
+    {
+      "path": "lectures/03.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0af868c00ae321436f661861cf5d058e562c061e",
+      "size": 58296,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/0af868c00ae321436f661861cf5d058e562c061e"
+    },
+    {
+      "path": "lectures/03.pdf",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5888bd11c40deff5707a3e6d8b693dcdd0aee6d0",
+      "size": 663059,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/5888bd11c40deff5707a3e6d8b693dcdd0aee6d0"
+    },
+    {
+      "path": "lectures/04.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "46f444fd481d305183ad2e42c500d98a50f8879f",
+      "size": 87181,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/46f444fd481d305183ad2e42c500d98a50f8879f"
+    },
+    {
+      "path": "lectures/04.pdf",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8048fade2bdfc3d8fe9b56981771050fa202054f",
+      "size": 1022828,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/8048fade2bdfc3d8fe9b56981771050fa202054f"
+    },
+    {
+      "path": "lectures/05.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99419cbe6287fbb0e20c4980016db6208cffc959",
+      "size": 50987,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/99419cbe6287fbb0e20c4980016db6208cffc959"
+    },
+    {
+      "path": "lectures/05.pdf",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "025cd533f3db2448de0d6a92b1b82b336d94b1f7",
+      "size": 782117,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/025cd533f3db2448de0d6a92b1b82b336d94b1f7"
+    },
+    {
+      "path": "papers.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f855de93ea1b997dc41c0898e5e7bfca132e296",
+      "size": 20413,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/5f855de93ea1b997dc41c0898e5e7bfca132e296"
+    },
+    {
+      "path": "prev_decription.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "24c7f2c4e79085736f1fafd246f8f2be0e4e05a3",
+      "size": 13912,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/24c7f2c4e79085736f1fafd246f8f2be0e4e05a3"
+    },
+    {
+      "path": "projects",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "abe7770d6ee8aef3df755645e440e87b87c2a9da",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/abe7770d6ee8aef3df755645e440e87b87c2a9da"
+    },
+    {
+      "path": "projects/A-agent-runtime.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2f134f843e5cf54aae4b4c73e1a9708d0cc26825",
+      "size": 21549,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/2f134f843e5cf54aae4b4c73e1a9708d0cc26825"
+    },
+    {
+      "path": "projects/B-arena-skill.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6d9d4f27a3071aeee62226e37125ae0ce462e0cc",
+      "size": 18247,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/6d9d4f27a3071aeee62226e37125ae0ce462e0cc"
+    },
+    {
+      "path": "projects/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "958a59fcd48c74940d8f4c5b26cd6ee738cdbb0d",
+      "size": 6955,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/958a59fcd48c74940d8f4c5b26cd6ee738cdbb0d"
+    },
+    {
+      "path": "projects/arena-registry.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0411e82c4033adea1674b2b61145e63aae4a0a1a",
+      "size": 36576,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/0411e82c4033adea1674b2b61145e63aae4a0a1a"
+    },
+    {
+      "path": "projects/templates",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8f6ccd1dc51d34f51f7c176641ff98754b8a23e2",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/8f6ccd1dc51d34f51f7c176641ff98754b8a23e2"
+    },
+    {
+      "path": "projects/templates/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e17b78a9bccf46943d799176489706d3cf14fe8f",
+      "size": 663,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/e17b78a9bccf46943d799176489706d3cf14fe8f"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ba3ce9afdb1ae582ca8572dbdc20ec41f66287aa",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/ba3ce9afdb1ae582ca8572dbdc20ec41f66287aa"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/.env.example",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6283cc5f937d4d1b7a1aa6fc2a3ede18812c76e0",
+      "size": 391,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/6283cc5f937d4d1b7a1aa6fc2a3ede18812c76e0"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/.gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d50a09fc9169b4517adb37c586c510db9cd4cf8b",
+      "size": 18,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/d50a09fc9169b4517adb37c586c510db9cd4cf8b"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/Makefile",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1472d713b73cfefd0003c0487ec9325b10d15195",
+      "size": 755,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/1472d713b73cfefd0003c0487ec9325b10d15195"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e2931810c5b90c9197183c1ed5cf043dd7d8d407",
+      "size": 2686,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/e2931810c5b90c9197183c1ed5cf043dd7d8d407"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/baf",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "43d24790f1c4bb2f09e487ceda72a04852885cfd",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/43d24790f1c4bb2f09e487ceda72a04852885cfd"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/baf/B1-read",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5efdcb4575669ff2b10e9de727e522edf5cfc008",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/5efdcb4575669ff2b10e9de727e522edf5cfc008"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/baf/B1-read/B1.1-service-port",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "058e2858c003e57fd4dd279be5939c77444cdf63",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/058e2858c003e57fd4dd279be5939c77444cdf63"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/baf/B1-read/B1.1-service-port/check.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2a3b69a6097292cf043308fe2557f1940f70dd6c",
+      "size": 786,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/2a3b69a6097292cf043308fe2557f1940f70dd6c"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/baf/B1-read/B1.1-service-port/fixture",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0cbfe560a0849e4e1e81438d6f508b48ea53455f",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/0cbfe560a0849e4e1e81438d6f508b48ea53455f"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/baf/B1-read/B1.1-service-port/fixture/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f3c97aa9f6052e67470836ff91adf278fbbbbb44",
+      "size": 90,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/f3c97aa9f6052e67470836ff91adf278fbbbbb44"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/baf/B1-read/B1.1-service-port/fixture/config",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6a3c80e988543d69cef6bb39e500ef6faeff372e",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/6a3c80e988543d69cef6bb39e500ef6faeff372e"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/baf/B1-read/B1.1-service-port/fixture/config/app.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2a1e4059239bd9e61cd284d9ced2b5943fb9b499",
+      "size": 166,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/2a1e4059239bd9e61cd284d9ced2b5943fb9b499"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/baf/B1-read/B1.1-service-port/fixture/src",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9d735654cfda622247eeb3b32b97d7a5655d9c2c",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/9d735654cfda622247eeb3b32b97d7a5655d9c2c"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/baf/B1-read/B1.1-service-port/fixture/src/main.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c229f91dd4e23b3e914b83c1287f2a906e69d048",
+      "size": 113,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/c229f91dd4e23b3e914b83c1287f2a906e69d048"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/baf/B1-read/B1.1-service-port/task.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f5508c7dcbff1dd442fe690c8b570fc07a98c2f5",
+      "size": 243,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/f5508c7dcbff1dd442fe690c8b570fc07a98c2f5"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/baf/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1cdd9b31b75dfa9c1ac8afc45bc831d05e470bd",
+      "size": 2427,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/b1cdd9b31b75dfa9c1ac8afc45bc831d05e470bd"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/baf/catalog.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a4ec6777ccfa0fab3852adfcc0b617443e2d885",
+      "size": 6828,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/8a4ec6777ccfa0fab3852adfcc0b617443e2d885"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/client",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c95fa9881780742d7d953d7a14396037d8371411",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/c95fa9881780742d7d953d7a14396037d8371411"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/client/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de669c0eb92357c85254d4036b0b7996a0ca11a6",
+      "size": 616,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/de669c0eb92357c85254d4036b0b7996a0ca11a6"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/contracts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "753efbd50a9d7835f0b2d5ffc4f1bf5e42dd62ba",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/753efbd50a9d7835f0b2d5ffc4f1bf5e42dd62ba"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/contracts/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "71e3eeb664bbdcead67633d7aa540bbccec73ea8",
+      "size": 716,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/71e3eeb664bbdcead67633d7aa540bbccec73ea8"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/docker-compose.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b19c904286dd9b25524142b8183d1b91d7d17104",
+      "size": 1551,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/b19c904286dd9b25524142b8183d1b91d7d17104"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/docs",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c4a9cc08036b1a426395648a37349c7e3a1b8990",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/c4a9cc08036b1a426395648a37349c7e3a1b8990"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/docs/adr",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e3e6df8a31d0aa379f009fd0ce03bdb159574715",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/e3e6df8a31d0aa379f009fd0ce03bdb159574715"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/docs/adr/0000-template.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7aeecf645fd30f387a35e4ce9c75ea5628e6a4fe",
+      "size": 551,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/7aeecf645fd30f387a35e4ce9c75ea5628e6a4fe"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/docs/adr/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9ce6211fa39116356fd0f9a25db4a419351e1db4",
+      "size": 638,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/9ce6211fa39116356fd0f9a25db4a419351e1db4"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/docs/baf.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b46290818f0d17de91e46fcedd7edce88d41c526",
+      "size": 770,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/b46290818f0d17de91e46fcedd7edce88d41c526"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/docs/harness.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "17cc18c3d516a02c24367a0894dff71a26fcdcb5",
+      "size": 541,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/17cc18c3d516a02c24367a0894dff71a26fcdcb5"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/docs/report.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5bfda0a5aa2c3c95f70dfd1f3f3d2de89c20d556",
+      "size": 1039,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/5bfda0a5aa2c3c95f70dfd1f3f3d2de89c20d556"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/services",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0b7fcfa50d78fc59ec00768763919a782bc9ea79",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/0b7fcfa50d78fc59ec00768763919a782bc9ea79"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/services/gateway",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0e61bca0264b602895281144edf2cad3e53231dd",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/0e61bca0264b602895281144edf2cad3e53231dd"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/services/gateway/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3616574aafb2128e49cc53af90839b077de5023e",
+      "size": 148,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/3616574aafb2128e49cc53af90839b077de5023e"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/services/harness",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "179a7a520b72a1df398254486b7eaf052724da77",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/179a7a520b72a1df398254486b7eaf052724da77"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/services/harness/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a86f906bfa196ae07616042dc987435001a5f77",
+      "size": 148,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/8a86f906bfa196ae07616042dc987435001a5f77"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/services/llm-proxy",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "893b869ba0bbd874d74f96ce2359269bff947837",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/893b869ba0bbd874d74f96ce2359269bff947837"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/services/llm-proxy/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b9dd0e59993ea40c49565637d37d1ab821f27478",
+      "size": 150,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/b9dd0e59993ea40c49565637d37d1ab821f27478"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/services/sandbox-manager",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7fbefcbc6ec026098fff5e9b9fe64398e8616cd5",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/7fbefcbc6ec026098fff5e9b9fe64398e8616cd5"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/services/sandbox-manager/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dcfd87771aac868d8387c62481681b858f850572",
+      "size": 156,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/dcfd87771aac868d8387c62481681b858f850572"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "94e593cb9dc6acbd6d11058981e8341f6a436a5f",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/94e593cb9dc6acbd6d11058981e8341f6a436a5f"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/tests/infra",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "27fbdd01d53edd7d7ec75f763e94b0cc65547360",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/27fbdd01d53edd7d7ec75f763e94b0cc65547360"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/tests/infra/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6ec2881f81ab7f00b09e9c15cdafaf347a52c36d",
+      "size": 1480,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/6ec2881f81ab7f00b09e9c15cdafaf347a52c36d"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/tests/ui",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d110a1bdcad30fcc7a3d24b384b0aab23cd5ac1a",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/d110a1bdcad30fcc7a3d24b384b0aab23cd5ac1a"
+    },
+    {
+      "path": "projects/templates/track-a-agent-runtime/tests/ui/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58e096c943e638dbd7311f6fb0b8b86671515c18",
+      "size": 478,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/58e096c943e638dbd7311f6fb0b8b86671515c18"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "827dac085fb01d389c876429aa57a534b30af92b",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/827dac085fb01d389c876429aa57a534b30af92b"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/.gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e64894dfae7403dd4e5f4c5dab515c1382e645d4",
+      "size": 117,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/e64894dfae7403dd4e5f4c5dab515c1382e645d4"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c2bf1e36c0441fbe4346b0232a563f0165b5bc65",
+      "size": 2475,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/c2bf1e36c0441fbe4346b0232a563f0165b5bc65"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "fe0c8ca3e910e8d1580d06670a20443d031e2eb4",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/fe0c8ca3e910e8d1580d06670a20443d031e2eb4"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "67fcea13147b83fdf243cd471888cad590815601",
+      "size": 969,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/67fcea13147b83fdf243cd471888cad590815601"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/campaign",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c62b706ca92acf233e6e36b9d95f7954274b3076",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/c62b706ca92acf233e6e36b9d95f7954274b3076"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/campaign/campaign.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f35567d45a0e7819a4fc06e0473e6dcc33acd4fc",
+      "size": 1088,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/f35567d45a0e7819a4fc06e0473e6dcc33acd4fc"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/dataset",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1dcabe23ac800c11a6a9309cebb66e696e53c54d",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/1dcabe23ac800c11a6a9309cebb66e696e53c54d"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/dataset/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2490af9047f68597b213fbb8721fcc2aec29a1d1",
+      "size": 1326,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/2490af9047f68597b213fbb8721fcc2aec29a1d1"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/dataset/generate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "287daf29978e2556862ae72e4588c0f20e600f5d",
+      "size": 1106,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/287daf29978e2556862ae72e4588c0f20e600f5d"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/metric",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9f921c4b96edb045f1ce48a248a8233954c01d0e",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/9f921c4b96edb045f1ce48a248a8233954c01d0e"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/metric/metric.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab15383d322051647fc87f403677de57bb9c82fc",
+      "size": 191,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/ab15383d322051647fc87f403677de57bb9c82fc"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/metric/score.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "415ddb1ac71ebefeacf2d53b955993a5eba88d87",
+      "size": 975,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/415ddb1ac71ebefeacf2d53b955993a5eba88d87"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/metric/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f8f47781d391f56ca7cef0a94eefedf24543db3c",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/f8f47781d391f56ca7cef0a94eefedf24543db3c"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/metric/tests/test_score.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e6cd15221e4c0bd55cb114ae63e6c6830f14205d",
+      "size": 963,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/e6cd15221e4c0bd55cb114ae63e6c6830f14205d"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/ways",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1e3fcc5d35e1d229c7e001ab4be20f80aa5b96a4",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/1e3fcc5d35e1d229c7e001ab4be20f80aa5b96a4"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/ways/baseline",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3c8d4d41e52f1d70e4196a20fdd1bf759b280c98",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/3c8d4d41e52f1d70e4196a20fdd1bf759b280c98"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/ways/baseline/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ca6cb54a57fa18f4f13caf157d77196cde46fc09",
+      "size": 392,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/ca6cb54a57fa18f4f13caf157d77196cde46fc09"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/case/ways/baseline/solve.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "119d43bda596146abcc51f41353bc1ea0d41c18b",
+      "size": 297,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/119d43bda596146abcc51f41353bc1ea0d41c18b"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/docs",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9ef429c71d210c0509b77cf800ae6eb76456db45",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/9ef429c71d210c0509b77cf800ae6eb76456db45"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/docs/adr",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c448f35bc99961fc0bc003858dccc669a08b6fa4",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/c448f35bc99961fc0bc003858dccc669a08b6fa4"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/docs/adr/0000-template.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a7c2e53550ba080dee598030c87660b0a91634a9",
+      "size": 207,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/a7c2e53550ba080dee598030c87660b0a91634a9"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/docs/arena.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49513fc3dbfbfb706a7a8056107af8bb2d0951a0",
+      "size": 1070,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/49513fc3dbfbfb706a7a8056107af8bb2d0951a0"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/docs/domain.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "902b6c2500416fecb4cf3f3c69550d90ba9ab5e2",
+      "size": 445,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/902b6c2500416fecb4cf3f3c69550d90ba9ab5e2"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/docs/evolution.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e24c359edf62f20f7fc6af3105113f0b48292164",
+      "size": 1159,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/e24c359edf62f20f7fc6af3105113f0b48292164"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/docs/solution.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "86a943d2decb9f8fcef100a26ca2e4ef91480d3c",
+      "size": 386,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/86a943d2decb9f8fcef100a26ca2e4ef91480d3c"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/docs/talk.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16e88af0024baf1493a6a17de23e85406a45d51e",
+      "size": 454,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/16e88af0024baf1493a6a17de23e85406a45d51e"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/skill",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "92ccdb9134207042c773dcf0c1f20cc99db215b0",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/92ccdb9134207042c773dcf0c1f20cc99db215b0"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/skill/SKILL.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d3869fdb703e07c529cc16c982b59f7e4d47c5c7",
+      "size": 822,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/d3869fdb703e07c529cc16c982b59f7e4d47c5c7"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/skill/scripts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e77a70baeed3b651f5423b86beb6fc36d9e728bc",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/e77a70baeed3b651f5423b86beb6fc36d9e728bc"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/skill/scripts/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fc8eec08a6245de21dd4a8880834d2cebe2b108b",
+      "size": 207,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/fc8eec08a6245de21dd4a8880834d2cebe2b108b"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/skill/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "68ff11edb753707c9e1e4d9a14f9ebdf926a6f4b",
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/trees/68ff11edb753707c9e1e4d9a14f9ebdf926a6f4b"
+    },
+    {
+      "path": "projects/templates/track-b-arena-skill/skill/tests/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7df8e4dfda107289d10f2157f1870768b9811e80",
+      "size": 468,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/7df8e4dfda107289d10f2157f1870768b9811e80"
+    },
+    {
+      "path": "seminar.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8025a5bae0bce58e326623bfe9cc8035334ecb0b",
+      "size": 4478,
+      "url": "https://api.github.com/repos/deeppavlov/agentic-course-itmo/git/blobs/8025a5bae0bce58e326623bfe9cc8035334ecb0b"
+    }
+  ],
+  "truncated": false
+}

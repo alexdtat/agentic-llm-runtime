@@ -1,0 +1,49 @@
+{
+  "seconds": 0.9098864989991853,
+  "response": {
+    "id": "chatcmpl-be799d7964e55c15",
+    "object": "chat.completion",
+    "created": 1793929961,
+    "model": "qwen3.8-27b",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\"tool\":\"exec\",\"argv\":[\"sh\",\"-c\",\"printf '8137' > /work/answer.txt; cat /work/answer.txt\"]}",
+          "refusal": null,
+          "annotations": null,
+          "audio": null,
+          "function_call": null,
+          "reasoning": null
+        },
+        "logprobs": null,
+        "finish_reason": "stop",
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+      }
+    ],
+    "service_tier": null,
+    "system_fingerprint": "vllm-0.32.0-dce627d3",
+    "usage": {
+      "prompt_tokens": 1067,
+      "total_tokens": 1101,
+      "completion_tokens": 34,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "prompt_logprobs": null,
+    "prompt_token_ids": null,
+    "prompt_text": null,
+    "kv_transfer_params": null,
+    "ec_transfer_params": null,
+    "metrics": null
+  }
+}

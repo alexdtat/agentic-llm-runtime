@@ -1,0 +1,21 @@
+{
+  "files": [
+    {
+      "path": "answer.txt",
+      "bytes": 18
+    },
+    {
+      "path": "app.py",
+      "bytes": 89
+    },
+    {
+      "path": "README.md",
+      "bytes": 79
+    },
+    {
+      "path": "util/date_tools.py",
+      "bytes": 88
+    }
+  ],
+  "forbidden_nodes": []
+}

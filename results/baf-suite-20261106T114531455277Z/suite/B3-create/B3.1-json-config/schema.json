@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["service", "host", "port", "debug", "limits"],
+  "additionalProperties": false,
+  "properties": {
+    "service": {"type":"string", "const":"reports"},
+    "host": {"type":"string", "const":"127.0.0.1"},
+    "port": {"type":"integer", "const":8137},
+    "debug": {"type":"boolean", "const":false},
+    "limits": {
+      "type":"object", "required":["timeout_seconds","retries"], "additionalProperties":false,
+      "properties": {
+        "timeout_seconds":{"type":"integer","const":30},
+        "retries":{"type":"integer","const":2}
+      }
+    }
+  }
+}

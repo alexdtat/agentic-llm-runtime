@@ -1,0 +1,8 @@
+test_b5_answer_without_tool_rejected (test_baf_checkers.BafCheckers.test_b5_answer_without_tool_rejected) ... ok
+test_five_positive_and_negative_outputs (test_baf_checkers.BafCheckers.test_five_positive_and_negative_outputs) ... ok
+test_fixture_tampering_rejected (test_baf_checkers.BafCheckers.test_fixture_tampering_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.332s
+
+OK

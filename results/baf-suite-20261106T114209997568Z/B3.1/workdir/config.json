@@ -1,0 +1,10 @@
+{
+  "service": "reports",
+  "host": "127.0.0.1",
+  "port": 8137,
+  "debug": false,
+  "limits": {
+    "timeout_seconds": 30,
+    "retries": 2
+  }
+}

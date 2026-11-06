@@ -1,0 +1,33 @@
+services:
+  sandbox-image:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: course-feasibility:2026-11-06
+    runtime: runc
+    command: [python3, -c, "print('sandbox image ready')"]
+  gateway:
+    build:
+      context: ..
+      dockerfile: track_a/Dockerfile
+    image: course-a-gateway:2026-11-06
+    runtime: runc
+    depends_on:
+      sandbox-image:
+        condition: service_completed_successfully
+    command: [python3, /prototype/server.py]
+    environment:
+      BIND_HOST: 0.0.0.0
+      PORT: 8080
+      PROBE_TOKEN: ${PROBE_TOKEN:?Set a local test token}
+      SANDBOX_IMAGE: course-feasibility:2026-11-06
+    ports:
+      - "127.0.0.1::8080"
+    volumes:
+      - /usr/bin/docker:/usr/bin/docker:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: [CMD, python3, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/v0/health')"]
+      interval: 2s
+      timeout: 2s
+      retries: 10
