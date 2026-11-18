@@ -1,5 +1,6 @@
 # ADR 0002: Docker CPU-сандбокс в прототипе
 
+> Historical checkpoint-1 decision; superseded in part by [ADR 0004](0004-cpu-runtime.md).
 Статус: испытанный прототип, требует архитектурного и security review перед переносом в курс.
 
 Для выполнения команд выбран runc-контейнер с uid 1000, network none, readonly root, cap-drop ALL, no-new-privileges, ограниченными tmpfs/CPU/RAM/PIDs. Отмена завершается внутри контейнера сигналом группе процессов, а не только завершением клиента docker exec. Тест подтверждает остановку потомка в одном сценарии; полная матрица угроз и лимитов не проверена.

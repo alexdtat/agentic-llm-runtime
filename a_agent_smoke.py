@@ -12,6 +12,7 @@ from vision_client import local_api_key
 
 
 def main():
+    raise RuntimeError('Historical live smoke is frozen. A live run on CPU-v1 requires a separately approved protocol.')
     os.environ.setdefault('DOCKER_BUILDKIT','0')
     os.environ.setdefault('COMPOSE_BAKE','false')
     out=new_run('a-agent');commands=Commands(out)

@@ -1,7 +1,19 @@
-.git
-sources
-runtime
-results
-*.log
-__pycache__
-checkpoint-options
+# Allowlist: local credentials/runtime never enter the build context.
+**
+!Dockerfile
+!requirements.txt
+!*.py
+!track_a/
+!track_a/*.py
+!track_a/*.json
+!track_a/Dockerfile
+!track_a/baf/
+!track_a/baf/**
+!results/
+!results/baf-suite-20261106T015237658406Z/
+!results/baf-suite-20261106T015237658406Z/*/
+!results/baf-suite-20261106T015237658406Z/*/model-call-*.json
+!results/baf-suite-20261106T015237658406Z/suite/**
+**/__pycache__
+**/*.key
+**/.env

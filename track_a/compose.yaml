@@ -3,31 +3,120 @@ services:
     build:
       context: ..
       dockerfile: Dockerfile
-    image: course-feasibility:2026-11-06
+    image: agentic-sandbox:cpu-v1
     runtime: runc
+    network_mode: none
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
     command: [python3, -c, "print('sandbox image ready')"]
+  executor:
+    build:
+      context: ..
+      dockerfile: track_a/Dockerfile
+      target: executor
+    image: agentic-executor:cpu-v1
+    runtime: runc
+    init: true
+    depends_on:
+      sandbox-image:
+        condition: service_completed_successfully
+    environment:
+      BIND_HOST: 0.0.0.0
+      PORT: 8081
+      PROBE_TOKEN: ${PROBE_TOKEN:?Set PROBE_TOKEN}
+      SANDBOX_IMAGE: agentic-sandbox:cpu-v1
+      RUNTIME_SCOPE: ${COMPOSE_PROJECT_NAME:-agentic-runtime}
+      STATE_FILE: /state/executor.sqlite
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - executor-state:/state
+    networks: [control]
+    read_only: true
+    tmpfs: [/tmp:size=16m]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    stop_grace_period: 30s
+    healthcheck:
+      test: [CMD, python3, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8081/v0/health', timeout=2)"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
   gateway:
     build:
       context: ..
       dockerfile: track_a/Dockerfile
-    image: course-a-gateway:2026-11-06
+      target: gateway
+    image: agentic-gateway:cpu-v1
     runtime: runc
+    init: true
     depends_on:
-      sandbox-image:
-        condition: service_completed_successfully
-    command: [python3, /prototype/server.py]
+      executor:
+        condition: service_healthy
     environment:
       BIND_HOST: 0.0.0.0
       PORT: 8080
-      PROBE_TOKEN: ${PROBE_TOKEN:?Set a local test token}
-      SANDBOX_IMAGE: course-feasibility:2026-11-06
+      PROBE_TOKEN: ${PROBE_TOKEN:?Set PROBE_TOKEN}
+      EXECUTOR_URL: http://executor:8081
+      STATE_FILE: /state/gateway.sqlite
+      MODEL_BACKEND: ${MODEL_BACKEND:-mock}
+      MODEL_BASE_URL: ${MODEL_BASE_URL:-}
+      MODEL_NAME: ${MODEL_NAME:-}
+      MODEL_API_KEY: ${MODEL_API_KEY:-}
     ports:
-      - "127.0.0.1::8080"
+      - "127.0.0.1:${RUNTIME_PORT:-8080}:8080"
     volumes:
-      - /usr/bin/docker:/usr/bin/docker:ro
-      - /var/run/docker.sock:/var/run/docker.sock
+      - gateway-state:/state
+    networks: [control, model]
+    read_only: true
+    tmpfs: [/tmp:size=16m]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    stop_grace_period: 30s
     healthcheck:
-      test: [CMD, python3, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/v0/health')"]
+      test: [CMD, python3, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/v0/health', timeout=2)"]
       interval: 2s
-      timeout: 2s
-      retries: 10
+      timeout: 3s
+      retries: 15
+  checks:
+    profiles: [test]
+    build:
+      context: ..
+      dockerfile: track_a/Dockerfile
+      target: checks
+    image: agentic-checks:cpu-v1
+    runtime: runc
+    depends_on:
+      gateway:
+        condition: service_healthy
+    environment:
+      PROBE_TOKEN: ${PROBE_TOKEN:?Set PROBE_TOKEN}
+      RUNTIME_URL: http://gateway:8080
+      RESULTS_DIR: /results
+    networks: [control]
+    volumes:
+      - check-results:/results
+    read_only: true
+    tmpfs: [/tmp:size=32m]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+  cli:
+    profiles: [cli]
+    image: agentic-gateway:cpu-v1
+    runtime: runc
+    entrypoint: [python3, -m, track_a.cli]
+    environment:
+      PROBE_TOKEN: ${PROBE_TOKEN:?Set PROBE_TOKEN}
+      RUNTIME_URL: http://gateway:8080
+    networks: [control]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+networks:
+  control:
+    internal: true
+  model: {}
+volumes:
+  executor-state: {}
+  gateway-state: {}
+  check-results: {}

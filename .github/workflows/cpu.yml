@@ -1,0 +1,19 @@
+name: CPU runtime
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  cpu:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify v2 fixture HTTP and CLI
+        run: python3 -m unittest -v test_runtime_v2
+      - name: Build and verify runtime with mock and historical replay
+        run: ./scripts/check.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cpu-runtime-evidence
+          path: results/agentic-check-*/

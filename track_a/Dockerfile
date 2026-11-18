@@ -1,11 +1,20 @@
-# Same pinned base and dependency layer as the sandbox image. This makes the
-# gateway build independent of a pre-existing local course-feasibility tag.
-FROM nvidia/cuda@sha256:2ab6381d970b211fb93853796dc6707eb8a72575a375c422b17cf4d8b2641701
-ENV DEBIAN_FRONTEND=noninteractive NVIDIA_VISIBLE_DEVICES=void
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 xvfb openbox xdotool x11-utils imagemagick inkscape \
-    dbus-x11 fonts-dejavu-core sshfs openssh-client openssh-server iproute2 \
-    && rm -rf /var/lib/apt/lists/*
-COPY track_a/server.py track_a/worker.py /prototype/
-ENV PYTHONDONTWRITEBYTECODE=1
-CMD ["python3", "/prototype/server.py"]
+FROM docker:27.5.1-cli@sha256:851f91d241214e7c6db86513b270d58776379aacc5eb9c4a87e5b47115e3065c AS docker-cli
+FROM python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c AS gateway
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+WORKDIR /app
+COPY track_a/*.py /app/track_a/
+COPY vision_client.py /app/
+CMD ["python3", "-m", "track_a.server"]
+
+FROM gateway AS executor
+COPY --from=docker-cli /usr/local/bin/docker /usr/local/bin/docker
+CMD ["python3", "-m", "track_a.executor"]
+
+FROM gateway AS checks
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+COPY *.py /app/
+COPY track_a/baf /app/track_a/baf
+COPY track_a/*.json /app/track_a/
+COPY results/baf-suite-20261106T015237658406Z /app/recordings/baf-v1
+CMD ["python3", "-m", "track_a.checks"]

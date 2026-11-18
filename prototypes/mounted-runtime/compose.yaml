@@ -1,0 +1,34 @@
+services:
+  exporter:
+    extends: {file: ../mount-runtime-probe/compose.yaml, service: exporter}
+    volumes: !override
+      - type: bind
+        source: ./sshd.conf
+        target: /probe-config/sshd.conf
+        read_only: true
+        bind: {create_host_path: false}
+      - type: bind
+        source: ${PROBE_ROOT:?Run prepare.py}/keys/exporter
+        target: /keys
+        read_only: true
+        bind: {create_host_path: false}
+  broker:
+    extends: {file: ../mount-runtime-probe/compose.yaml, service: broker}
+    volumes: !override
+      - type: bind
+        source: ../mount-runtime-probe/broker.sh
+        target: /probe-config/broker.sh
+        read_only: true
+        bind: {create_host_path: false}
+      - type: bind
+        source: ${PROBE_ROOT:?Run prepare.py}/keys/broker
+        target: /keys
+        read_only: true
+        bind: {create_host_path: false}
+      - type: bind
+        source: ${PROBE_ROOT:?Run prepare.py}/mount
+        target: /probe-mount
+        bind: {propagation: rshared, create_host_path: false}
+
+networks:
+  file-channel: {internal: true}

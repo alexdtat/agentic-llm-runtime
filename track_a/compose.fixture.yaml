@@ -1,0 +1,63 @@
+# Local v2 smoke deployment. No Docker socket, client exports, or external provider.
+x-service: &service
+  build:
+    context: ..
+    dockerfile: track_a/Dockerfile
+    target: gateway
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  healthcheck:
+    test: [CMD, python3, -c, "import os,urllib.request; urllib.request.urlopen('http://127.0.0.1:' + os.environ['PORT'] + '/v0/health', timeout=2)"]
+    interval: 2s
+    timeout: 3s
+    retries: 10
+
+services:
+  application:
+    <<: *service
+    command: [python3, -m, track_a.application]
+    environment:
+      BIND_HOST: 0.0.0.0
+      PORT: "8080"
+      OWNER_TOKENS: "${V2_OWNER_TOKENS:?Set V2_OWNER_TOKENS to a JSON object}"
+      EXECUTOR_URL: http://execution:8081
+      EXECUTOR_TOKEN: "${V2_EXECUTOR_TOKEN:?Set V2_EXECUTOR_TOKEN}"
+      MODEL_PROXY_URL: http://model-proxy:8082
+      MODEL_PROXY_TOKEN: "${V2_MODEL_TOKEN:?Set V2_MODEL_TOKEN}"
+      STATE_DIR: /state
+    ports: ["127.0.0.1:${V2_PORT:-8080}:8080"]
+    networks: [execution, model]
+    volumes: [application-state:/state]
+    depends_on:
+      execution: {condition: service_healthy}
+      model-proxy: {condition: service_healthy}
+
+  execution:
+    <<: *service
+    command: [python3, -m, track_a.fixture_executor]
+    environment:
+      BIND_HOST: 0.0.0.0
+      PORT: "8081"
+      PROBE_TOKEN: "${V2_EXECUTOR_TOKEN:?Set V2_EXECUTOR_TOKEN}"
+      STATE_DIR: /state
+    networks: [execution]
+    volumes: [execution-state:/state]
+
+  model-proxy:
+    <<: *service
+    command: [python3, -m, track_a.model_proxy]
+    environment:
+      BIND_HOST: 0.0.0.0
+      PORT: "8082"
+      PROBE_TOKEN: "${V2_MODEL_TOKEN:?Set V2_MODEL_TOKEN}"
+      MODEL_BACKEND: mock
+    networks: [model]
+
+networks:
+  execution: {internal: true}
+  model: {internal: true}
+
+volumes:
+  application-state: {}
+  execution-state: {}
