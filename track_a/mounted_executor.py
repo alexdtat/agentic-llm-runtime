@@ -31,8 +31,14 @@ class MountedExecutor:
         self.sessions = self.store.load()
         self.lock = threading.Lock()
         self.stopping = False
+        # Durable active intent owns cleanup. Only a live readiness check authorizes exec.
+        self.ready = None
 
     def health(self):
+        try:
+            self.check_mount()
+        except (OSError, subprocess.SubprocessError, RuntimeError):
+            return 503, {'status': 'mount_unavailable', 'backend': 'mounted', 'client_mount': False}
         return 200, {'status': 'ok', 'backend': 'mounted', 'client_mount': True}
 
     def name(self, session, run_id):
@@ -54,10 +60,14 @@ class MountedExecutor:
                       self.containers.image, *command, timeout=timeout, input=input)
 
     def recover(self):
+        self.ready = None
         self.containers.recover()
         for session in self.sessions.values():
             if session.get('active') is not None:
                 self.mark_stopped(session, session['active'])
+            if 'collector' in session:
+                del session['collector']
+                self.store.save(session)
 
     def mark_stopped(self, session, run_id):
         if run_id not in session['stopped']:
@@ -93,6 +103,8 @@ class MountedExecutor:
                 session = self.sessions.get(sid)
                 if session and session.get('active'):
                     self.stop(session, session['active'])
+                if session:
+                    self.remove_collector(session)
                 tombstone = dict(id=sid, generation=1, closed=True)
                 self.store.save(tombstone)
                 self.sessions[sid] = tombstone
@@ -138,6 +150,7 @@ class MountedExecutor:
             raise Conflict('Cannot start run')
         if session['active'] == rid:
             raise Conflict('Run already started')
+        self.remove_collector(session)
         session['active'] = rid
         self.store.save(session)
         name = self.name(session, rid)
@@ -154,6 +167,7 @@ class MountedExecutor:
         )
         if docker('exec', name, 'python3', '-c', wait, timeout=2).returncode:
             raise RuntimeError('Sandbox did not confirm the SSHFS mount')
+        self.ready = name
 
     def stop(self, session, rid):
         if rid in session['stopped']:
@@ -161,6 +175,7 @@ class MountedExecutor:
         if session['active'] not in {None, rid}:
             raise Conflict('Another run owns the workspace')
         if session['active'] == rid:
+            self.ready = None
             self.containers.remove(self.name(session, rid))
         self.mark_stopped(session, rid)
 
@@ -180,7 +195,8 @@ class MountedExecutor:
                 if previous['request'] != body:
                     raise Conflict('Operation key reused with different payload')
                 return 200, self.operation_result(previous)
-            if self.stopping or session['active'] != rid:
+            name = self.name(session, rid)
+            if self.stopping or session['active'] != rid or self.ready != name:
                 raise Conflict('Run is inactive')
             if any(op['request']['run_id'] == rid and op['result'] is None
                    for op in session['operations'].values()):
@@ -190,10 +206,9 @@ class MountedExecutor:
             self.store.save(session)
 
         # Never hold the executor lock while the worker or its descendants are running.
-        name = self.name(session, rid)
         value = self.execute_tool(name, call)
         with self.lock:
-            if self.sessions[sid] is not session or session['active'] != rid:
+            if self.sessions[sid] is not session or session['active'] != rid or self.ready != name:
                 raise Conflict('Run stopped during execution')
             operation['result'] = value
             self.store.save(session)
@@ -225,8 +240,15 @@ class MountedExecutor:
             outcome.update(encoding='base64', data=outcome.pop('stdout').strip(), stdout='')
         return outcome
 
+    def remove_collector(self, session):
+        if 'collector' in session:
+            self.containers.remove(session['collector'])
+            del session['collector']
+            self.store.save(session)
+
     def collect(self, session, rid):
         # Collect named artifacts only, after removing the sandbox that could write them.
+        self.remove_collector(session)
         paths = sorted({op['request']['call']['args']['path'] for op in session['operations'].values()
                         if op['request']['run_id'] == rid and op['result'] is not None
                         and op['result']['exit_code'] == 0
@@ -247,6 +269,8 @@ for path in json.load(sys.stdin):
 print(json.dumps(files))
 """
         name = self.name(session, rid) + '-collect'
+        session['collector'] = name
+        self.store.save(session)
         try:
             result = self.run_container(name, 'python3', '-c', source, readonly=True,
                                         input=json.dumps(paths))
@@ -254,7 +278,7 @@ print(json.dumps(files))
                 raise RuntimeError('Cannot collect mounted artifacts')
             return {'files': json.loads(result.stdout)}
         finally:
-            self.containers.remove(name)
+            self.remove_collector(session)
 
     def shutdown(self):
         with self.lock:
@@ -269,7 +293,6 @@ def main():
                               os.environ['RUNTIME_SCOPE'], os.environ.get('SANDBOX_IMAGE', 'agentic-sandbox:cpu-v1'),
                               os.environ['STATE_DIR'])
     backend.recover()
-    backend.check_mount()
     serve(backend, int(os.environ.get('PORT', '8081')))
 
 

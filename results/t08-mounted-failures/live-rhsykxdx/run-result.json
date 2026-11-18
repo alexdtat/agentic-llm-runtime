@@ -1,0 +1,7 @@
+{
+  "status": "interrupted",
+  "reason": "outcome_unknown",
+  "answer": null,
+  "usage": null,
+  "cleanup_state": "confirmed"
+}

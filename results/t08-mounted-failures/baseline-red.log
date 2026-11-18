@@ -1,0 +1,177 @@
+test_mount_loss_at_start_keeps_failed_sandbox_unusable (test_mounted_failures.MountedFailureTests.test_mount_loss_at_start_keeps_failed_sandbox_unusable) ... 
+  test_mount_loss_at_start_keeps_failed_sandbox_unusable (test_mounted_failures.MountedFailureTests.test_mount_loss_at_start_keeps_failed_sandbox_unusable) (label='findmnt absent') ... FAIL
+  test_mount_loss_at_start_keeps_failed_sandbox_unusable (test_mounted_failures.MountedFailureTests.test_mount_loss_at_start_keeps_failed_sandbox_unusable) (label='underlying directory') ... FAIL
+  test_mount_loss_at_start_keeps_failed_sandbox_unusable (test_mounted_failures.MountedFailureTests.test_mount_loss_at_start_keeps_failed_sandbox_unusable) (label='docker run') ... FAIL
+  test_mount_loss_at_start_keeps_failed_sandbox_unusable (test_mounted_failures.MountedFailureTests.test_mount_loss_at_start_keeps_failed_sandbox_unusable) (label='in-container probe') ... FAIL
+test_mount_loss_at_start_keeps_failed_sandbox_unusable (test_mounted_failures.MountedFailureTests.test_mount_loss_at_start_keeps_failed_sandbox_unusable) ... FAIL
+test_collect_removes_container_on_failure_and_persists_unconfirmed_cleanup (test_mounted_failures.MountedFailureTests.test_collect_removes_container_on_failure_and_persists_unconfirmed_cleanup) ... FAIL
+test_no_late_result_after_failed_stop (test_mounted_failures.MountedFailureTests.test_no_late_result_after_failed_stop) ... FAIL
+
+======================================================================
+FAIL: test_mount_loss_at_start_keeps_failed_sandbox_unusable (test_mounted_failures.MountedFailureTests.test_mount_loss_at_start_keeps_failed_sandbox_unusable) (label='findmnt absent')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/test_mounted_failures.py", line 189, in test_mount_loss_at_start_keeps_failed_sandbox_unusable
+    post(executor, 'exec', INTENT)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/test_mounted_failures.py", line 44, in post
+    return executor.route('POST', '/mounted/session/' + action, body)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/../agentic-runtime-t08-baseline/track_a/mounted_executor.py", line 75, in route
+    return self.execute(sid, body)
+           ~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/../agentic-runtime-t08-baseline/track_a/mounted_executor.py", line 194, in execute
+    value = self.execute_tool(name, call)
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/../agentic-runtime-t08-baseline/track_a/mounted_executor.py", line 213, in execute_tool
+    result = docker('exec', '-i', name, 'python3', '-c',
+                    MOUNT_CHECK + WORKER.replace("if __name__ == '__main__':", "if False:") +
+                    '\nmain()\nos.stat("/work")\n',
+                    timeout=8, input=json.dumps(request))
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/track_a/executor.py", line 19, in docker
+    return subprocess.run(['docker', *map(str, args)], input=input, text=True,
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                          capture_output=True, timeout=timeout)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/miniconda3/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/miniconda3/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/miniconda3/lib/python3.14/unittest/mock.py", line 1247, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/test_mounted_failures.py", line 80, in run
+    raise AssertionError(f'No sandbox {args[3]}')
+AssertionError: No sandbox agentic-mounted-session-run
+
+======================================================================
+FAIL: test_mount_loss_at_start_keeps_failed_sandbox_unusable (test_mounted_failures.MountedFailureTests.test_mount_loss_at_start_keeps_failed_sandbox_unusable) (label='underlying directory')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/test_mounted_failures.py", line 189, in test_mount_loss_at_start_keeps_failed_sandbox_unusable
+    post(executor, 'exec', INTENT)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/test_mounted_failures.py", line 44, in post
+    return executor.route('POST', '/mounted/session/' + action, body)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/../agentic-runtime-t08-baseline/track_a/mounted_executor.py", line 75, in route
+    return self.execute(sid, body)
+           ~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/../agentic-runtime-t08-baseline/track_a/mounted_executor.py", line 194, in execute
+    value = self.execute_tool(name, call)
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/../agentic-runtime-t08-baseline/track_a/mounted_executor.py", line 213, in execute_tool
+    result = docker('exec', '-i', name, 'python3', '-c',
+                    MOUNT_CHECK + WORKER.replace("if __name__ == '__main__':", "if False:") +
+                    '\nmain()\nos.stat("/work")\n',
+                    timeout=8, input=json.dumps(request))
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/track_a/executor.py", line 19, in docker
+    return subprocess.run(['docker', *map(str, args)], input=input, text=True,
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                          capture_output=True, timeout=timeout)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/miniconda3/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/miniconda3/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/miniconda3/lib/python3.14/unittest/mock.py", line 1247, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/test_mounted_failures.py", line 80, in run
+    raise AssertionError(f'No sandbox {args[3]}')
+AssertionError: No sandbox agentic-mounted-session-run
+
+======================================================================
+FAIL: test_mount_loss_at_start_keeps_failed_sandbox_unusable (test_mounted_failures.MountedFailureTests.test_mount_loss_at_start_keeps_failed_sandbox_unusable) (label='docker run')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/test_mounted_failures.py", line 189, in test_mount_loss_at_start_keeps_failed_sandbox_unusable
+    post(executor, 'exec', INTENT)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/test_mounted_failures.py", line 44, in post
+    return executor.route('POST', '/mounted/session/' + action, body)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/../agentic-runtime-t08-baseline/track_a/mounted_executor.py", line 75, in route
+    return self.execute(sid, body)
+           ~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/../agentic-runtime-t08-baseline/track_a/mounted_executor.py", line 194, in execute
+    value = self.execute_tool(name, call)
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/../agentic-runtime-t08-baseline/track_a/mounted_executor.py", line 213, in execute_tool
+    result = docker('exec', '-i', name, 'python3', '-c',
+                    MOUNT_CHECK + WORKER.replace("if __name__ == '__main__':", "if False:") +
+                    '\nmain()\nos.stat("/work")\n',
+                    timeout=8, input=json.dumps(request))
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/track_a/executor.py", line 19, in docker
+    return subprocess.run(['docker', *map(str, args)], input=input, text=True,
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                          capture_output=True, timeout=timeout)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/miniconda3/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/miniconda3/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/miniconda3/lib/python3.14/unittest/mock.py", line 1247, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/test_mounted_failures.py", line 80, in run
+    raise AssertionError(f'No sandbox {args[3]}')
+AssertionError: No sandbox agentic-mounted-session-run
+
+======================================================================
+FAIL: test_mount_loss_at_start_keeps_failed_sandbox_unusable (test_mounted_failures.MountedFailureTests.test_mount_loss_at_start_keeps_failed_sandbox_unusable) (label='in-container probe')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/test_mounted_failures.py", line 188, in test_mount_loss_at_start_keeps_failed_sandbox_unusable
+    with self.assertRaisesRegex(Conflict, 'inactive'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Conflict not raised
+
+======================================================================
+FAIL: test_mount_loss_at_start_keeps_failed_sandbox_unusable (test_mounted_failures.MountedFailureTests.test_mount_loss_at_start_keeps_failed_sandbox_unusable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/test_mounted_failures.py", line 192, in test_mount_loss_at_start_keeps_failed_sandbox_unusable
+    self.assertEqual(self.system.tools, [])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [['/bin/sh', '-c', 'printf mounted']] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+['/bin/sh', '-c', 'printf mounted']
+
+- [['/bin/sh', '-c', 'printf mounted']]
++ []
+
+======================================================================
+FAIL: test_collect_removes_container_on_failure_and_persists_unconfirmed_cleanup (test_mounted_failures.MountedFailureTests.test_collect_removes_container_on_failure_and_persists_unconfirmed_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/test_mounted_failures.py", line 297, in test_collect_removes_container_on_failure_and_persists_unconfirmed_cleanup
+    self.assertEqual(executor.store.journals['session'].load().get('collector'), collector)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 'agentic-mounted-session-run-collect'
+
+======================================================================
+FAIL: test_no_late_result_after_failed_stop (test_mounted_failures.MountedFailureTests.test_no_late_result_after_failed_stop)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/test_mounted_failures.py", line 394, in test_no_late_result_after_failed_stop
+    self.check_late_result_after_stop(removal_fails=True)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/test_mounted_failures.py", line 428, in check_late_result_after_stop
+    self.assertEqual([str(exc) for exc in errors], ['Run stopped during execution'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['Run stopped during execution']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'Run stopped during execution'
+
+- []
++ ['Run stopped during execution']
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.010s
+
+FAILED (failures=7)

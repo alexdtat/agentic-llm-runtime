@@ -1,0 +1,2 @@
+Python AST parse and whitespace check: exit 0
+Updated patch apply --check: exit 0

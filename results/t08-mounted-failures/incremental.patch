@@ -1,0 +1,1185 @@
+diff --git a/.github/workflows/cpu.yml b/.github/workflows/cpu.yml
+--- a/.github/workflows/cpu.yml
++++ b/.github/workflows/cpu.yml
+@@ -8,6 +8,8 @@
+     timeout-minutes: 15
+     steps:
+       - uses: actions/checkout@v4
++      - name: Verify mounted failure handling offline
++        run: PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_mounted_runtime test_mounted_failures
+       - name: Verify v2 fixture HTTP and CLI
+         run: python3 -m unittest -v test_runtime_v2
+       - name: Build and verify runtime with mock and historical replay
+diff --git a/track_a/mounted_executor.py b/track_a/mounted_executor.py
+--- a/track_a/mounted_executor.py
++++ b/track_a/mounted_executor.py
+@@ -31,8 +31,14 @@
+         self.sessions = self.store.load()
+         self.lock = threading.Lock()
+         self.stopping = False
++        # Durable active intent owns cleanup. Only a live readiness check authorizes exec.
++        self.ready = None
+ 
+     def health(self):
++        try:
++            self.check_mount()
++        except (OSError, subprocess.SubprocessError, RuntimeError):
++            return 503, {'status': 'mount_unavailable', 'backend': 'mounted', 'client_mount': False}
+         return 200, {'status': 'ok', 'backend': 'mounted', 'client_mount': True}
+ 
+     def name(self, session, run_id):
+@@ -54,10 +60,14 @@
+                       self.containers.image, *command, timeout=timeout, input=input)
+ 
+     def recover(self):
++        self.ready = None
+         self.containers.recover()
+         for session in self.sessions.values():
+             if session.get('active') is not None:
+                 self.mark_stopped(session, session['active'])
++            if 'collector' in session:
++                del session['collector']
++                self.store.save(session)
+ 
+     def mark_stopped(self, session, run_id):
+         if run_id not in session['stopped']:
+@@ -93,6 +103,8 @@
+                 session = self.sessions.get(sid)
+                 if session and session.get('active'):
+                     self.stop(session, session['active'])
++                if session:
++                    self.remove_collector(session)
+                 tombstone = dict(id=sid, generation=1, closed=True)
+                 self.store.save(tombstone)
+                 self.sessions[sid] = tombstone
+@@ -138,6 +150,7 @@
+             raise Conflict('Cannot start run')
+         if session['active'] == rid:
+             raise Conflict('Run already started')
++        self.remove_collector(session)
+         session['active'] = rid
+         self.store.save(session)
+         name = self.name(session, rid)
+@@ -154,6 +167,7 @@
+         )
+         if docker('exec', name, 'python3', '-c', wait, timeout=2).returncode:
+             raise RuntimeError('Sandbox did not confirm the SSHFS mount')
++        self.ready = name
+ 
+     def stop(self, session, rid):
+         if rid in session['stopped']:
+@@ -161,6 +175,7 @@
+         if session['active'] not in {None, rid}:
+             raise Conflict('Another run owns the workspace')
+         if session['active'] == rid:
++            self.ready = None
+             self.containers.remove(self.name(session, rid))
+         self.mark_stopped(session, rid)
+ 
+@@ -180,7 +195,8 @@
+                 if previous['request'] != body:
+                     raise Conflict('Operation key reused with different payload')
+                 return 200, self.operation_result(previous)
+-            if self.stopping or session['active'] != rid:
++            name = self.name(session, rid)
++            if self.stopping or session['active'] != rid or self.ready != name:
+                 raise Conflict('Run is inactive')
+             if any(op['request']['run_id'] == rid and op['result'] is None
+                    for op in session['operations'].values()):
+@@ -190,10 +206,9 @@
+             self.store.save(session)
+ 
+         # Never hold the executor lock while the worker or its descendants are running.
+-        name = self.name(session, rid)
+         value = self.execute_tool(name, call)
+         with self.lock:
+-            if self.sessions[sid] is not session or session['active'] != rid:
++            if self.sessions[sid] is not session or session['active'] != rid or self.ready != name:
+                 raise Conflict('Run stopped during execution')
+             operation['result'] = value
+             self.store.save(session)
+@@ -225,8 +240,15 @@
+             outcome.update(encoding='base64', data=outcome.pop('stdout').strip(), stdout='')
+         return outcome
+ 
++    def remove_collector(self, session):
++        if 'collector' in session:
++            self.containers.remove(session['collector'])
++            del session['collector']
++            self.store.save(session)
++
+     def collect(self, session, rid):
+         # Collect named artifacts only, after removing the sandbox that could write them.
++        self.remove_collector(session)
+         paths = sorted({op['request']['call']['args']['path'] for op in session['operations'].values()
+                         if op['request']['run_id'] == rid and op['result'] is not None
+                         and op['result']['exit_code'] == 0
+@@ -247,6 +269,8 @@
+ print(json.dumps(files))
+ """
+         name = self.name(session, rid) + '-collect'
++        session['collector'] = name
++        self.store.save(session)
+         try:
+             result = self.run_container(name, 'python3', '-c', source, readonly=True,
+                                         input=json.dumps(paths))
+@@ -254,7 +278,7 @@
+                 raise RuntimeError('Cannot collect mounted artifacts')
+             return {'files': json.loads(result.stdout)}
+         finally:
+-            self.containers.remove(name)
++            self.remove_collector(session)
+ 
+     def shutdown(self):
+         with self.lock:
+@@ -269,7 +293,6 @@
+                               os.environ['RUNTIME_SCOPE'], os.environ.get('SANDBOX_IMAGE', 'agentic-sandbox:cpu-v1'),
+                               os.environ['STATE_DIR'])
+     backend.recover()
+-    backend.check_mount()
+     serve(backend, int(os.environ.get('PORT', '8081')))
+ 
+ 
+diff --git a/prototypes/mounted-runtime/README.md b/prototypes/mounted-runtime/README.md
+--- a/prototypes/mounted-runtime/README.md
++++ b/prototypes/mounted-runtime/README.md
+@@ -70,3 +70,74 @@
+   всех файлов, квоту записи, враждебное изменение экспортируемого дерева
+   клиентом и прерывание уже зависшего I/O. Ресурсные лимиты относятся к
+   контейнерам, у клиентской папки файловой квоты нет.
++
++Проверки отказов без Docker, FUSE и сетевых соединений запускаются из корня checkout.
++Они используют настоящие MountedExecutor, Application и mock ModelProxy, подменяя
++findmnt, Docker CLI и private transport. Отдельный дочерний Python-процесс завершает
++себя после durable intent и синтетического побочного эффекта для проверки recovery.
++
++```sh
++PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_mounted_runtime test_mounted_failures
++```
++
++Покрыты отказ start, неизвестный исход команды, восстановление и дедупликация,
++потерянный ответ, отказ cleanup, quarantine, collect и очистка payload при release.
++После неуспешного start/stop новый exec блокируется. Незавершённая очистка collect
++сохраняется в журнале и блокирует start/release до подтверждённого удаления.
++При рестарте исполнитель удаляет оставшиеся контейнеры своего scope до открытия API. Отсутствующий mount
++отражается в health и блокирует новый start, lookup/stop/release остаются доступны.
++Проверка health определяет только наличие записи fuse.sshfs через findmnt.
++
++Эти offline проверки моделируют инфраструктурные ответы. Реальный обрыв SSHFS,
++cached/disconnected FUSE, зависший I/O и исчезновение всех процессов после cleanup
++требуют live-проверки. Само наличие mountinfo и успешный stat('/work') не доказывают,
++что удалённый экспорт доступен. Свидетельства T08 сохранены в
++results/t08-mounted-failures/report.md.
++
++На обычном согласованном Linux-хосте фактический обрыв SSHFS проверяется одной
++командой из корня checkout. Нужны UID 1000, `/dev/fuse`, доступ к локальному Docker,
++Compose и уже готовые образы из описания выше. Для точных mount/umount требуется
++действующий sudo timestamp. При необходимости выполните `sudo -v` в своём терминале
++перед запуском. Runner использует только `sudo -n` и не запрашивает пароль.
++
++```sh
++PYTHONDONTWRITEBYTECODE=1 python3 prototypes/mounted-runtime/live_failure.py
++```
++
++Runner сначала выполняет preflight. `NoNewPrivs=1`, иной Docker host/context,
++недоступный daemon/FUSE или отсутствующий cached image останавливают проверку до
++создания стенда. После успешного preflight весь процесс закреплён за локальным
++Docker socket. Затем `prepare.py` без `--client` создаёт только синтетический экспорт
++под уникальным `/tmp/agentic-mounted-runtime.*`, а `stack.sh` поднимает его ресурсы.
++Существующие mounts, контейнеры или сеть вычисленного scope отклоняются до захвата
++ресурсов. Cleanup ограничен успешно захваченными путями и scope.
++
++Реальная команда через CLI/Application/mock/MountedExecutor один раз записывает
++9 байт в `single-write.txt`, делает fsync и ждёт handshake в sandbox `/tmp`.
++Runner подтверждает владение exporter по Docker labels, останавливает только его
++точный ID, подтверждает остановку и разрешает команде читать `after-cut.txt` через
++SSHFS. У управляющих docker exec задан `--workdir /tmp`. Для успешного результата
++нужны marker `IO_BEGIN` после подтверждённого обрыва и errno операции либо отсутствие
++завершения I/O до штатного worker timeout. Таймаут handshake, потерянный вывод или
++успешное чтение без свидетельства I/O failure дают ошибку/inconclusive.
++Продуктовые лимиты команды не меняются.
++
++Проверка требует реального unknown outcome, отказа lookup/повторного exec/нового
++op_id этого run, единственной записи и подтверждённого stop. До аварийного общего
++cleanup отдельно проверяется исчезновение sandbox и его host PID со starttime,
++чтобы cleanup стенда не скрывал ошибку product stop. Наблюдающая обёртка сохраняет
++настоящие ответы Docker worker и partial stdout при транспортном timeout, передавая
++их исполнителю без изменений. Инфраструктурные результаты в этом runner реальные.
++HTTP токены случайны и не записываются в логи.
++
++На stdout печатается каталог свидетельств. В нём сохраняются `live-failure.jsonl`,
++`run-result.json`, `product-stop-check.json`, `owned-processes.json` и
++`live-failure-summary.json`. При ошибке сохраняются traceback и результат cleanup.
++Probe ограничен 100 секундами, cleanup — дополнительными 90. В finally вызывается
++`stack.sh cleanup`, затем проверяются отсутствие принадлежащих стенду контейнеров,
++сетей, SSHFS/self-bind mounts и сохранённых PID identities. Остаточный точный SSHFS
++mount снимается обычным umount только после подтверждённого отсутствия контейнеров
++и сети. При неполном cleanup итог остаётся failed, диагностический каталог сохраняется.
++Exit 0 означает все проверки и cleanup подтверждены, exit 1 — ошибка/inconclusive,
++exit 2 — preflight blocked. Текущий workspace отклонён на preflight по NoNewPrivs,
++свидетельство находится в `results/t08-mounted-failures/live-preflight.log`.
+diff --git a/test_mounted_failures.py b/test_mounted_failures.py
+new file mode 100644
+--- /dev/null
++++ b/test_mounted_failures.py
+@@ -0,0 +1,579 @@
++"""Fault injection at the Docker CLI, findmnt, and private transport boundaries."""
++import json
++import os
++import runpy
++import subprocess
++import sys
++import tempfile
++import threading
++import time
++import unittest
++from pathlib import Path
++from types import SimpleNamespace
++from unittest.mock import Mock, patch
++
++from track_a.application import Application, RunError
++from track_a.http_api import Conflict
++from track_a.model_proxy import ModelProxy
++from track_a.mounted_executor import MOUNT_CHECK, MountedExecutor, main
++
++RUN_PROCESS = subprocess.run
++SCOPE = {'generation': 1, 'run_id': 'run'}
++PAYLOAD = 'VGhpcyBpcyBhIHRlc3QgcGF5bG9hZC4='
++WRITE = {'id': 'write', 'tool': 'WriteFile', 'args': {'path': 'result.txt', 'data': PAYLOAD}}
++COMMAND = {'id': 'command', 'tool': 'RunCommand', 'args': {'command': 'printf mounted'}}
++INTENT = {**SCOPE, 'op_id': 'op', 'call': COMMAND}
++LOOKUP = {'generation': 1, 'op_id': 'op'}
++NAME = 'agentic-mounted-session-run'
++
++
++def completed(returncode=0, stdout='', stderr=''):
++    return subprocess.CompletedProcess([], returncode, stdout, stderr)
++
++
++def tool_success(argv):
++    stdout = PAYLOAD + '\n' if 'ReadFile' in argv else 'mounted' if argv[0] == '/bin/sh' else ''
++    return completed(stdout=json.dumps(dict(exit_code=0, stdout=stdout, stderr='',
++                                            truncated=False, error_kind=None)))
++
++
++def mounted(root):
++    return MountedExecutor('/mnt/test-export', 'test-grant', 'test', 'sandbox', root)
++
++
++def post(executor, action, body):
++    return executor.route('POST', '/mounted/session/' + action, body)
++
++
++class FakeSystem:
++    def __init__(self):
++        self.mount = completed(stdout='fuse.sshfs\n')
++        self.ready = completed()
++        self.start_result = completed()
++        self.collect_result = completed(stdout='{}')
++        self.tool = tool_success
++        self.calls = []
++        self.tools = []
++        self.running = set()
++        self.removal_fails = False
++        self.listing_fails = False
++
++    def run(self, args, *, input=None, **kwargs):
++        if args[0] == 'findmnt':
++            self.calls.append(('findmnt', *args[1:]))
++            return self.mount
++        if args[0] != 'docker':
++            raise AssertionError(f'Unexpected subprocess {args[0]}')
++        self.calls.append(tuple(args[1:]))
++        operation = args[1]
++        if operation == 'run':
++            name = args[args.index('--name') + 1]
++            if name in self.running:
++                raise AssertionError(f'Duplicate sandbox {name}')
++            result = self.start_result if args[2] == '-d' else self.collect_result
++            if args[2] == '-i' or result.returncode == 0:
++                self.running.add(name)
++            return result
++        if operation == 'exec':
++            if args[2] != '-i':
++                return self.ready
++            if args[3] not in self.running:
++                raise AssertionError(f'No sandbox {args[3]}')
++            argv = json.loads(input)['argv']
++            self.tools.append(argv)
++            return self.tool(argv)
++        if operation == 'rm':
++            name = args[3]
++            if self.removal_fails or name not in self.running:
++                return completed(1)
++            self.running.remove(name)
++            return completed()
++        if operation == 'ps':
++            if self.listing_fails:
++                return completed(1)
++            match = args[args.index('--filter') + 1]
++            if match == 'label=agentic.scope=mounted-test':
++                names = self.running
++            elif match.startswith('name=^/'):
++                names = {match[len('name=^/'):-1]} & self.running
++            else:
++                raise AssertionError(f'Unexpected filter {match}')
++            return completed(stdout=''.join(name + '\n' for name in sorted(names)))
++        raise AssertionError(f'Unexpected Docker operation {operation}')
++
++
++def crash_after_dispatch(root):
++    executor = mounted(root)
++    system = FakeSystem()
++
++    def die(argv):
++        # Stand in for a client-visible side effect while the real intent remains unresolved.
++        with (Path(root) / 'side-effect').open('ab') as handle:
++            handle.write(b'dispatched\n')
++            handle.flush()
++            os.fsync(handle.fileno())
++        os._exit(73)
++
++    system.tool = die
++    with patch('subprocess.run', side_effect=system.run):
++        post(executor, 'provision', {'grant': 'test-grant'})
++        post(executor, 'start', SCOPE)
++        post(executor, 'exec', INTENT)
++
++
++class InProcessClient:
++    """Model the private HTTP boundary without opening sockets."""
++    def __init__(self, service):
++        self.service = service
++        self.requests = []
++        self.drop_exec_reply = False
++
++    def request(self, method, path, body, timeout):
++        self.requests.append((path.rsplit('/', 1)[-1], body))
++        try:
++            response = self.service.route(method, path, body)
++        except Conflict:
++            return 409, {}
++        except RuntimeError:
++            return 503, {}
++        if self.drop_exec_reply and path.endswith('/exec'):
++            raise TimeoutError('response lost after dispatch')
++        return response
++
++
++class MountedFailureTests(unittest.TestCase):
++    def setUp(self):
++        directory = tempfile.TemporaryDirectory()
++        self.addCleanup(directory.cleanup)
++        self.root = Path(directory.name)
++        self.system = FakeSystem()
++        subprocess_patch = patch('subprocess.run', side_effect=self.system.run)
++        subprocess_patch.start()
++        self.addCleanup(subprocess_patch.stop)
++
++    def executor(self, root=None):
++        executor = mounted(root or self.root / 'executor')
++        self.addCleanup(executor.containers.journal.db.close)
++        self.addCleanup(self.close_journals, executor)
++        return executor
++
++    @staticmethod
++    def close_journals(service):
++        for journal in service.store.journals.values():
++            journal.db.close()
++
++    def provision(self, executor):
++        self.assertEqual(post(executor, 'provision', {'grant': 'test-grant'}),
++                         (200, {'generation': 1, 'closed': False}))
++
++    def started(self):
++        executor = self.executor()
++        self.provision(executor)
++        self.assertEqual(post(executor, 'start', SCOPE), (200, {}))
++        return executor
++
++    def test_mount_loss_at_start_keeps_failed_sandbox_unusable(self):
++        cases = (
++            ('findmnt absent', 'mount', completed(1), 'SSHFS mount is unavailable'),
++            ('underlying directory', 'mount', completed(stdout='ext4\n'), 'SSHFS mount is unavailable'),
++            ('docker run', 'start_result', completed(125), 'Cannot start mounted sandbox'),
++            ('in-container probe', 'ready', completed(1), 'Sandbox did not confirm'),
++        )
++        for index, (label, field, value, message) in enumerate(cases):
++            with self.subTest(label=label):
++                executor = self.executor(self.root / str(index))
++                self.provision(executor)
++                with patch.object(self.system, field, value):
++                    with self.assertRaisesRegex(RuntimeError, message):
++                        post(executor, 'start', SCOPE)
++                    with self.assertRaisesRegex(Conflict, 'inactive'):
++                        post(executor, 'exec', INTENT)
++                    self.assertEqual(post(executor, 'stop', SCOPE)[1]['cleanup_state'], 'confirmed')
++                self.assertFalse(self.system.running)
++        self.assertEqual(self.system.tools, [])
++
++    def test_command_mount_failure_ignores_partial_worker_stdout_and_blocks_replay(self):
++        executor = self.started()
++        self.system.tool = lambda argv: completed(1, tool_success(argv).stdout, 'Transport endpoint is not connected')
++        with self.assertRaisesRegex(RuntimeError, 'No confirmed worker result'):
++            post(executor, 'exec', INTENT)
++        command = next(call for call in self.system.calls if call[:2] == ('exec', '-i'))
++        self.assertTrue(command[-1].startswith(MOUNT_CHECK))
++        self.assertTrue(command[-1].endswith('\nmain()\nos.stat("/work")\n'))
++        self.assertEqual(self.system.tools, [['/bin/sh', '-c', 'printf mounted']])
++        with self.assertRaisesRegex(Conflict, 'outcome is unknown'):
++            post(executor, 'operation', LOOKUP)
++        with self.assertRaisesRegex(Conflict, 'outcome is unknown'):
++            post(executor, 'exec', INTENT)
++        with self.assertRaisesRegex(Conflict, 'outcome is unknown'):
++            post(executor, 'exec', {**INTENT, 'op_id': 'new-op'})
++        self.assertEqual(len(self.system.tools), 1)
++
++    def test_known_result_is_durable_and_duplicate_exec_returns_it(self):
++        executor = self.started()
++        expected = post(executor, 'exec', INTENT)
++        self.assertEqual(post(executor, 'exec', INTENT), expected)
++        with self.assertRaisesRegex(Conflict, 'different payload'):
++            post(executor, 'exec', {**INTENT, 'call': WRITE})
++        restored = self.executor()
++        restored.recover()
++        self.assertEqual(post(restored, 'operation', LOOKUP), expected)
++        self.assertEqual(post(restored, 'exec', INTENT), expected)
++        self.assertEqual(len(self.system.tools), 1)
++
++    def test_crash_after_dispatch_reconciles_container_and_does_not_replay(self):
++        root = self.root / 'crashed'
++        child = RUN_PROCESS(
++            [sys.executable, '-c',
++             'from test_mounted_failures import crash_after_dispatch; import sys; crash_after_dispatch(sys.argv[1])',
++             str(root)], capture_output=True, text=True, timeout=5,
++        )
++        self.assertEqual(child.returncode, 73, child.stderr)
++        effect = root / 'side-effect'
++        self.assertEqual(effect.read_bytes(), b'dispatched\n')
++        executor = self.executor(root)
++        session = executor.sessions['session']
++        self.assertEqual(session['active'], 'run')
++        self.assertEqual(session['operations'], {'op': {'request': INTENT, 'result': None}})
++        self.system.running.add(NAME)
++        # An old journal also has active intent and no process-local readiness.
++        with self.assertRaisesRegex(Conflict, 'inactive'):
++            post(executor, 'exec', {**INTENT, 'op_id': 'another'})
++        executor.recover()
++        self.assertFalse(self.system.running)
++        self.assertEqual(executor.store.journals['session'].load()['stopped'], ['run'])
++        with self.assertRaisesRegex(Conflict, 'outcome is unknown'):
++            post(executor, 'operation', LOOKUP)
++        with self.assertRaisesRegex(Conflict, 'outcome is unknown'):
++            post(executor, 'exec', INTENT)
++        with self.assertRaisesRegex(Conflict, 'Cannot start run'):
++            post(executor, 'start', SCOPE)
++        self.assertEqual(effect.read_bytes(), b'dispatched\n')
++        self.assertEqual(self.system.tools, [])
++
++    def test_stop_release_and_recovery_refuse_to_confirm_failed_removal(self):
++        executor = self.started()
++        self.system.removal_fails = True
++        with self.assertRaisesRegex(RuntimeError, 'removal failed'):
++            post(executor, 'stop', SCOPE)
++        with self.assertRaisesRegex(Conflict, 'inactive'):
++            post(executor, 'exec', INTENT)
++        with self.assertRaisesRegex(RuntimeError, 'removal failed'):
++            post(executor, 'release', {})
++        saved = executor.store.journals['session'].load()
++        self.assertEqual(saved['active'], 'run')
++        self.assertEqual(saved['stopped'], [])
++        self.assertFalse(saved['closed'])
++
++        restored = self.executor()
++        with self.assertRaisesRegex(RuntimeError, 'removal failed'):
++            restored.recover()
++        self.system.listing_fails = True
++        with self.assertRaisesRegex(RuntimeError, 'Cannot reconcile'):
++            restored.recover()
++        self.assertEqual(restored.store.journals['session'].load(), saved)
++        # An rm error plus a failed absence check must also fail closed.
++        with self.assertRaisesRegex(RuntimeError, 'removal failed'):
++            post(restored, 'stop', SCOPE)
++        self.system.removal_fails = self.system.listing_fails = False
++        restored.recover()
++        self.assertEqual(post(restored, 'stop', SCOPE)[1]['cleanup_state'], 'confirmed')
++        self.assertFalse(self.system.running)
++
++    def test_collect_removes_container_on_failure_and_persists_unconfirmed_cleanup(self):
++        executor = self.started()
++        post(executor, 'exec', {**INTENT, 'call': WRITE})
++        post(executor, 'stop', SCOPE)
++        collector = NAME + '-collect'
++        self.system.collect_result = completed(1)
++        with self.assertRaisesRegex(RuntimeError, 'Cannot collect'):
++            post(executor, 'collect', SCOPE)
++        self.assertIn(('rm', '-f', collector), self.system.calls)
++        self.assertFalse(self.system.running)
++        self.assertNotIn('collector', executor.store.journals['session'].load())
++
++        self.system.removal_fails = True
++        with self.assertRaisesRegex(RuntimeError, 'removal failed'):
++            post(executor, 'collect', SCOPE)
++        self.assertEqual(executor.store.journals['session'].load().get('collector'), collector)
++        starts = [call for call in self.system.calls if call[0] == 'run']
++        for action, body in (('collect', SCOPE), ('start', {**SCOPE, 'run_id': 'new'}), ('release', {})):
++            with self.subTest(action=action), self.assertRaisesRegex(RuntimeError, 'removal failed'):
++                post(executor, action, body)
++        self.assertEqual([call for call in self.system.calls if call[0] == 'run'], starts)
++        restored = self.executor()
++        with self.assertRaisesRegex(RuntimeError, 'removal failed'):
++            restored.recover()
++        self.assertEqual(restored.store.journals['session'].load()['collector'], collector)
++        self.system.removal_fails = False
++        restored.recover()
++        self.assertFalse(self.system.running)
++        self.assertNotIn('collector', restored.store.journals['session'].load())
++
++    def test_startup_with_lost_mount_keeps_recovery_operations_available(self):
++        executor = self.started()
++        self.system.tool = lambda argv: completed(1)
++        with self.assertRaisesRegex(RuntimeError, 'No confirmed worker result'):
++            post(executor, 'exec', INTENT)
++        self.system.mount = completed(1)
++        served = []
++
++        def serve_recovered(backend, port):
++            served.append(port)
++            self.addCleanup(backend.containers.journal.db.close)
++            self.addCleanup(self.close_journals, backend)
++            self.assertFalse(self.system.running)
++            self.assertEqual(backend.health(), (503, {
++                'status': 'mount_unavailable', 'backend': 'mounted', 'client_mount': False,
++            }))
++            with self.assertRaisesRegex(Conflict, 'outcome is unknown'):
++                post(backend, 'operation', LOOKUP)
++            self.assertEqual(post(backend, 'stop', SCOPE)[1]['cleanup_state'], 'confirmed')
++            with self.assertRaisesRegex(RuntimeError, 'SSHFS mount is unavailable'):
++                post(backend, 'start', {**SCOPE, 'run_id': 'next-run'})
++            self.assertEqual(post(backend, 'release', {})[1]['cleanup_state'], 'confirmed')
++            self.assertEqual(len(self.system.tools), 1)
++
++        environment = {
++            'DOCKER_HOST': 'unix:///var/run/docker.sock', 'SSHFS_MOUNT': '/mnt/test-export',
++            'MOUNT_GRANT': 'test-grant', 'RUNTIME_SCOPE': 'test', 'SANDBOX_IMAGE': 'sandbox',
++            'STATE_DIR': str(self.root / 'executor'), 'PORT': '8081',
++        }
++        with patch.dict(os.environ, environment, clear=True), patch(
++                'track_a.mounted_executor.serve', side_effect=serve_recovered):
++            main()
++        self.assertEqual(served, [8081])
++
++    def test_collect_timeout_and_mount_failure_attempt_cleanup(self):
++        executor = self.started()
++        post(executor, 'exec', {**INTENT, 'call': WRITE})
++        post(executor, 'stop', SCOPE)
++        collector = NAME + '-collect'
++        original = self.system.run
++
++        def timeout_after_launch(args, **kwargs):
++            result = original(args, **kwargs)
++            if args[:3] == ['docker', 'run', '-i']:
++                self.assertEqual(executor.store.journals['session'].load()['collector'], collector)
++                raise subprocess.TimeoutExpired(args, 6)
++            return result
++
++        with patch('subprocess.run', side_effect=timeout_after_launch):
++            with self.assertRaises(subprocess.TimeoutExpired):
++                post(executor, 'collect', SCOPE)
++        self.assertFalse(self.system.running)
++        self.assertNotIn('collector', executor.store.journals['session'].load())
++        self.system.mount = completed(1)
++        with self.assertRaisesRegex(RuntimeError, 'SSHFS mount is unavailable'):
++            post(executor, 'collect', SCOPE)
++        self.assertEqual(self.system.calls[-2][0], 'rm')
++        self.assertEqual(self.system.calls[-1][0], 'ps')
++        self.assertNotIn('collector', executor.store.journals['session'].load())
++
++    def test_release_purges_payload_and_remains_idempotent_after_restart(self):
++        executor = self.started()
++        post(executor, 'exec', {**INTENT, 'call': WRITE})
++        journal = self.root / 'executor' / 'session.sqlite'
++        self.assertIn(PAYLOAD.encode(), journal.read_bytes())
++        release = (200, {'cleanup_state': 'confirmed'})
++        self.assertEqual(post(executor, 'release', {}), release)
++        self.assertEqual(post(executor, 'release', {}), release)
++        self.assertFalse(self.system.running)
++        self.assertNotIn(PAYLOAD.encode(), journal.read_bytes())
++
++        restored = self.executor()
++        restored.recover()
++        self.assertEqual(restored.sessions['session'], {'id': 'session', 'generation': 1, 'closed': True})
++        self.assertEqual(post(restored, 'release', {}), release)
++        self.assertEqual(post(restored, 'operation', LOOKUP), (410, {'error': 'released'}))
++        self.assertEqual(post(restored, 'exec', INTENT), (410, {'error': 'released'}))
++
++    def test_no_late_result_after_stop(self):
++        self.check_late_result_after_stop(removal_fails=False)
++
++    def test_no_late_result_after_failed_stop(self):
++        self.check_late_result_after_stop(removal_fails=True)
++
++    def check_late_result_after_stop(self, *, removal_fails):
++        executor = self.started()
++        entered, resume = threading.Event(), threading.Event()
++        errors = []
++
++        def blocked_tool(argv):
++            entered.set()
++            if not resume.wait(2):
++                raise AssertionError('Test never unblocked Docker')
++            return tool_success(argv)
++
++        def execute():
++            try:
++                post(executor, 'exec', INTENT)
++            except Exception as exc:
++                errors.append(exc)
++
++        self.system.tool = blocked_tool
++        thread = threading.Thread(target=execute)
++        thread.start()
++        try:
++            self.assertTrue(entered.wait(2))
++            self.system.removal_fails = removal_fails
++            if removal_fails:
++                with self.assertRaisesRegex(RuntimeError, 'removal failed'):
++                    post(executor, 'stop', SCOPE)
++            else:
++                self.assertEqual(post(executor, 'stop', SCOPE)[1]['cleanup_state'], 'confirmed')
++        finally:
++            resume.set()
++            thread.join(2)
++        self.assertFalse(thread.is_alive())
++        self.assertEqual([str(exc) for exc in errors], ['Run stopped during execution'])
++        self.assertIsInstance(errors[0], Conflict)
++        self.assertIsNone(executor.store.journals['session'].load()['operations']['op']['result'])
++        with self.assertRaisesRegex(Conflict, 'outcome is unknown'):
++            post(executor, 'operation', LOOKUP)
++        self.system.removal_fails = False
++        post(executor, 'stop', SCOPE)
++
++    def application(self):
++        executor = self.executor()
++        transport = InProcessClient(executor)
++        proxy = InProcessClient(ModelProxy(SimpleNamespace(backend='mock')))
++        app = Application(transport, proxy, {'owner': 'test-token'},
++                          self.root / 'app', mount_owner='owner')
++        self.addCleanup(self.close_journals, app)
++        _, session = app.route('owner', 'POST', '/v2/sessions',
++                               {'request_id': 'session', 'grant': 'test-grant'}, {})
++        return app, executor, transport, f"/v2/sessions/{session['id']}"
++
++    def run_app(self, app, path):
++        body = {'request_id': 'run', 'message': 'Use the mock tools'}
++        _, run = app.route('owner', 'POST', path + '/runs', body, {})
++        run_path = path + '/runs/' + run['id']
++        deadline = time.monotonic() + 3
++        while time.monotonic() < deadline:
++            _, run = app.route('owner', 'GET', run_path, {}, {})
++            if run['result'] is not None:
++                return run_path, run
++            time.sleep(.01)
++        self.fail('Application did not reach a terminal result')
++
++    def test_application_recovers_known_lost_replies_by_lookup_only(self):
++        app, executor, transport, path = self.application()
++        transport.drop_exec_reply = True
++        _, run = self.run_app(app, path)
++        self.assertEqual((run['status'], run['cleanup_state']), ('completed', 'confirmed'))
++        wire_ops = [(action, body['op_id']) for action, body in transport.requests
++                    if action in {'exec', 'operation'}]
++        self.assertEqual(len(wire_ops), 4)
++        self.assertEqual([action for action, _ in wire_ops], ['exec', 'operation', 'exec', 'operation'])
++        self.assertEqual(wire_ops[0][1], wire_ops[1][1])
++        self.assertEqual(wire_ops[2][1], wire_ops[3][1])
++        self.assertNotEqual(wire_ops[0][1], wire_ops[2][1])
++        self.assertEqual(len(self.system.tools), 2)
++        self.assertFalse(self.system.running)
++        session = executor.sessions[run['session_id']]
++        self.assertEqual(set(session['operations']), {op for _, op in wire_ops})
++
++    def test_application_interrupts_unknown_operation_and_quarantines_unconfirmed_stop(self):
++        app, _, transport, path = self.application()
++        self.system.tool = lambda argv: completed(1)
++        self.system.removal_fails = True
++        run_path, run = self.run_app(app, path)
++        self.assertEqual(run['result'], dict(status='interrupted', reason='cleanup_unconfirmed',
++                                             answer=None, usage=None, cleanup_state='quarantined'))
++        actions = [action for action, _ in transport.requests]
++        self.assertEqual(actions, ['provision', 'start', 'exec', 'operation', 'stop'])
++        self.assertEqual(transport.requests[2][1]['op_id'], transport.requests[3][1]['op_id'])
++        self.assertEqual(len(self.system.tools), 1)
++        _, events = app.route('owner', 'GET', path + '/events', {}, {})
++        self.assertEqual([event['type'] for event in events].count('run.result'), 1)
++        self.assertFalse(any(event['type'] == 'tool.result' for event in events))
++        with self.assertRaisesRegex(Conflict, 'unavailable'):
++            app.route('owner', 'POST', path + '/runs', {'request_id': 'another', 'message': 'retry'}, {})
++        with self.assertRaisesRegex(Conflict, 'cleanup unconfirmed'):
++            app.route('owner', 'POST', run_path + '/collect', {}, {})
++        with self.assertRaises(RunError):
++            app.route('owner', 'POST', path + '/close', {}, {})
++        self.system.removal_fails = False
++        _, closed = app.route('owner', 'POST', path + '/close', {}, {})
++        self.assertEqual(closed['status'], 'closed')
++        self.assertFalse(self.system.running)
++        self.assertEqual(len(self.system.tools), 1)
++
++    def test_application_interrupts_unknown_operation_after_confirmed_cleanup(self):
++        app, _, transport, path = self.application()
++        self.system.tool = lambda argv: completed(1)
++        _, run = self.run_app(app, path)
++        self.assertEqual(run['result']['status'], 'interrupted')
++        self.assertEqual(run['result']['reason'], 'outcome_unknown')
++        self.assertEqual(run['cleanup_state'], 'confirmed')
++        self.assertEqual([action for action, _ in transport.requests],
++                         ['provision', 'start', 'exec', 'operation', 'stop'])
++        self.assertEqual(len(self.system.tools), 1)
++        self.assertFalse(self.system.running)
++
++
++class LiveFailureRunnerTests(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        path = Path(__file__).parent / 'prototypes/mounted-runtime/live_failure.py'
++        cls.runner = SimpleNamespace(**runpy.run_path(str(path)))
++
++    def test_preflight_blocks_restricted_execution_before_commands(self):
++        with patch.dict(os.environ, {}, clear=True), patch.object(
++                Path, 'read_text', return_value='NoNewPrivs:\t1\n'), patch(
++                'subprocess.run') as command:
++            with self.assertRaisesRegex(RuntimeError, 'NoNewPrivs'):
++                self.runner.preflight()
++        command.assert_not_called()
++
++    def test_preflight_rejects_alternative_docker_routing(self):
++        for environment in ({'DOCKER_CONTEXT': 'another'}, {'DOCKER_HOST': 'tcp://elsewhere:2375'}):
++            with self.subTest(environment=environment), patch.dict(os.environ, environment, clear=True):
++                with patch('subprocess.run') as command:
++                    with self.assertRaisesRegex(RuntimeError, 'Preflight'):
++                        self.runner.preflight()
++                command.assert_not_called()
++
++    def test_io_evidence_requires_post_cut_io_failure(self):
++        evidence = self.runner.io_evidence({'stdout': 'IO_BEGIN\nIO_ERRNO=107\n', 'error_kind': 'command'})
++        self.assertEqual(evidence, {'errno': 107, 'io_timed_out': False})
++        self.assertTrue(self.runner.io_evidence(
++            {'stdout': 'IO_BEGIN\n', 'error_kind': 'timeout'})['io_timed_out'])
++        for worker in (
++                {'stdout': '', 'error_kind': 'timeout'},
++                {'stdout': 'IO_BEGIN\nIO_END\n', 'error_kind': 'timeout'},
++                {'stdout': 'IO_BEGIN\n', 'stderr': 'HANDSHAKE_TIMEOUT', 'error_kind': 'timeout'}):
++            with self.subTest(worker=worker), self.assertRaisesRegex(RuntimeError, 'Inconclusive'):
++                self.runner.io_evidence(worker)
++
++    def test_refused_scope_or_mount_acquisition_never_runs_cleanup_commands(self):
++        for mounts, containers in (([None, None], ['existing-container']), ([None, 'fuse.sshfs'], [])):
++            with self.subTest(mounts=mounts), tempfile.TemporaryDirectory() as root:
++                probe = self.runner.Probe.__new__(self.runner.Probe)
++                probe.root = Path(root)
++                probe.bind_attempted = probe.stack_attempted = False
++                probe.mount_type = Mock(side_effect=mounts)
++                probe.containers = Mock(return_value=containers)
++                probe.command = Mock()
++                with self.assertRaisesRegex(RuntimeError, 'already mounted|existing project'):
++                    probe.exercise()
++                self.assertEqual(probe.cleanup(), {'status': 'not_acquired'})
++                probe.command.assert_not_called()
++
++    def test_diagnostics_failure_still_attempts_owned_stack_cleanup(self):
++        with tempfile.TemporaryDirectory() as root:
++            probe = self.runner.Probe.__new__(self.runner.Probe)
++            probe.root, probe.scope = Path(root), 'test-scope'
++            probe.bind_attempted = probe.stack_attempted = True
++            probe.identities, probe.compose = {}, ['compose']
++            probe.command = Mock(side_effect=[
++                subprocess.TimeoutExpired('logs', 6), completed(), completed(stdout='')])
++            probe.containers = Mock(return_value=[])
++            probe.mount_type = Mock(return_value=None)
++            self.assertEqual(probe.cleanup()['stack_cleanup_exit'], 0)
++            self.assertEqual(probe.command.call_args_list[1].args[0], [self.runner.STACK, 'cleanup'])
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/prototypes/mounted-runtime/live_failure.py b/prototypes/mounted-runtime/live_failure.py
+new file mode 100644
+--- /dev/null
++++ b/prototypes/mounted-runtime/live_failure.py
+@@ -0,0 +1,376 @@
++"""Bounded host-only SSHFS failure check using a fresh synthetic export."""
++import contextlib
++import json
++import os
++import re
++import secrets
++import shlex
++import shutil
++import signal
++import stat
++import subprocess
++import sys
++import time
++import traceback
++from pathlib import Path
++from types import SimpleNamespace
++
++REPOSITORY = Path(__file__).resolve().parents[2]
++sys.path.insert(0, str(REPOSITORY))
++sys.path.insert(0, str(Path(__file__).resolve().parent))
++from track_a import mounted_executor
++from track_a.application import Application
++from track_a.model_proxy import ModelProxy
++from smoke import service
++
++STACK = Path(__file__).with_name('stack.sh')
++LOCAL = ['docker', '--host', 'unix:///var/run/docker.sock']
++IMAGE = 'sha256:0b57fcf6e6b5d59a6a9f3255b89a1f2ba198d1870b63b6ad06d3199e1fb384f6'
++SCRIPT = """
++import os
++import time
++from pathlib import Path
++with open('single-write.txt', 'ab', buffering=0) as output:
++    output.write(b't08-once\\n')
++    os.fsync(output.fileno())
++Path('/tmp/t08-ready').touch()
++deadline = time.monotonic() + 4
++while not Path('/tmp/t08-cut').exists():
++    if time.monotonic() >= deadline:
++        raise RuntimeError('HANDSHAKE_TIMEOUT')
++    time.sleep(.02)
++print('IO_BEGIN', flush=True)
++try:
++    Path('after-cut.txt').read_bytes()
++except OSError as error:
++    print('IO_ERRNO=' + str(error.errno), flush=True)
++    raise
++print('IO_END', flush=True)
++"""
++
++
++def require(condition, message):
++    if not condition:
++        raise RuntimeError(message)
++
++
++def run(args, *, seconds=6, env=None, check=True, log=None):
++    result = subprocess.run(list(map(str, args)), capture_output=True, text=True,
++                            timeout=seconds, env=env, cwd=REPOSITORY)
++    if log:
++        log.write(json.dumps(dict(command=list(map(str, args)), returncode=result.returncode,
++                                  stdout=result.stdout, stderr=result.stderr)) + '\n')
++        log.flush()
++    if check:
++        require(result.returncode == 0, f'Command failed ({result.returncode}): {args}')
++    return result
++
++
++def preflight():
++    require(not os.environ.get('DOCKER_CONTEXT'), 'Preflight rejects DOCKER_CONTEXT')
++    require(os.environ.get('DOCKER_HOST', 'unix:///var/run/docker.sock') == 'unix:///var/run/docker.sock',
++            'Preflight requires the local Docker socket')
++    status = Path('/proc/self/status').read_text()
++    require(re.search(r'^NoNewPrivs:\s+0$', status, re.M), 'Preflight blocked: NoNewPrivs must be 0')
++    require(os.getuid() == 1000, 'Preflight requires the synthetic exporter UID 1000')
++    require(Path('/dev/fuse').exists() and stat.S_ISCHR(Path('/dev/fuse').stat().st_mode),
++            'Preflight requires the host /dev/fuse character device')
++    for binary in ('docker', 'sudo', 'timeout', 'findmnt', 'mount', 'umount', 'ssh-keygen',
++                   'realpath', 'sha256sum', 'cut', 'sort', 'grep'):
++        require(shutil.which(binary), f'Missing host command: {binary}')
++    run([*LOCAL, 'info', '--format', '{{.ServerVersion}}'])
++    run([*LOCAL, 'compose', 'version'])
++    image = run([*LOCAL, 'image', 'inspect', 'course-feasibility:2026-11-06',
++                 '--format', '{{.Id}}']).stdout.strip()
++    require(image == IMAGE, 'Unexpected diagnostic image; no pull/build is performed')
++    run([*LOCAL, 'image', 'inspect', 'agentic-sandbox:cpu-v1', '--format', '{{.Id}}'])
++    run(['sudo', '-n', '-v'])
++
++
++def process_identity(pid):
++    try:
++        return Path('/proc', str(pid), 'stat').read_text().rsplit(')', 1)[1].split()[19]
++    except FileNotFoundError:
++        return None
++
++
++def io_evidence(worker):
++    output = worker.get('stdout', '')
++    require('HANDSHAKE_TIMEOUT' not in worker.get('stderr', ''), 'Inconclusive: handshake timed out')
++    require('IO_BEGIN\n' in output, 'Inconclusive: command did not reach I/O after cut')
++    errno = re.search(r'^IO_ERRNO=(\d+)$', output, re.M)
++    blocked = worker.get('error_kind') == 'timeout' and 'IO_END\n' not in output
++    require(errno or blocked, 'Inconclusive: no I/O errno or unfinished I/O at worker timeout')
++    return {'errno': int(errno[1]) if errno else None, 'io_timed_out': blocked}
++
++
++class CutProxy(ModelProxy):
++    @staticmethod
++    def mock(messages):
++        if messages[-1]['content'] == 't08-live-cut':
++            return {'calls': [{'id': 'cut', 'tool': 'RunCommand',
++                               'args': {'command': 'exec python3 -c ' + shlex.quote(SCRIPT)}}]}
++        return ModelProxy.mock(messages)
++
++
++class Probe:
++    def __init__(self, root, log):
++        self.root, self.log = root, log
++        self.env = {**os.environ, 'PROBE_ROOT': str(root), 'DOCKER_HOST': 'unix:///var/run/docker.sock'}
++        self.env.pop('DOCKER_CONTEXT', None)
++        self.scope = self.command([STACK, 'scope']).stdout.strip()
++        self.compose = [*LOCAL, 'compose', '--env-file', '/dev/null', '-p', self.scope,
++                        '-f', STACK.with_name('compose.yaml'), '-f', root / 'workspace.json']
++        self.identities = {}
++        self.bind_attempted = False
++        self.stack_attempted = False
++
++    def command(self, args, **kwargs):
++        return run(args, env=kwargs.pop('env', self.env), log=self.log, **kwargs)
++
++    def privileged(self, *args):
++        return self.command(['sudo', '-n', 'timeout', '-k', '2', '6', *args], seconds=10)
++
++    def containers(self):
++        ids = set()
++        for label in ('com.docker.compose.project=' + self.scope, 'agentic.scope=mounted-' + self.scope):
++            ids.update(self.command([*LOCAL, 'ps', '-aq', '--filter', 'label=' + label]).stdout.split())
++        return sorted(ids)
++
++    def remember_processes(self):
++        for container in self.containers():
++            running = self.command([*LOCAL, 'inspect', container, '--format', '{{.State.Running}}']).stdout.strip()
++            if running == 'true':
++                self.remember_container(container)
++
++    def remember_container(self, container):
++        identities = {}
++        output = self.command([*LOCAL, 'top', container, '-eo', 'pid,args']).stdout
++        for line in output.splitlines()[1:]:
++            pid = line.split()[0]
++            require(pid.isdigit(), 'Invalid host PID from docker top')
++            identity = process_identity(pid)
++            require(identity is not None, 'Inconclusive: process exited before PID identity capture')
++            self.identities[pid] = identity
++            identities[pid] = identity
++        (self.root / 'owned-processes.json').write_text(json.dumps(self.identities, indent=2))
++        return identities
++
++    def mount_type(self, path):
++        result = self.command(['findmnt', '-rnC', '--mountpoint', path, '-o', 'FSTYPE'], check=False)
++        require(result.returncode in (0, 1), 'Cannot inspect exact mountpoint')
++        return result.stdout.strip() if result.returncode == 0 else None
++
++    def cleanup(self):
++        if not self.bind_attempted and not self.stack_attempted:
++            return {'status': 'not_acquired'}
++        # Preserve service diagnostics before stack.sh removes this exact project.
++        cleanup_exit = None
++        if self.stack_attempted:
++            try:
++                self.command([*self.compose, 'logs', '--no-color', '--tail', '100'], check=False)
++                self.remember_processes()
++            except BaseException:
++                (self.root / 'diagnostic-failure.txt').write_text(traceback.format_exc())
++            cleanup = self.command([STACK, 'cleanup'], seconds=45, check=False)
++            cleanup_exit = cleanup.returncode
++            require(not self.containers(), 'Cleanup left owned containers')
++            networks = self.command([*LOCAL, 'network', 'ls', '-q', '--filter',
++                                     'label=com.docker.compose.project=' + self.scope]).stdout.strip()
++            require(not networks, 'Cleanup left project networks')
++        child = self.root / 'mount/work'
++        child_type = self.mount_type(child)
++        if child_type is not None:
++            require(self.stack_attempted, 'Refusing to unmount an unowned child mount')
++            require(child_type == 'fuse.sshfs', 'Refusing to unmount an unexpected child mount')
++            self.privileged('umount', '--', child)
++        require(self.mount_type(child) is None, 'SSHFS mount remains')
++        parent = self.root / 'mount'
++        if self.bind_attempted and self.mount_type(parent) is not None:
++            self.privileged('umount', '--', parent)
++        require(self.mount_type(parent) is None, 'Self-bind remains')
++        deadline = time.monotonic() + 3
++        while time.monotonic() < deadline:
++            remaining = [pid for pid, identity in self.identities.items() if process_identity(pid) == identity]
++            if not remaining:
++                break
++            time.sleep(.05)
++        require(not remaining, 'Owned host processes remain: ' + repr(remaining))
++        written = self.root / 'client/single-write.txt'
++        if written.exists():
++            require(written.read_bytes() == b't08-once\n', 'Client file changed during cleanup')
++        return {'containers': [], 'networks': [], 'mounts': [], 'owned_processes': [],
++                'stack_cleanup_exit': cleanup_exit}
++
++    def exercise(self):
++        require(self.mount_type(self.root / 'mount') is None, 'Fresh self-bind path already mounted')
++        require(self.mount_type(self.root / 'mount/work') is None, 'Fresh child path already mounted')
++        require(not self.containers(), 'Refusing to acquire an existing project or runtime scope')
++        networks = self.command([*LOCAL, 'network', 'ls', '-q', '--filter',
++                                 'label=com.docker.compose.project=' + self.scope]).stdout.strip()
++        require(not networks, 'Refusing to acquire an existing project network')
++        (self.root / 'client/after-cut.txt').write_text('synthetic-after-cut\n')
++        self.bind_attempted = True
++        self.privileged('mount', '--bind', self.root / 'mount', self.root / 'mount')
++        self.privileged('mount', '--make-rshared', self.root / 'mount')
++        self.stack_attempted = True
++        self.command([STACK, 'up'], seconds=35)
++        self.remember_processes()
++        ids = self.command([*self.compose, 'ps', '-q', 'exporter']).stdout.split()
++        require(len(ids) == 1 and re.fullmatch(r'[0-9a-f]{12,64}', ids[0]), 'No unique exporter ID')
++        exporter = ids[0]
++        inspection = json.loads(self.command([*LOCAL, 'inspect', exporter]).stdout)[0]
++        labels = inspection['Config']['Labels']
++        require(labels.get('com.docker.compose.project') == self.scope and
++                labels.get('com.docker.compose.service') == 'exporter', 'Exporter ownership mismatch')
++        root = self.root
++        executor = mounted_executor.MountedExecutor(str(root / 'mount/work'), 'live-grant', self.scope,
++                                                    'agentic-sandbox:cpu-v1', root / 'execution-state')
++        executor.recover()
++        worker_results = []
++        real_docker = mounted_executor.docker
++
++        def observed_docker(*args, **kwargs):
++            # Observe the real Docker call unchanged, including worker output lost at the API boundary.
++            try:
++                result = real_docker(*args, **kwargs)
++            except subprocess.TimeoutExpired as error:
++                if args[:2] == ('exec', '-i'):
++                    def decoded(value):
++                        return value.decode(errors='replace') if isinstance(value, bytes) else value or ''
++                    result = SimpleNamespace(returncode=None, stdout=decoded(error.stdout),
++                                             stderr=decoded(error.stderr))
++                    worker_results.append(result)
++                    self.log.write(json.dumps(dict(worker_transport_timeout=True,
++                                                   stdout=result.stdout, stderr=result.stderr)) + '\n')
++                    self.log.flush()
++                raise
++            if args[:2] == ('exec', '-i'):
++                worker_results.append(result)
++                self.log.write(json.dumps(dict(worker_returncode=result.returncode,
++                                               stdout=result.stdout, stderr=result.stderr)) + '\n')
++                self.log.flush()
++            return result
++
++        mounted_executor.docker = observed_docker
++        try:
++            with contextlib.ExitStack() as services:
++                owner = secrets.token_hex(24)
++                backend = services.enter_context(service(executor, secrets.token_hex(24)))
++                model = services.enter_context(service(CutProxy(SimpleNamespace(backend='mock')), secrets.token_hex(24)))
++                app = Application(backend, model, {'local': owner}, root / 'app-state', mount_owner='local')
++                api = services.enter_context(service(app, owner))
++
++                def cli(*args):
++                    return self.command([sys.executable, '-m', 'track_a.cli', '--url', api.base, *args],
++                                        seconds=12, env={**self.env, 'PROBE_TOKEN': owner}).stdout.strip()
++
++                sid = cli('mount-new', 'live-grant')
++                rid = cli('run', sid, 't08-live-cut')
++                runner = f'agentic-mounted-{sid}-{rid}'
++                deadline = time.monotonic() + 3
++                while True:
++                    probe = self.command([*LOCAL, 'exec', '--workdir', '/tmp', runner, 'test', '-f', '/tmp/t08-ready'],
++                                         seconds=2, check=False)
++                    if probe.returncode == 0:
++                        break
++                    require(time.monotonic() < deadline, 'Inconclusive: command did not reach handshake')
++                    time.sleep(.03)
++                require((root / 'client/single-write.txt').read_bytes() == b't08-once\n', 'First write is not unique')
++                runner_pids = self.remember_container(runner)
++                accepted = executor.store.journals[sid].load()
++                require(len(accepted['operations']) == 1, 'Expected one durable operation')
++                operation = next(iter(accepted['operations'].values()))
++                require(operation['result'] is None, 'Operation completed before SSHFS cut')
++                self.command([*LOCAL, 'stop', '--time', '1', exporter], seconds=4)
++                stopped = self.command([*LOCAL, 'inspect', exporter, '--format', '{{.State.Running}}']).stdout.strip()
++                require(stopped == 'false', 'Exporter stop was not confirmed')
++                self.command([*LOCAL, 'exec', '--workdir', '/tmp', runner, 'touch', '/tmp/t08-cut'], seconds=2)
++                result = api.wait_run(sid, rid, 12)['result']
++                (root / 'run-result.json').write_text(json.dumps(result, indent=2))
++                require(len(worker_results) == 1, 'Unexpected number of executed worker operations')
++                raw = worker_results[0]
++                worker = json.loads(raw.stdout)
++                evidence = io_evidence(worker)
++                require(result['status'] == 'interrupted' and result['reason'] == 'outcome_unknown',
++                        'Actual mount cut did not produce the required unknown operation outcome')
++                require(result['cleanup_state'] == 'confirmed', 'Application stop was not confirmed')
++                remaining = self.command([*LOCAL, 'ps', '-aq', '--filter', 'name=^/' + runner + '$']).stdout.split()
++                live_pids = [pid for pid, identity in runner_pids.items() if process_identity(pid) == identity]
++                (root / 'product-stop-check.json').write_text(json.dumps(
++                    {'containers': remaining, 'processes': live_pids}, indent=2))
++                require(not remaining and not live_pids, 'Product stop left a sandbox or owned process')
++                private_path = f'/mounted/{sid}'
++                op_id = next(iter(accepted['operations']))
++                request = operation['request']
++                for path, body in (
++                    ('operation', {'generation': 1, 'op_id': op_id}),
++                    ('exec', request), ('exec', {**request, 'op_id': 'new-op'}),
++                ):
++                    status, _ = backend.request('POST', private_path + '/' + path, body, timeout=3)
++                    require(status == 409, 'Operation was replayed or unknown result was confirmed')
++                require(len(worker_results) == 1, 'A duplicate operation reached the worker')
++                require(backend.request('POST', private_path + '/stop',
++                                        {'generation': 1, 'run_id': rid}, timeout=3) ==
++                        (200, {'cleanup_state': 'confirmed'}), 'Idempotent stop failed')
++                require((root / 'client/single-write.txt').read_bytes() == b't08-once\n', 'Replay changed client file')
++                cli('session-close', sid)
++                return {'status': 'passed', 'scope': self.scope, 'session': sid, 'run': rid,
++                        'exporter': exporter, 'single_write_bytes': 9, 'worker_dispatches': len(worker_results),
++                        'io': evidence, 'run_result': result}
++        finally:
++            mounted_executor.docker = real_docker
++            executor.containers.journal.db.close()
++            for journal in executor.store.journals.values():
++                journal.db.close()
++
++
++def main():
++    def interrupted(*_):
++        raise KeyboardInterrupt()
++
++    def deadline_exceeded(*_):
++        raise TimeoutError('Probe deadline exceeded')
++
++    signal.signal(signal.SIGTERM, interrupted)
++    try:
++        preflight()
++    except Exception as error:
++        print(json.dumps({'status': 'blocked', 'phase': 'preflight', 'error': str(error)}), flush=True)
++        return 2
++    os.environ['DOCKER_HOST'] = 'unix:///var/run/docker.sock'
++    os.environ.pop('DOCKER_CONTEXT', None)
++    prepared = run([sys.executable, STACK.with_name('prepare.py')]).stdout.strip()
++    require(re.fullmatch(r'/tmp/agentic-mounted-runtime\.[a-z0-9_]{8}', prepared), 'Unexpected synthetic root')
++    root = Path(prepared)
++    require(root.resolve() == root and root.stat().st_uid == os.getuid() and
++            (root / 'marker').read_text() == 'agentic-mounted-runtime\n', 'Invalid synthetic root ownership')
++    print('Evidence directory: ' + str(root), flush=True)
++    signal.signal(signal.SIGALRM, deadline_exceeded)
++    signal.alarm(100)
++    result = {'status': 'failed', 'root': str(root)}
++    with (root / 'live-failure.jsonl').open('a') as log:
++        probe = None
++        try:
++            probe = Probe(root, log)
++            result.update(probe.exercise())
++        except BaseException:
++            (root / 'failure.txt').write_text(traceback.format_exc())
++        finally:
++            signal.alarm(90)
++            try:
++                if probe is not None:
++                    result['ownership'] = {'bind_attempted': probe.bind_attempted,
++                                           'stack_attempted': probe.stack_attempted}
++                    result['cleanup'] = probe.cleanup()
++            except BaseException:
++                result['status'] = 'failed'
++                (root / 'cleanup-failure.txt').write_text(traceback.format_exc())
++            (root / 'live-failure-summary.json').write_text(json.dumps(result, indent=2))
++            signal.alarm(0)
++    print(json.dumps(result), flush=True)
++    return 0 if result['status'] == 'passed' else 1
++
++
++if __name__ == '__main__':
++    sys.exit(main())

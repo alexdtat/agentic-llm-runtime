@@ -70,3 +70,74 @@ sudo umount -- "$PROBE_ROOT/mount"
   всех файлов, квоту записи, враждебное изменение экспортируемого дерева
   клиентом и прерывание уже зависшего I/O. Ресурсные лимиты относятся к
   контейнерам, у клиентской папки файловой квоты нет.
+
+Проверки отказов без Docker, FUSE и сетевых соединений запускаются из корня checkout.
+Они используют настоящие MountedExecutor, Application и mock ModelProxy, подменяя
+findmnt, Docker CLI и private transport. Отдельный дочерний Python-процесс завершает
+себя после durable intent и синтетического побочного эффекта для проверки recovery.
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_mounted_runtime test_mounted_failures
+```
+
+Покрыты отказ start, неизвестный исход команды, восстановление и дедупликация,
+потерянный ответ, отказ cleanup, quarantine, collect и очистка payload при release.
+После неуспешного start/stop новый exec блокируется. Незавершённая очистка collect
+сохраняется в журнале и блокирует start/release до подтверждённого удаления.
+При рестарте исполнитель удаляет оставшиеся контейнеры своего scope до открытия API. Отсутствующий mount
+отражается в health и блокирует новый start, lookup/stop/release остаются доступны.
+Проверка health определяет только наличие записи fuse.sshfs через findmnt.
+
+Эти offline проверки моделируют инфраструктурные ответы. Реальный обрыв SSHFS,
+cached/disconnected FUSE, зависший I/O и исчезновение всех процессов после cleanup
+требуют live-проверки. Само наличие mountinfo и успешный stat('/work') не доказывают,
+что удалённый экспорт доступен. Свидетельства T08 сохранены в
+results/t08-mounted-failures/report.md.
+
+На обычном согласованном Linux-хосте фактический обрыв SSHFS проверяется одной
+командой из корня checkout. Нужны UID 1000, `/dev/fuse`, доступ к локальному Docker,
+Compose и уже готовые образы из описания выше. Для точных mount/umount требуется
+действующий sudo timestamp. При необходимости выполните `sudo -v` в своём терминале
+перед запуском. Runner использует только `sudo -n` и не запрашивает пароль.
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python3 prototypes/mounted-runtime/live_failure.py
+```
+
+Runner сначала выполняет preflight. `NoNewPrivs=1`, иной Docker host/context,
+недоступный daemon/FUSE или отсутствующий cached image останавливают проверку до
+создания стенда. После успешного preflight весь процесс закреплён за локальным
+Docker socket. Затем `prepare.py` без `--client` создаёт только синтетический экспорт
+под уникальным `/tmp/agentic-mounted-runtime.*`, а `stack.sh` поднимает его ресурсы.
+Существующие mounts, контейнеры или сеть вычисленного scope отклоняются до захвата
+ресурсов. Cleanup ограничен успешно захваченными путями и scope.
+
+Реальная команда через CLI/Application/mock/MountedExecutor один раз записывает
+9 байт в `single-write.txt`, делает fsync и ждёт handshake в sandbox `/tmp`.
+Runner подтверждает владение exporter по Docker labels, останавливает только его
+точный ID, подтверждает остановку и разрешает команде читать `after-cut.txt` через
+SSHFS. У управляющих docker exec задан `--workdir /tmp`. Для успешного результата
+нужны marker `IO_BEGIN` после подтверждённого обрыва и errno операции либо отсутствие
+завершения I/O до штатного worker timeout. Таймаут handshake, потерянный вывод или
+успешное чтение без свидетельства I/O failure дают ошибку/inconclusive.
+Продуктовые лимиты команды не меняются.
+
+Проверка требует реального unknown outcome, отказа lookup/повторного exec/нового
+op_id этого run, единственной записи и подтверждённого stop. До аварийного общего
+cleanup отдельно проверяется исчезновение sandbox и его host PID со starttime,
+чтобы cleanup стенда не скрывал ошибку product stop. Наблюдающая обёртка сохраняет
+настоящие ответы Docker worker и partial stdout при транспортном timeout, передавая
+их исполнителю без изменений. Инфраструктурные результаты в этом runner реальные.
+HTTP токены случайны и не записываются в логи.
+
+На stdout печатается каталог свидетельств. В нём сохраняются `live-failure.jsonl`,
+`run-result.json`, `product-stop-check.json`, `owned-processes.json` и
+`live-failure-summary.json`. При ошибке сохраняются traceback и результат cleanup.
+Probe ограничен 100 секундами, cleanup — дополнительными 90. В finally вызывается
+`stack.sh cleanup`, затем проверяются отсутствие принадлежащих стенду контейнеров,
+сетей, SSHFS/self-bind mounts и сохранённых PID identities. Остаточный точный SSHFS
+mount снимается обычным umount только после подтверждённого отсутствия контейнеров
+и сети. При неполном cleanup итог остаётся failed, диагностический каталог сохраняется.
+Exit 0 означает все проверки и cleanup подтверждены, exit 1 — ошибка/inconclusive,
+exit 2 — preflight blocked. Текущий workspace отклонён на preflight по NoNewPrivs,
+свидетельство находится в `results/t08-mounted-failures/live-preflight.log`.

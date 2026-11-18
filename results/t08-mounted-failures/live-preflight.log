@@ -1,0 +1,1 @@
+{"status": "blocked", "phase": "preflight", "error": "Preflight blocked: NoNewPrivs must be 0"}
