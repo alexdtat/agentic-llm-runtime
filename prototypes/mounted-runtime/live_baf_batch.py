@@ -33,7 +33,7 @@ SOURCE_ROOTS = ('track_a', 'prototypes/mounted-runtime', 'prototypes/mount-runti
 def loopback(url):
     address = urlsplit(url)
     require(not any(ch.isspace() or ch == '\\' for ch in url) and address.scheme == 'http'
-            and address.hostname and not address.username and address.password is None
+            and address.hostname and address.username is None and address.password is None
             and address.port and address.path in ('/v1', '/v1/') and not address.query and not address.fragment
             and ipaddress.ip_address(address.hostname).is_loopback, 'Use an explicit HTTP loopback /v1 endpoint')
     return url.rstrip('/')
@@ -49,6 +49,7 @@ def discover_model(base, selected):
         require(len(raw) <= MAX_CATALOG, 'Model catalog exceeds the limit')
         models = sorted({item['id'] for item in json.loads(raw)['data']})
     except HTTPError as error:
+        error.close()
         raise RuntimeError(f'Local model catalog returned HTTP {error.code}') from None
     except (OSError, ValueError, KeyError, TypeError) as error:
         raise RuntimeError('Could not verify the local model catalog: ' + type(error).__name__) from None
@@ -78,6 +79,7 @@ class ObservedModel(Model):
             self.failure = {'kind': type(error).__name__}
             if isinstance(error, HTTPError):
                 self.failure['http_status'] = error.code
+                error.close()
             raise
 
 
