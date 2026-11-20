@@ -1,0 +1,477 @@
+[
+  {
+    "task": "B1.1",
+    "repeat": 1,
+    "grade": {
+      "outcome": "fail",
+      "pass": false,
+      "reason": "invalid_model_action"
+    },
+    "events": [
+      {
+        "seq": 1,
+        "t_seconds": 0.0,
+        "event": "run.status",
+        "status": "queued"
+      },
+      {
+        "seq": 2,
+        "t_seconds": 0.311,
+        "event": "run.status",
+        "status": "running"
+      },
+      {
+        "seq": 3,
+        "t_seconds": 0.3112,
+        "event": "model.started",
+        "step": 0
+      },
+      {
+        "seq": 4,
+        "t_seconds": 1.3853,
+        "event": "model.completed",
+        "step": 0,
+        "usage": {
+          "prompt_tokens": 161,
+          "total_tokens": 290,
+          "completion_tokens": 129
+        }
+      },
+      {
+        "seq": 5,
+        "t_seconds": 1.3855,
+        "event": "tool.started",
+        "op_id": "de58aad4e31049a89655a4742ea09789",
+        "tool": "RunCommand",
+        "call_id": "explore-1"
+      },
+      {
+        "seq": 6,
+        "t_seconds": 1.5858,
+        "event": "tool.result",
+        "op_id": "de58aad4e31049a89655a4742ea09789",
+        "exit_code": 0,
+        "error_kind": null,
+        "truncated": false
+      },
+      {
+        "seq": 7,
+        "t_seconds": 1.586,
+        "event": "tool.started",
+        "op_id": "4ff1b11c228e4cae97f14dc3a4abc21c",
+        "tool": "RunCommand",
+        "call_id": "explore-2"
+      },
+      {
+        "seq": 8,
+        "t_seconds": 1.754,
+        "event": "tool.result",
+        "op_id": "4ff1b11c228e4cae97f14dc3a4abc21c",
+        "exit_code": 127,
+        "error_kind": "command_failure",
+        "truncated": false
+      },
+      {
+        "seq": 9,
+        "t_seconds": 1.7542,
+        "event": "model.started",
+        "step": 1
+      },
+      {
+        "seq": 10,
+        "t_seconds": 2.6285,
+        "event": "run.status",
+        "status": "finalizing"
+      },
+      {
+        "seq": 11,
+        "t_seconds": 2.7075,
+        "event": "run.result",
+        "status": "failed",
+        "reason": "upstream_rejected",
+        "usage": null,
+        "cleanup_state": "confirmed"
+      }
+    ]
+  },
+  {
+    "task": "B1.1",
+    "repeat": 2,
+    "grade": {
+      "outcome": "pass",
+      "pass": true,
+      "reason": "ok"
+    },
+    "events": [
+      {
+        "seq": 1,
+        "t_seconds": 0.0,
+        "event": "run.status",
+        "status": "queued"
+      },
+      {
+        "seq": 2,
+        "t_seconds": 0.3248,
+        "event": "run.status",
+        "status": "running"
+      },
+      {
+        "seq": 3,
+        "t_seconds": 0.3251,
+        "event": "model.started",
+        "step": 0
+      },
+      {
+        "seq": 4,
+        "t_seconds": 1.2992,
+        "event": "model.completed",
+        "step": 0,
+        "usage": {
+          "prompt_tokens": 161,
+          "total_tokens": 290,
+          "completion_tokens": 129
+        }
+      },
+      {
+        "seq": 5,
+        "t_seconds": 1.2994,
+        "event": "tool.started",
+        "op_id": "12a945ebb84546b9ab0013c46ab72a11",
+        "tool": "RunCommand",
+        "call_id": "explore-1"
+      },
+      {
+        "seq": 6,
+        "t_seconds": 1.4726,
+        "event": "tool.result",
+        "op_id": "12a945ebb84546b9ab0013c46ab72a11",
+        "exit_code": 0,
+        "error_kind": null,
+        "truncated": false
+      },
+      {
+        "seq": 7,
+        "t_seconds": 1.4728,
+        "event": "tool.started",
+        "op_id": "3e0c305865be4281bdda09c2ea94ef43",
+        "tool": "RunCommand",
+        "call_id": "explore-2"
+      },
+      {
+        "seq": 8,
+        "t_seconds": 1.6518,
+        "event": "tool.result",
+        "op_id": "3e0c305865be4281bdda09c2ea94ef43",
+        "exit_code": 127,
+        "error_kind": "command_failure",
+        "truncated": false
+      },
+      {
+        "seq": 9,
+        "t_seconds": 1.6519,
+        "event": "model.started",
+        "step": 1
+      },
+      {
+        "seq": 10,
+        "t_seconds": 2.7,
+        "event": "model.completed",
+        "step": 1,
+        "usage": {
+          "prompt_tokens": 519,
+          "total_tokens": 630,
+          "completion_tokens": 111
+        }
+      },
+      {
+        "seq": 11,
+        "t_seconds": 2.7003,
+        "event": "tool.started",
+        "op_id": "50d2db060f0e4033a79a086c8773749e",
+        "tool": "ReadFile",
+        "call_id": "read-readme"
+      },
+      {
+        "seq": 12,
+        "t_seconds": 3.0377,
+        "event": "tool.result",
+        "op_id": "50d2db060f0e4033a79a086c8773749e",
+        "exit_code": 0,
+        "error_kind": null,
+        "truncated": false
+      },
+      {
+        "seq": 13,
+        "t_seconds": 3.0379,
+        "event": "tool.started",
+        "op_id": "7719e21445694712964fe452185c3d82",
+        "tool": "RunCommand",
+        "call_id": "list-files"
+      },
+      {
+        "seq": 14,
+        "t_seconds": 3.2066,
+        "event": "tool.result",
+        "op_id": "7719e21445694712964fe452185c3d82",
+        "exit_code": 0,
+        "error_kind": null,
+        "truncated": false
+      },
+      {
+        "seq": 15,
+        "t_seconds": 3.2068,
+        "event": "model.started",
+        "step": 2
+      },
+      {
+        "seq": 16,
+        "t_seconds": 4.9111,
+        "event": "model.completed",
+        "step": 2,
+        "usage": {
+          "prompt_tokens": 797,
+          "total_tokens": 993,
+          "completion_tokens": 196
+        }
+      },
+      {
+        "seq": 17,
+        "t_seconds": 4.9113,
+        "event": "tool.started",
+        "op_id": "1c24b415013c4dcb9428563afffb2a34",
+        "tool": "ReadFile",
+        "call_id": "read-config"
+      },
+      {
+        "seq": 18,
+        "t_seconds": 5.2459,
+        "event": "tool.result",
+        "op_id": "1c24b415013c4dcb9428563afffb2a34",
+        "exit_code": 0,
+        "error_kind": null,
+        "truncated": false
+      },
+      {
+        "seq": 19,
+        "t_seconds": 5.2461,
+        "event": "tool.started",
+        "op_id": "98fd70e8a7754fe0b2ad5a06daa6c9ef",
+        "tool": "ReadFile",
+        "call_id": "read-main"
+      },
+      {
+        "seq": 20,
+        "t_seconds": 5.5894,
+        "event": "tool.result",
+        "op_id": "98fd70e8a7754fe0b2ad5a06daa6c9ef",
+        "exit_code": 0,
+        "error_kind": null,
+        "truncated": false
+      },
+      {
+        "seq": 21,
+        "t_seconds": 5.5896,
+        "event": "model.started",
+        "step": 3
+      },
+      {
+        "seq": 22,
+        "t_seconds": 8.3784,
+        "event": "model.completed",
+        "step": 3,
+        "usage": {
+          "prompt_tokens": 1233,
+          "total_tokens": 1580,
+          "completion_tokens": 347
+        }
+      },
+      {
+        "seq": 23,
+        "t_seconds": 8.3786,
+        "event": "tool.started",
+        "op_id": "79cd0c19ff794c16ad2dae70bd84d33e",
+        "tool": "RunCommand",
+        "call_id": "decode-config"
+      },
+      {
+        "seq": 24,
+        "t_seconds": 8.545,
+        "event": "tool.result",
+        "op_id": "79cd0c19ff794c16ad2dae70bd84d33e",
+        "exit_code": 2,
+        "error_kind": "command_failure",
+        "truncated": false
+      },
+      {
+        "seq": 25,
+        "t_seconds": 8.5453,
+        "event": "tool.started",
+        "op_id": "da4515750fb74bceab79af62fba3e24b",
+        "tool": "RunCommand",
+        "call_id": "decode-main"
+      },
+      {
+        "seq": 26,
+        "t_seconds": 8.7403,
+        "event": "tool.result",
+        "op_id": "da4515750fb74bceab79af62fba3e24b",
+        "exit_code": 2,
+        "error_kind": "command_failure",
+        "truncated": false
+      },
+      {
+        "seq": 27,
+        "t_seconds": 8.7405,
+        "event": "model.started",
+        "step": 4
+      },
+      {
+        "seq": 28,
+        "t_seconds": 9.8304,
+        "event": "model.completed",
+        "step": 4,
+        "usage": {
+          "prompt_tokens": 1681,
+          "total_tokens": 1781,
+          "completion_tokens": 100
+        }
+      },
+      {
+        "seq": 29,
+        "t_seconds": 9.8308,
+        "event": "tool.started",
+        "op_id": "db448d85d2034fd7b137650e1c058edd",
+        "tool": "RunCommand",
+        "call_id": "cat-config"
+      },
+      {
+        "seq": 30,
+        "t_seconds": 10.0134,
+        "event": "tool.result",
+        "op_id": "db448d85d2034fd7b137650e1c058edd",
+        "exit_code": 0,
+        "error_kind": null,
+        "truncated": false
+      },
+      {
+        "seq": 31,
+        "t_seconds": 10.0136,
+        "event": "tool.started",
+        "op_id": "667c3fdfc4c649eda4c5c6555a68aaf9",
+        "tool": "RunCommand",
+        "call_id": "cat-main"
+      },
+      {
+        "seq": 32,
+        "t_seconds": 10.212,
+        "event": "tool.result",
+        "op_id": "667c3fdfc4c649eda4c5c6555a68aaf9",
+        "exit_code": 0,
+        "error_kind": null,
+        "truncated": false
+      },
+      {
+        "seq": 33,
+        "t_seconds": 10.2123,
+        "event": "model.started",
+        "step": 5
+      },
+      {
+        "seq": 34,
+        "t_seconds": 11.4655,
+        "event": "model.completed",
+        "step": 5,
+        "usage": {
+          "prompt_tokens": 2073,
+          "total_tokens": 2223,
+          "completion_tokens": 150
+        }
+      },
+      {
+        "seq": 35,
+        "t_seconds": 11.4658,
+        "event": "tool.started",
+        "op_id": "32daee0d295745fb98e9d6771505f12d",
+        "tool": "RunCommand",
+        "call_id": "write-answer"
+      },
+      {
+        "seq": 36,
+        "t_seconds": 11.6426,
+        "event": "tool.result",
+        "op_id": "32daee0d295745fb98e9d6771505f12d",
+        "exit_code": 0,
+        "error_kind": null,
+        "truncated": false
+      },
+      {
+        "seq": 37,
+        "t_seconds": 11.6428,
+        "event": "model.started",
+        "step": 6
+      },
+      {
+        "seq": 38,
+        "t_seconds": 12.1278,
+        "event": "model.completed",
+        "step": 6,
+        "usage": {
+          "prompt_tokens": 2179,
+          "total_tokens": 2209,
+          "completion_tokens": 30
+        }
+      },
+      {
+        "seq": 39,
+        "t_seconds": 12.1281,
+        "event": "run.status",
+        "status": "finalizing"
+      },
+      {
+        "seq": 40,
+        "t_seconds": 12.1941,
+        "event": "run.result",
+        "status": "completed",
+        "reason": null,
+        "usage": [
+          {
+            "prompt_tokens": 161,
+            "total_tokens": 290,
+            "completion_tokens": 129
+          },
+          {
+            "prompt_tokens": 519,
+            "total_tokens": 630,
+            "completion_tokens": 111
+          },
+          {
+            "prompt_tokens": 797,
+            "total_tokens": 993,
+            "completion_tokens": 196
+          },
+          {
+            "prompt_tokens": 1233,
+            "total_tokens": 1580,
+            "completion_tokens": 347
+          },
+          {
+            "prompt_tokens": 1681,
+            "total_tokens": 1781,
+            "completion_tokens": 100
+          },
+          {
+            "prompt_tokens": 2073,
+            "total_tokens": 2223,
+            "completion_tokens": 150
+          },
+          {
+            "prompt_tokens": 2179,
+            "total_tokens": 2209,
+            "completion_tokens": 30
+          }
+        ],
+        "cleanup_state": "confirmed"
+      }
+    ]
+  }
+]

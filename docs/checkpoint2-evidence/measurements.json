@@ -1,0 +1,191 @@
+{
+  "status": "passed",
+  "method": {
+    "A-3.6": "monotonic timing inside RunCommand on SSHFS /work; reused fixture, no cache flush",
+    "A-5.6": "fresh sandbox start to mount-ready; no-op executor route wall time; idle sandbox cgroup v2 memory.current after readiness, before exec",
+    "scope": "one desktop host, one already-running Docker daemon and one SSHFS stack across repeats",
+    "exclusions": "SSHFS/Docker stack startup and shared daemon/broker/host memory",
+    "p95": "nearest rank"
+  },
+  "samples": [
+    {
+      "repeat": 1,
+      "cold_start_ns": 274168711,
+      "idle_sandbox_cgroup_bytes": 10526720,
+      "exec_noop_ns": 174720005,
+      "stat_ns": 364012,
+      "tree_walk_ns": 6948691,
+      "small_reads_64x4k_ns": 42573713,
+      "large_read_8mib_ns": 13884667,
+      "write_1mib_fsync_ns": 7027041
+    },
+    {
+      "repeat": 2,
+      "cold_start_ns": 236883392,
+      "idle_sandbox_cgroup_bytes": 10399744,
+      "exec_noop_ns": 169948191,
+      "stat_ns": 394208,
+      "tree_walk_ns": 6249247,
+      "small_reads_64x4k_ns": 42011284,
+      "large_read_8mib_ns": 13210792,
+      "write_1mib_fsync_ns": 2432310
+    },
+    {
+      "repeat": 3,
+      "cold_start_ns": 237048903,
+      "idle_sandbox_cgroup_bytes": 10133504,
+      "exec_noop_ns": 185881773,
+      "stat_ns": 369029,
+      "tree_walk_ns": 7311867,
+      "small_reads_64x4k_ns": 41456215,
+      "large_read_8mib_ns": 13596686,
+      "write_1mib_fsync_ns": 2403531
+    },
+    {
+      "repeat": 4,
+      "cold_start_ns": 220784458,
+      "idle_sandbox_cgroup_bytes": 10534912,
+      "exec_noop_ns": 169023032,
+      "stat_ns": 547713,
+      "tree_walk_ns": 6617208,
+      "small_reads_64x4k_ns": 40795324,
+      "large_read_8mib_ns": 16108198,
+      "write_1mib_fsync_ns": 2841542
+    },
+    {
+      "repeat": 5,
+      "cold_start_ns": 260919011,
+      "idle_sandbox_cgroup_bytes": 10100736,
+      "exec_noop_ns": 166101061,
+      "stat_ns": 346072,
+      "tree_walk_ns": 5989577,
+      "small_reads_64x4k_ns": 41186133,
+      "large_read_8mib_ns": 12888574,
+      "write_1mib_fsync_ns": 2423432
+    },
+    {
+      "repeat": 6,
+      "cold_start_ns": 229912846,
+      "idle_sandbox_cgroup_bytes": 10702848,
+      "exec_noop_ns": 173678186,
+      "stat_ns": 351584,
+      "tree_walk_ns": 7924226,
+      "small_reads_64x4k_ns": 48320970,
+      "large_read_8mib_ns": 13774660,
+      "write_1mib_fsync_ns": 2426569
+    },
+    {
+      "repeat": 7,
+      "cold_start_ns": 251508309,
+      "idle_sandbox_cgroup_bytes": 10084352,
+      "exec_noop_ns": 190673011,
+      "stat_ns": 321864,
+      "tree_walk_ns": 6387293,
+      "small_reads_64x4k_ns": 42431714,
+      "large_read_8mib_ns": 16874609,
+      "write_1mib_fsync_ns": 2368076
+    },
+    {
+      "repeat": 8,
+      "cold_start_ns": 224761348,
+      "idle_sandbox_cgroup_bytes": 10604544,
+      "exec_noop_ns": 166012752,
+      "stat_ns": 448191,
+      "tree_walk_ns": 6822691,
+      "small_reads_64x4k_ns": 43258118,
+      "large_read_8mib_ns": 17325199,
+      "write_1mib_fsync_ns": 36185206
+    },
+    {
+      "repeat": 9,
+      "cold_start_ns": 257128900,
+      "idle_sandbox_cgroup_bytes": 9691136,
+      "exec_noop_ns": 182018620,
+      "stat_ns": 356613,
+      "tree_walk_ns": 6979683,
+      "small_reads_64x4k_ns": 53681425,
+      "large_read_8mib_ns": 16283143,
+      "write_1mib_fsync_ns": 2761058
+    },
+    {
+      "repeat": 10,
+      "cold_start_ns": 274902819,
+      "idle_sandbox_cgroup_bytes": 10412032,
+      "exec_noop_ns": 165957580,
+      "stat_ns": 495885,
+      "tree_walk_ns": 6285917,
+      "small_reads_64x4k_ns": 40755203,
+      "large_read_8mib_ns": 14980883,
+      "write_1mib_fsync_ns": 2792362
+    },
+    {
+      "repeat": 11,
+      "cold_start_ns": 376123732,
+      "idle_sandbox_cgroup_bytes": 10227712,
+      "exec_noop_ns": 166688528,
+      "stat_ns": 361951,
+      "tree_walk_ns": 6340988,
+      "small_reads_64x4k_ns": 40535983,
+      "large_read_8mib_ns": 13596533,
+      "write_1mib_fsync_ns": 2353810
+    },
+    {
+      "repeat": 12,
+      "cold_start_ns": 262171772,
+      "idle_sandbox_cgroup_bytes": 10530816,
+      "exec_noop_ns": 167172679,
+      "stat_ns": 360817,
+      "tree_walk_ns": 7169844,
+      "small_reads_64x4k_ns": 45355787,
+      "large_read_8mib_ns": 13260695,
+      "write_1mib_fsync_ns": 2189589
+    }
+  ],
+  "metrics": {
+    "A-3.6": {
+      "stat_ns": {
+        "n": 12,
+        "median": 362981.5,
+        "p95": 547713
+      },
+      "tree_walk_ns": {
+        "n": 12,
+        "median": 6719949.5,
+        "p95": 7924226
+      },
+      "small_reads_64x4k_ns": {
+        "n": 12,
+        "median": 42221499.0,
+        "p95": 53681425
+      },
+      "large_read_8mib_ns": {
+        "n": 12,
+        "median": 13829663.5,
+        "p95": 17325199
+      },
+      "write_1mib_fsync_ns": {
+        "n": 12,
+        "median": 2429439.5,
+        "p95": 36185206
+      }
+    },
+    "A-5.6": {
+      "cold_start_ns": {
+        "n": 12,
+        "median": 254318604.5,
+        "p95": 376123732
+      },
+      "exec_noop_ns": {
+        "n": 12,
+        "median": 169485611.5,
+        "p95": 190673011
+      },
+      "idle_sandbox_cgroup_bytes": {
+        "n": 12,
+        "median": 10405888.0,
+        "p95": 10702848
+      }
+    }
+  },
+  "cleanup": "passed"
+}
