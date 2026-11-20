@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:agentic-runtime:v2:fixture-dto",
+  "title": "Agent Runtime v2 fixture DTOs",
+  "$defs": {
+    "key": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,80}$"},
+    "path": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^(?!/)(?!.*(?:^|/)(?:\\.git|\\.\\.)(?:/|$))[^\\u0000]+$"},
+    "bytes": {"type": "string", "maxLength": 8192, "contentEncoding": "base64"},
+    "files": {"type": "object", "maxProperties": 32, "propertyNames": {"$ref": "#/$defs/path"}, "additionalProperties": {"$ref": "#/$defs/bytes"}},
+    "createSession": {
+      "type": "object", "required": ["request_id", "files"], "additionalProperties": false,
+      "properties": {"request_id": {"$ref": "#/$defs/key"}, "files": {"$ref": "#/$defs/files"}}
+    },
+    "createMountedSession": {
+      "type": "object", "required": ["request_id", "grant"], "additionalProperties": false,
+      "properties": {"request_id": {"$ref": "#/$defs/key"}, "grant": {"$ref": "#/$defs/key"}}
+    },
+    "createRun": {
+      "type": "object", "required": ["request_id", "message"], "additionalProperties": false,
+      "properties": {"request_id": {"$ref": "#/$defs/key"}, "message": {"type": "string", "minLength": 1, "maxLength": 8000}}
+    },
+    "runResult": {
+      "type": "object", "required": ["status", "reason", "answer", "usage", "cleanup_state"], "additionalProperties": false,
+      "properties": {
+        "status": {"enum": ["completed", "failed", "interrupted", "cancelled"]},
+        "reason": {"type": ["string", "null"]}, "answer": {"type": ["string", "null"]},
+        "usage": {"type": ["array", "null"], "items": {"type": ["object", "null"]}},
+        "cleanup_state": {"enum": ["confirmed", "quarantined"]}
+      }
+    },
+    "toolCall": {
+      "type": "object", "required": ["id", "tool", "args"], "additionalProperties": false,
+      "properties": {"id": {"$ref": "#/$defs/key"}, "tool": {"enum": ["RunCommand", "ReadFile", "WriteFile"]}, "args": {"type": "object"}},
+      "oneOf": [
+        {"properties": {"tool": {"const": "RunCommand"}, "args": {
+          "required": ["command"], "additionalProperties": false,
+          "properties": {"command": {"type": "string", "minLength": 1, "maxLength": 4000, "pattern": "^[^\\u0000]+$"}}
+        }}},
+        {"properties": {"tool": {"const": "ReadFile"}, "args": {
+          "required": ["path"], "additionalProperties": false,
+          "properties": {"path": {"$ref": "#/$defs/path"}}
+        }}},
+        {"properties": {"tool": {"const": "WriteFile"}, "args": {
+          "required": ["path", "data"], "additionalProperties": false,
+          "properties": {"path": {"$ref": "#/$defs/path"}, "data": {"$ref": "#/$defs/bytes"}}
+        }}}
+      ]
+    },
+    "exec": {
+      "type": "object", "required": ["generation", "run_id", "op_id", "call"], "additionalProperties": false,
+      "properties": {
+        "generation": {"type": "integer", "minimum": 1},
+        "run_id": {"$ref": "#/$defs/key"}, "op_id": {"$ref": "#/$defs/key"},
+        "call": {"$ref": "#/$defs/toolCall"}
+      }
+    },
+    "event": {
+      "type": "object", "required": ["schema_version", "event_id", "sequence", "timestamp", "session_id", "run_id", "type", "payload"], "additionalProperties": false,
+      "properties": {
+        "schema_version": {"const": 2}, "event_id": {"type": "string"},
+        "sequence": {"type": "integer", "minimum": 1}, "timestamp": {"type": "number"},
+        "session_id": {"$ref": "#/$defs/key"}, "run_id": {"$ref": "#/$defs/key"},
+        "type": {"enum": ["run.status", "run.result", "model.started", "model.completed", "tool.started", "tool.result"]},
+        "payload": {"type": "object"}
+      }
+    }
+  }
+}

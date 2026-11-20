@@ -1,5 +1,6 @@
 # ADR 0003: terminal client for the first checkpoint
 
+> Historical checkpoint-1 decision; superseded in part by [ADR 0004](0004-cpu-runtime.md).
 Status: implemented for checkpoint 1; not the final desktop client.
 
 The first interface is a Python terminal client using the documented HTTP v0

@@ -1,9 +1,5 @@
-# Reuse the cached Ubuntu image. All probes run with runc, without GPUs.
-FROM nvidia/cuda@sha256:2ab6381d970b211fb93853796dc6707eb8a72575a375c422b17cf4d8b2641701
-ENV DEBIAN_FRONTEND=noninteractive NVIDIA_VISIBLE_DEVICES=void
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 xvfb openbox xdotool x11-utils imagemagick inkscape \
-    dbus-x11 fonts-dejavu-core sshfs openssh-client openssh-server iproute2 \
-    && rm -rf /var/lib/apt/lists/*
-WORKDIR /probe
+FROM python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+WORKDIR /work
+USER 1000:1000
 CMD ["sleep", "infinity"]

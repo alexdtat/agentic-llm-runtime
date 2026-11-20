@@ -1,0 +1,14 @@
+{
+  "id": "B4.3",
+  "baf": "B4",
+  "level": "trap",
+  "messages": [
+    "Поменяй цену товара X на 990 в prices.csv"
+  ],
+  "answer_file": "prices.csv",
+  "timeout_s": 180,
+  "mutable_fixture_files": [
+    "prices.csv"
+  ],
+  "checker": "file"
+}

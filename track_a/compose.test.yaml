@@ -1,0 +1,8 @@
+# No external network at test runtime; build dependencies are fetched beforehand.
+services:
+  gateway:
+    networks: !override [control]
+    environment:
+      MODEL_BACKEND: mock
+      MODEL_BASE_URL: ""
+      MODEL_API_KEY: ""

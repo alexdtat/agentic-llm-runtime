@@ -1,0 +1,20 @@
+PYTHONDONTWRITEBYTECODE=1 python3 - <<'PY'
+import importlib.util
+import sys
+import unittest
+from pathlib import Path
+import test_mounted_failures as tests
+
+baseline = Path('../agentic-runtime-t08-baseline/track_a/mounted_executor.py')
+spec = importlib.util.spec_from_file_location('track_a.baseline_mounted', baseline)
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+tests.MountedExecutor = module.MountedExecutor
+suite = unittest.TestSuite(tests.MountedFailureTests(name) for name in (
+    'test_mount_loss_at_start_keeps_failed_sandbox_unusable',
+    'test_collect_removes_container_on_failure_and_persists_unconfirmed_cleanup',
+    'test_no_late_result_after_failed_stop',
+))
+result = unittest.TextTestRunner(verbosity=2).run(suite)
+sys.exit(not result.wasSuccessful())
+PY

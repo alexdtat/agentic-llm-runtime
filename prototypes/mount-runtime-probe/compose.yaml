@@ -1,0 +1,96 @@
+name: agentic-mount-probe
+x-limits: &limits
+  runtime: runc
+  pull_policy: never
+  read_only: true
+  cpus: 0.5
+  mem_limit: 128m
+  memswap_limit: 128m
+  pids_limit: 32
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  stop_grace_period: 2s
+  logging:
+    driver: local
+    options: {max-size: "1m", max-file: "1", compress: "false"}
+
+services:
+  exporter:
+    <<: *limits
+    image: course-feasibility:2026-11-06
+    entrypoint: [/usr/bin/timeout, -k, "3", "180", /usr/sbin/sshd, -D, -e, -f, /probe-config/sshd.conf]
+    user: "0:0"
+    cap_add: [DAC_OVERRIDE, SYS_CHROOT, SETUID, SETGID]
+    tmpfs: ["/run/sshd:size=1m,mode=0755"]
+    networks: [file-channel]
+    volumes:
+      - type: bind
+        source: ./sshd.conf
+        target: /probe-config/sshd.conf
+        read_only: true
+        bind: {create_host_path: false}
+      - type: bind
+        source: ${PROBE_ROOT:?Set PROBE_ROOT}/keys/exporter
+        target: /keys
+        read_only: true
+        bind: {create_host_path: false}
+      - type: bind
+        source: ${PROBE_ROOT:?Set PROBE_ROOT}/client
+        target: /probe/work
+        bind: {create_host_path: false}
+      - type: bind
+        source: ${PROBE_ROOT:?Set PROBE_ROOT}/outside.txt
+        target: /probe/outside.txt
+        read_only: true
+        bind: {create_host_path: false}
+
+  broker:
+    <<: *limits
+    image: course-feasibility:2026-11-06
+    user: "0:0"
+    entrypoint: [/bin/sh, /probe-config/broker.sh]
+    cap_add: [DAC_OVERRIDE, SYS_ADMIN]
+    security_opt: [no-new-privileges:true, apparmor:unconfined]
+    devices: [/dev/fuse:/dev/fuse:rw]
+    networks: [file-channel]
+    tmpfs: ["/tmp:size=1m,mode=1777"]
+    volumes:
+      - type: bind
+        source: ./broker.sh
+        target: /probe-config/broker.sh
+        read_only: true
+        bind: {create_host_path: false}
+      - type: bind
+        source: ${PROBE_ROOT:?Set PROBE_ROOT}/keys/broker
+        target: /keys
+        read_only: true
+        bind: {create_host_path: false}
+      - type: bind
+        source: ${PROBE_ROOT:?Set PROBE_ROOT}/mount
+        target: /probe-mount
+        bind: {propagation: rshared, create_host_path: false}
+    healthcheck:
+      test: [CMD, findmnt, -rn, --mountpoint, /probe-mount/work, --types, fuse.sshfs]
+      interval: 1s
+      timeout: 1s
+      retries: 10
+    depends_on: [exporter]
+
+  sandbox:
+    <<: *limits
+    image: agentic-sandbox:cpu-v1
+    user: "1000:1000"
+    init: true
+    command: [sleep, "120"]
+    network_mode: none
+    tmpfs: ["/tmp:size=1m,mode=1777"]
+    volumes:
+      - type: bind
+        source: ${PROBE_ROOT:?Set PROBE_ROOT}/mount/work
+        target: /work
+        bind: {propagation: rprivate, create_host_path: false}
+    depends_on:
+      broker: {condition: service_healthy}
+
+networks:
+  file-channel: {internal: true}

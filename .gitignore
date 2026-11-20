@@ -6,3 +6,4 @@ sources/
 *.key
 *.pub
 .private/
+/results/baf-mounted-live/

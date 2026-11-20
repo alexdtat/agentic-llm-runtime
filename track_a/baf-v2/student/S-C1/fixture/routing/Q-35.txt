@@ -1,0 +1,5 @@
+route: Q-35
+kit: Dock-7
+status: ACTIVE
+input: logs/early.csv, logs/late.csv
+minimum_boxes: 12

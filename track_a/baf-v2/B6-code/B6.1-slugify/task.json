@@ -1,0 +1,10 @@
+{
+  "id": "B6.1",
+  "baf": "B6",
+  "level": "simple",
+  "messages": ["Напиши функцию slugify(text) в файле slug.py в корне рабочей папки по спецификации spec.md."],
+  "timeout_s": 180,
+  "answer_file": "slug.py",
+  "checker": "isolated_python",
+  "mutable_fixture_files": []
+}

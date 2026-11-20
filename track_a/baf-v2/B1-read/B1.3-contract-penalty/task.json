@@ -1,0 +1,12 @@
+{
+  "id": "B1.3",
+  "baf": "B1",
+  "level": "trap",
+  "messages": [
+    "Какой размер неустойки по договору? Запиши в answer.txt"
+  ],
+  "answer_file": "answer.txt",
+  "timeout_s": 180,
+  "mutable_fixture_files": [],
+  "checker": "file"
+}

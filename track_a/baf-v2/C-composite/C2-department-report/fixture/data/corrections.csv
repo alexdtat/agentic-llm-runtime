@@ -1,0 +1,5 @@
+id,team,status,closed_at,hours
+S-03,north,cancelled,,4
+S-04,south,closed,2026-02-19,11
+S-07,north,closed,2026-02-14,10
+S-08,south,closed,2026-03-02,12

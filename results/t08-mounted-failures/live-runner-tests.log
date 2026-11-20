@@ -1,0 +1,10 @@
+test_diagnostics_failure_still_attempts_owned_stack_cleanup (test_mounted_failures.LiveFailureRunnerTests.test_diagnostics_failure_still_attempts_owned_stack_cleanup) ... ok
+test_io_evidence_requires_post_cut_io_failure (test_mounted_failures.LiveFailureRunnerTests.test_io_evidence_requires_post_cut_io_failure) ... ok
+test_preflight_blocks_restricted_execution_before_commands (test_mounted_failures.LiveFailureRunnerTests.test_preflight_blocks_restricted_execution_before_commands) ... ok
+test_preflight_rejects_alternative_docker_routing (test_mounted_failures.LiveFailureRunnerTests.test_preflight_rejects_alternative_docker_routing) ... ok
+test_refused_scope_or_mount_acquisition_never_runs_cleanup_commands (test_mounted_failures.LiveFailureRunnerTests.test_refused_scope_or_mount_acquisition_never_runs_cleanup_commands) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.009s
+
+OK

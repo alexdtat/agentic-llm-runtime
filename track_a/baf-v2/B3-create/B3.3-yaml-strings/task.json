@@ -1,0 +1,12 @@
+{
+  "id": "B3.3",
+  "baf": "B3",
+  "level": "trap",
+  "messages": [
+    "Создай countries.yaml из таблицы (коды стран, в т.ч. NO, ON) и postal.yaml (индексы с ведущим нулём)"
+  ],
+  "answer_file": "countries.yaml",
+  "timeout_s": 180,
+  "mutable_fixture_files": [],
+  "checker": "file"
+}

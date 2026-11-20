@@ -1,0 +1,13 @@
+{
+  "id": "S-B4",
+  "baf": "B4",
+  "level": "trick",
+  "messages": [
+    "В существующем manifest.toml измени только значение retry_delay в секции [active] с 15 на 25. Сохрани остальные байты, включая пробелы, комментарии, другие секции и завершающий перевод строки. Результат должен остаться в manifest.toml."
+  ],
+  "answer_file": "manifest.toml",
+  "timeout_s": 180,
+  "mutable_fixture_files": [
+    "manifest.toml"
+  ]
+}

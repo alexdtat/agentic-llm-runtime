@@ -1,0 +1,11 @@
+{
+  "id": "B8.2",
+  "baf": "B8",
+  "level": "medium",
+  "messages": [
+    "Собери все принятые решения из meetings/*.md в decisions.json. Формат и правила отбора описаны в README.md."
+  ],
+  "answer_file": "decisions.json",
+  "timeout_s": 180,
+  "mutable_fixture_files": []
+}

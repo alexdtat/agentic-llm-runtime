@@ -1,0 +1,14 @@
+{
+  "host": "alexdtat-ThinkPad-T590",
+  "status": "passed",
+  "runs": [
+    "a717e1eaf8904c05920f1353780d2425",
+    "f9dba45e0c19428696bc49c0a446321f"
+  ],
+  "session": "2c82781270ff4ffe8c69deedb92a7afb",
+  "tag": "34577139723871c73f04",
+  "desktop": "alexdtat-desktop",
+  "observed_agent_write": true,
+  "local_edit": true,
+  "closed": true
+}

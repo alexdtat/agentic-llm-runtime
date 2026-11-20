@@ -8,8 +8,7 @@ from pathlib import Path,PurePosixPath
 
 from common import ROOT
 
-CHECKER_PY=ROOT/'runtime/arena-venv/bin/python'
-if not CHECKER_PY.exists():CHECKER_PY=Path(sys.executable)
+CHECKER_PY=Path(sys.executable)
 
 
 class SessionTools:

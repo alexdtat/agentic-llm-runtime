@@ -1,0 +1,948 @@
+{
+  "identity": {
+    "suite_sha256": "7207cb69ca9f00ebe832ac472d6de95689887a868a8760af2ac0daaee6fd509e",
+    "git_revision": "ac5199d131fb149b4fb887d46fca22d59be1123a",
+    "runtime_sha256": "518ab8a703357e9b202bb56306f929ee4bd117b1a686a48da2f3827513e0eba1",
+    "model": "qwen3.8-27b",
+    "model_endpoint": "http://127.0.0.1:18020/v1",
+    "profile": "mounted_v2_live"
+  },
+  "attempts": [
+    {
+      "task_id": "B1.1",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B1.2",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "context_limit",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B1.3",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B2.1",
+      "repeat": 1,
+      "outcome": "pass",
+      "reason": "ok",
+      "grade_stage": "pass",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B2.2",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B2.3",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B3.1",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B3.2",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B3.3",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B4.1",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B4.2",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B4.3",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B5.1",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "Медиана неверна",
+      "grade_stage": "fail",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B5.2",
+      "repeat": 1,
+      "outcome": "pass",
+      "reason": "ok",
+      "grade_stage": "pass",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B5.3",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B6.1",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B6.2",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B6.3",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B7.1",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "Неверное решение о пересадке или время",
+      "grade_stage": "fail",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B7.2",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B7.3",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B8.1",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B8.2",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B8.3",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "C1",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "C2",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "C3",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B1",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B2",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B3",
+      "repeat": 1,
+      "outcome": "pass",
+      "reason": "ok",
+      "grade_stage": "pass",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B4",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B5",
+      "repeat": 1,
+      "outcome": "pass",
+      "reason": "ok",
+      "grade_stage": "pass",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B6",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B7",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B8",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-N1",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-N2",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-N3",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-C1",
+      "repeat": 1,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B1.1",
+      "repeat": 2,
+      "outcome": "pass",
+      "reason": "ok",
+      "grade_stage": "pass",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B1.2",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "context_limit",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B1.3",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B2.1",
+      "repeat": 2,
+      "outcome": "pass",
+      "reason": "ok",
+      "grade_stage": "pass",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B2.2",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "step_limit",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B2.3",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B3.1",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B3.2",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B3.3",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B4.1",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B4.2",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B4.3",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B5.1",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "Медиана неверна",
+      "grade_stage": "fail",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B5.2",
+      "repeat": 2,
+      "outcome": "pass",
+      "reason": "ok",
+      "grade_stage": "pass",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B5.3",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B6.1",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B6.2",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B6.3",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B7.1",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "Неверное решение о пересадке или время",
+      "grade_stage": "fail",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B7.2",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B7.3",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B8.1",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B8.2",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B8.3",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "C1",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "C2",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "C3",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B1",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B2",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B3",
+      "repeat": 2,
+      "outcome": "pass",
+      "reason": "ok",
+      "grade_stage": "pass",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B4",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B5",
+      "repeat": 2,
+      "outcome": "pass",
+      "reason": "ok",
+      "grade_stage": "pass",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B6",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B7",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B8",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-N1",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-N2",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-N3",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-C1",
+      "repeat": 2,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B1.1",
+      "repeat": 3,
+      "outcome": "pass",
+      "reason": "ok",
+      "grade_stage": "pass",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B1.2",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "context_limit",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B1.3",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B2.1",
+      "repeat": 3,
+      "outcome": "pass",
+      "reason": "ok",
+      "grade_stage": "pass",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B2.2",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B2.3",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B3.1",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B3.2",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B3.3",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B4.1",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B4.2",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B4.3",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B5.1",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "Медиана неверна",
+      "grade_stage": "fail",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B5.2",
+      "repeat": 3,
+      "outcome": "pass",
+      "reason": "ok",
+      "grade_stage": "pass",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B5.3",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B6.1",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B6.2",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B6.3",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B7.1",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "Неверное решение о пересадке или время",
+      "grade_stage": "fail",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B7.2",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B7.3",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B8.1",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B8.2",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "B8.3",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "C1",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "C2",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "C3",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B1",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B2",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B3",
+      "repeat": 3,
+      "outcome": "pass",
+      "reason": "ok",
+      "grade_stage": "pass",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B4",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B5",
+      "repeat": 3,
+      "outcome": "pass",
+      "reason": "ok",
+      "grade_stage": "pass",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B6",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B7",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-B8",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-N1",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-N2",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-N3",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    },
+    {
+      "task_id": "S-C1",
+      "repeat": 3,
+      "outcome": "fail",
+      "reason": "invalid_model_action",
+      "grade_stage": "not_run",
+      "cleanup": "passed"
+    }
+  ]
+}

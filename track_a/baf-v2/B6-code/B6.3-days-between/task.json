@@ -1,0 +1,12 @@
+{
+  "id": "B6.3",
+  "baf": "B6",
+  "level": "trap",
+  "messages": [
+    "Напиши функцию days_between(a, b) в days.py по спецификации spec.md."
+  ],
+  "answer_file": "days.py",
+  "timeout_s": 180,
+  "mutable_fixture_files": [],
+  "checker": "isolated_python"
+}

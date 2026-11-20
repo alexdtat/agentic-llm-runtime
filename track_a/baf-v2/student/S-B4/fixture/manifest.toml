@@ -1,0 +1,8 @@
+# Таймер повторной отправки, рабочий профиль.
+[active]
+retry_delay  = 15  # прежнее значение: 15
+queue        = "lane-15"
+
+[fallback]
+retry_delay  = 15  # резервный профиль
+queue        = "lane-15"

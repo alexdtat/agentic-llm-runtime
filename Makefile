@@ -1,8 +1,7 @@
-PYTHON ?= python3
-
-.PHONY: test smoke
-test:
-	$(PYTHON) checkpoint_checks.py A
-
-smoke:
-	$(PYTHON) checkpoint_checks.py A --infrastructure
+.PHONY: test smoke up down
+test smoke:
+	./scripts/check.sh
+up:
+	docker compose up --build -d --wait
+down:
+	docker compose down -v --remove-orphans

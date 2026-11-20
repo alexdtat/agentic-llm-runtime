@@ -1,0 +1,20 @@
+{
+  "id": "B5.2",
+  "baf": "B5",
+  "level": "medium",
+  "messages": [
+    "Прогони тесты проекта и запиши имена упавших в failed.txt",
+    "Запусти python3 run_tests.py. Это запускает все 20 тестов и печатает краткий отчёт. В failed.txt запиши полные имена упавших тестов из отчёта, по одному на строку. Учитывается наблюдаемый запуск этой команды, exit code и stderr."
+  ],
+  "answer_file": "failed.txt",
+  "timeout_s": 180,
+  "mutable_fixture_files": [],
+  "checker": "tool_evidence",
+  "required_tool": {
+    "argv": [
+      "python3",
+      "run_tests.py"
+    ],
+    "exit_code": 1
+  }
+}

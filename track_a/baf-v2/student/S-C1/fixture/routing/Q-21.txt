@@ -1,0 +1,5 @@
+route: Q-21
+kit: Dock-7
+status: DRAFT
+input: logs/draft.csv, logs/early.csv
+minimum_boxes: 9

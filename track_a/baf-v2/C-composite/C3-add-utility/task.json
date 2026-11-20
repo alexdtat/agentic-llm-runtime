@@ -1,0 +1,20 @@
+{
+  "id": "C3",
+  "baf": "C",
+  "level": "composite",
+  "messages": [
+    "Добавь в проект утилиту из spec.md и её тесты. Экспортируй функцию через tracker и прогони тесты проекта."
+  ],
+  "answer_file": "tracker/duration.py",
+  "timeout_s": 180,
+  "mutable_fixture_files": [
+    "tracker/__init__.py"
+  ],
+  "decomposition": [
+    "B1",
+    "B6",
+    "B5",
+    "B4"
+  ],
+  "checker": "isolated_python"
+}

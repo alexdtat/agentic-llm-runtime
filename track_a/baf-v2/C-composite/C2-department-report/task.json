@@ -1,0 +1,17 @@
+{
+  "id": "C2",
+  "baf": "C",
+  "level": "composite",
+  "messages": [
+    "Сделай отчёт report.md по данным отдела в data/. Период, правила учёта и поля отчёта описаны в brief.md."
+  ],
+  "answer_file": "report.md",
+  "timeout_s": 180,
+  "mutable_fixture_files": [],
+  "decomposition": [
+    "B2",
+    "B8",
+    "B7",
+    "B3"
+  ]
+}

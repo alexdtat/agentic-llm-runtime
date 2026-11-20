@@ -1,0 +1,103 @@
+{
+  "mode": "mounted_mock_rehearsal",
+  "task": "B6.1",
+  "repeat": 1,
+  "evidence": "/tmp/agentic-b6-mock-evidence.zj224gf6",
+  "root": "/tmp/agentic-mounted-runtime.5vl_3_sm",
+  "status": "failed",
+  "stages": {
+    "preflight": {
+      "status": "passed",
+      "exit_code": 0
+    },
+    "readonly": {
+      "status": "confirmed_absent",
+      "exit_code": 0,
+      "root": "/tmp/agentic-mounted-runtime.lg7k_hkd",
+      "scope": "mount-v2-1b3897db7a4a",
+      "evidence": "/tmp/agentic-mounted-ro-evidence.bOIRZf6e",
+      "mount_ids": [
+        "none",
+        "none"
+      ],
+      "docker": {
+        "com.docker.compose.project=mount-v2-1b3897db7a4a": {
+          "containers": [],
+          "networks": []
+        },
+        "agentic.scope=mounted-mount-v2-1b3897db7a4a": {
+          "containers": [],
+          "networks": []
+        }
+      }
+    },
+    "previous_rw": {
+      "status": "recovered",
+      "exit_code": 0,
+      "root": "/tmp/agentic-mounted-runtime.rp38r6sd",
+      "scope": "mount-v2-a1955b4802bd",
+      "evidence": "/tmp/agentic-b6-mock-evidence.w6f7n3um",
+      "pre_cleanup_docker": {
+        "com.docker.compose.project=mount-v2-a1955b4802bd": {
+          "containers": [
+            "ec62976342aea1e695e852e2e7f344be97b7b707fac63809911f04b84c7540e4",
+            "1d7ca539fd7c12c3a2612519c56bf356715fc33866c1e82931195321691d4450"
+          ],
+          "networks": [
+            "5a94bb34308e035f4752f599277dc2c0c7086210e2c671845f1d99fff78461f3"
+          ]
+        },
+        "agentic.scope=mounted-mount-v2-a1955b4802bd": {
+          "containers": [],
+          "networks": []
+        }
+      },
+      "stack_exit_code": 0,
+      "docker": {
+        "com.docker.compose.project=mount-v2-a1955b4802bd": {
+          "containers": [],
+          "networks": []
+        },
+        "agentic.scope=mounted-mount-v2-a1955b4802bd": {
+          "containers": [],
+          "networks": []
+        }
+      },
+      "mount_ids": [
+        [],
+        []
+      ]
+    },
+    "setup": {
+      "status": "passed",
+      "exit_code": 0,
+      "mount_ids": [
+        [
+          "6384"
+        ],
+        [
+          "9516"
+        ]
+      ]
+    },
+    "attempt": {
+      "status": "collected",
+      "exit_code": 0,
+      "receipt": "/tmp/agentic-b6-mock-evidence.zj224gf6/attempts/48cda88ba1fb4b68b7bab03cc77aea1a/attempt.json",
+      "close": "confirmed",
+      "reason": null
+    },
+    "grade": {
+      "status": "pass",
+      "exit_code": 0
+    },
+    "cleanup": {
+      "status": "failed",
+      "exit_code": 1,
+      "reason": "Command '['/home/alexdtat/Documents/Codex/2026-11-17/home-alexdtat-documents-codex-2026-11-2/agentic-runtime-t08/prototypes/mounted-runtime/stack.sh', 'cleanup']' timed out after 70 seconds"
+    }
+  },
+  "scope": "mount-v2-0928109d4efe",
+  "trace": "/tmp/agentic-b6-mock-evidence.zj224gf6/attempts/48cda88ba1fb4b68b7bab03cc77aea1a/events.json",
+  "grade": "/tmp/agentic-b6-mock-evidence.zj224gf6/grade.json"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "S-B2",
+  "baf": "B2",
+  "level": "medium",
+  "messages": [
+    "В дереве репозитория найди файл, в котором маршрут с точным именем billing.daily настроен на worker ledger_sink директивой вида route <имя> worker <worker>. Комментарии и текстовые примеры не являются директивами. Запиши только относительный POSIX-путь от рабочего каталога в answer.txt. Исходные файлы сохрани."
+  ],
+  "answer_file": "answer.txt",
+  "timeout_s": 180,
+  "mutable_fixture_files": []
+}

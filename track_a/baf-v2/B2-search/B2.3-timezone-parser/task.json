@@ -1,0 +1,12 @@
+{
+  "id": "B2.3",
+  "baf": "B2",
+  "level": "trap",
+  "messages": [
+    "Где функция, которая парсит даты ISO 8601 с таймзоной? Путь в answer.txt"
+  ],
+  "answer_file": "answer.txt",
+  "timeout_s": 180,
+  "mutable_fixture_files": [],
+  "checker": "file"
+}

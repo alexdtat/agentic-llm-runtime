@@ -1,6 +1,7 @@
 """Small, auditable helpers for CPU-only feasibility probes."""
 import datetime as dt
 import json
+import os
 import subprocess
 import time
 from pathlib import Path
@@ -11,7 +12,7 @@ IMAGE = "course-feasibility:2026-11-06"
 
 def new_run(kind):
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
-    path = ROOT / "results" / f"{kind}-{stamp}"
+    path = Path(os.environ.get("RESULTS_DIR", ROOT / "results")) / f"{kind}-{stamp}"
     path.mkdir(parents=True)
     return path
 

@@ -1,0 +1,16 @@
+{
+  "id": "B4.2",
+  "baf": "B4",
+  "level": "medium",
+  "messages": [
+    "Переименуй calc_total в compute_total во всём проекте"
+  ],
+  "answer_file": null,
+  "timeout_s": 180,
+  "mutable_fixture_files": [
+    "billing/pricing.py",
+    "invoice.py",
+    "test_pricing.py"
+  ],
+  "checker": "isolated_python"
+}

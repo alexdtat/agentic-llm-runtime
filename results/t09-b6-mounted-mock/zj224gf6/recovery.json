@@ -1,0 +1,50 @@
+{
+  "mode": "mounted_mock_cleanup_recovery",
+  "task": "B6.1",
+  "repeat": 1,
+  "evidence": "/tmp/agentic-b6-mock-recovery.kvbhkx1q",
+  "root": "/tmp/agentic-mounted-runtime.5vl_3_sm",
+  "status": "passed",
+  "stages": {
+    "preflight": {
+      "status": "passed",
+      "exit_code": 0
+    },
+    "cleanup": {
+      "status": "recovered",
+      "exit_code": 0,
+      "pre_cleanup_docker": {
+        "com.docker.compose.project=mount-v2-0928109d4efe": {
+          "containers": [
+            "36c58b8495d735bb307925435f8c62970c064445029de02d6f72fffa1657221e",
+            "ead5728c5af09af7b43fdf3ffdf2c163397346966040410c3ce9ce0fcb78d8c3"
+          ],
+          "networks": [
+            "fd47dc0b81c1e42b2c47e597e38f315eb2987079d44bff2b5d9f6bb9c81affa3"
+          ]
+        },
+        "agentic.scope=mounted-mount-v2-0928109d4efe": {
+          "containers": [],
+          "networks": []
+        }
+      },
+      "docker_removals_timed_out": [],
+      "docker": {
+        "com.docker.compose.project=mount-v2-0928109d4efe": {
+          "containers": [],
+          "networks": []
+        },
+        "agentic.scope=mounted-mount-v2-0928109d4efe": {
+          "containers": [],
+          "networks": []
+        }
+      },
+      "mount_ids": [
+        [],
+        []
+      ]
+    }
+  },
+  "scope": "mount-v2-0928109d4efe",
+  "source_evidence": "/tmp/agentic-b6-mock-evidence.zj224gf6"
+}

@@ -1,0 +1,5 @@
+10 task prompts/levels match course catalog exactly
+10 checker Python ASTs valid; no task symlinks
+Task files: 245
+PyYAML: 6.0.3
+exit_code=0

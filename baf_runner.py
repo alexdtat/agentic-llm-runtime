@@ -41,7 +41,9 @@ def main():
     parser.add_argument('--replay-from',type=Path)
     args=parser.parse_args()
     if args.checkers_only:
-        return subprocess.run([sys.executable,'-m','unittest','test_baf_checkers','-v'],cwd=ROOT).returncode
+        return subprocess.run([sys.executable,'-m','unittest','tests.test_baf_checkers','-v'],cwd=ROOT).returncode
+    if not args.replay_from:
+        parser.error('Live protocol-v1 used the historical CUDA-derived environment. Approve and freeze a new protocol before running on CPU-v1; use --replay-from for infrastructure checks.')
     out=new_run('baf-suite');commands=Commands(out)
     source=(args.replay_from.resolve()/'suite') if args.replay_from else ROOT/'track_a/baf'
     shutil.copytree(source,out/'suite')

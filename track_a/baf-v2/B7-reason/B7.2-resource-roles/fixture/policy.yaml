@@ -1,0 +1,28 @@
+# Роль получает собственные правила и правила всех предков по inherits.
+# Явный deny любого предка или самой роли перекрывает любое allow.
+# Если применимого allow нет, доступ закрыт.
+resources: [R, S]
+roles:
+  reader:
+    allow: [R]
+  observer:
+    allow: [S]
+  coordinator:
+    inherits: [observer, reader]
+  assistant:
+    inherits: [coordinator]
+    deny: [S]
+  restricted:
+    inherits: [reader]
+    deny: [R]
+  delegate:
+    inherits: [restricted, coordinator]
+    allow: [R]
+  auditor:
+    allow: [R, S]
+  guest:
+    inherits: [observer]
+  external:
+    deny: [R]
+  trainee:
+    inherits: [external, auditor]

@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "root": "/tmp/agentic-mounted-runtime.rhsykxdx",
+  "scope": "mount-v2-a66fce894d88",
+  "session": "90a5f859b3934ce5b8f0675004a7c0fa",
+  "run": "e9b9a5db56d94e72955f46e84c64fc8f",
+  "exporter": "ae46968ed0b39f25725a5263257b3022368e0fbe9c92b709c644f9995b4678e9",
+  "single_write_bytes": 9,
+  "worker_dispatches": 1,
+  "io": {
+    "errno": 107,
+    "io_timed_out": false
+  },
+  "run_result": {
+    "status": "interrupted",
+    "reason": "outcome_unknown",
+    "answer": null,
+    "usage": null,
+    "cleanup_state": "confirmed"
+  },
+  "ownership": {
+    "bind_attempted": true,
+    "stack_attempted": true
+  },
+  "cleanup": {
+    "containers": [],
+    "networks": [],
+    "mounts": [],
+    "owned_processes": [],
+    "stack_cleanup_exit": 0
+  }
+}

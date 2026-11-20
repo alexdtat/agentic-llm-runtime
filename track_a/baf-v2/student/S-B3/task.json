@@ -1,0 +1,11 @@
+{
+  "id": "S-B3",
+  "baf": "B3",
+  "level": "medium",
+  "messages": [
+    "Создай файл profile.json в корне рабочего каталога. В корневом JSON-объекте должны быть ровно три ключа: profile со строкой night, queue со строкой 007 и alerts с JSON-значением false. Форматирование и порядок ключей произвольны. Существующий profile.old.json сохрани."
+  ],
+  "answer_file": "profile.json",
+  "timeout_s": 180,
+  "mutable_fixture_files": []
+}

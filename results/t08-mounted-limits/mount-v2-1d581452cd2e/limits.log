@@ -1,0 +1,32 @@
+sha256:352243a6d47986a15a82a04ca25036de5dad8cc7f61fb85f8c7e7c36fc657d50
+ Network mount-v2-1d581452cd2e_file-channel  Creating
+ Network mount-v2-1d581452cd2e_file-channel  Created
+ Container mount-v2-1d581452cd2e-exporter-1  Creating
+ Container mount-v2-1d581452cd2e-exporter-1  Created
+ Container mount-v2-1d581452cd2e-broker-1  Creating
+ Container mount-v2-1d581452cd2e-broker-1  Created
+ Container mount-v2-1d581452cd2e-exporter-1  Starting
+ Container mount-v2-1d581452cd2e-exporter-1  Started
+ Container mount-v2-1d581452cd2e-broker-1  Starting
+ Container mount-v2-1d581452cd2e-broker-1  Started
+ Container mount-v2-1d581452cd2e-exporter-1  Waiting
+ Container mount-v2-1d581452cd2e-broker-1  Waiting
+ Container mount-v2-1d581452cd2e-exporter-1  Healthy
+ Container mount-v2-1d581452cd2e-broker-1  Healthy
+{"host_canary_present": true}
+{"cleanup_state": "confirmed"}
+{"status": "passed", "cgroup_v2_root": true, "memory.max": "268435456", "memory.swap.max": "0", "pids.max": "64", "Uid": ["1000", "1000", "1000", "1000"], "Gid": ["1000", "1000", "1000", "1000"], "CapEff": "0000000000000000", "CapBnd": "0000000000000000", "NoNewPrivs": "1", "/ mode": "ro", "/tmp type": "tmpfs", "/tmp bytes": 16777216, "/work type": "fuse.sshfs", "/work mode": "rw", "interfaces": ["lo"], "docker_socket_present": false, "sandbox_canary_present": false, "cpu.max": "100000 100000"}
+Checking runtime containers for mount-v2-1d581452cd2e
+Removing Compose resources for mount-v2-1d581452cd2e
+ Container mount-v2-1d581452cd2e-broker-1  Stopping
+ Container mount-v2-1d581452cd2e-broker-1  Stopped
+ Container mount-v2-1d581452cd2e-broker-1  Removing
+ Container mount-v2-1d581452cd2e-broker-1  Removed
+ Container mount-v2-1d581452cd2e-exporter-1  Stopping
+ Container mount-v2-1d581452cd2e-exporter-1  Stopped
+ Container mount-v2-1d581452cd2e-exporter-1  Removing
+ Container mount-v2-1d581452cd2e-exporter-1  Removed
+ Network mount-v2-1d581452cd2e_file-channel  Removing
+ Network mount-v2-1d581452cd2e_file-channel  Removed
+Runtime containers, Compose resources and SSHFS mount removed; unmount the self-bind separately.
+Очистка стенда подтверждена

@@ -1,0 +1,351 @@
+{
+  "status": "passed",
+  "root": "/tmp/agentic-mounted-runtime.mpc980c7",
+  "scenarios": {
+    "timeout": {
+      "status": "passed",
+      "cleanup": {
+        "status": "confirmed",
+        "session": "closed",
+        "containers": [],
+        "processes": []
+      },
+      "session": "869fa5143b6a43ccaf789d3706badba4",
+      "run": "83d9cfe21f0d44419734b8042cdf7edd",
+      "runner": "agentic-mounted-869fa5143b6a43ccaf789d3706badba4-83d9cfe21f0d44419734b8042cdf7edd",
+      "command_pid": "1395481",
+      "run_result": {
+        "status": "interrupted",
+        "reason": "outcome_unknown",
+        "answer": null,
+        "usage": null,
+        "cleanup_state": "confirmed"
+      },
+      "product_stop": {
+        "containers": [],
+        "processes": []
+      },
+      "replay_http": {
+        "lookup": 409,
+        "same_operation": 409,
+        "new_operation": 409
+      },
+      "marker_bytes": 9,
+      "workers": [
+        {
+          "status": "returned",
+          "returncode": 0,
+          "stdout": "{\"status\": \"timed_out\", \"error_kind\": \"timeout\", \"exit_code\": null, \"stdout\": \"MARKER_SYNCED\\n\", \"stderr\": \"\", \"truncated\": false}\n",
+          "stderr": "",
+          "seconds": 6.199
+        }
+      ]
+    },
+    "network": {
+      "status": "passed",
+      "cleanup": {
+        "status": "confirmed",
+        "session": "closed",
+        "containers": [],
+        "processes": []
+      },
+      "session": "b7e3d31d68ee440f8e043ebc8eb9c324",
+      "run": "a128406dfff94a2187b21e91eb59eefd",
+      "runner": "agentic-mounted-b7e3d31d68ee440f8e043ebc8eb9c324-a128406dfff94a2187b21e91eb59eefd",
+      "run_result": {
+        "status": "completed",
+        "reason": null,
+        "answer": "Fixture tool loop completed.",
+        "usage": [
+          null,
+          null
+        ],
+        "cleanup_state": "confirmed"
+      },
+      "product_stop": {
+        "containers": [],
+        "processes": []
+      },
+      "tool_result": {
+        "exit_code": 0,
+        "stdout": "{\"errno\": 111, \"namespace\": \"net:[4026534985]\", \"interfaces\": [\"lo\"]}\n",
+        "stderr": "",
+        "truncated": false,
+        "error_kind": null
+      },
+      "network": {
+        "address": "http://127.0.0.1:35841",
+        "host_namespace": "net:[4026531833]",
+        "sandbox": {
+          "errno": 111,
+          "namespace": "net:[4026534985]",
+          "interfaces": [
+            "lo"
+          ]
+        },
+        "health_before": [
+          200,
+          {
+            "status": "ok",
+            "backend": "mock"
+          }
+        ],
+        "health_after": [
+          200,
+          {
+            "status": "ok",
+            "backend": "mock"
+          }
+        ],
+        "mock_requests": [
+          "network",
+          "observations"
+        ]
+      },
+      "workers": [
+        {
+          "status": "returned",
+          "returncode": 0,
+          "stdout": "{\"status\": \"complete\", \"error_kind\": null, \"exit_code\": 0, \"stdout\": \"{\\\"errno\\\": 111, \\\"namespace\\\": \\\"net:[4026534985]\\\", \\\"interfaces\\\": [\\\"lo\\\"]}\\n\", \"stderr\": \"\", \"truncated\": false}\n",
+          "stderr": "",
+          "seconds": 0.318
+        }
+      ]
+    },
+    "cpu": {
+      "status": "passed",
+      "cleanup": {
+        "status": "confirmed",
+        "session": "closed",
+        "containers": [],
+        "processes": []
+      },
+      "session": "6b25accfff954032bc68462fe8ac44dc",
+      "run": "848e25bef5ec4d0881878dc7e9991a99",
+      "runner": "agentic-mounted-6b25accfff954032bc68462fe8ac44dc-848e25bef5ec4d0881878dc7e9991a99",
+      "run_result": {
+        "status": "completed",
+        "reason": null,
+        "answer": "Fixture tool loop completed.",
+        "usage": [
+          null,
+          null
+        ],
+        "cleanup_state": "confirmed"
+      },
+      "product_stop": {
+        "containers": [],
+        "processes": []
+      },
+      "tool_result": {
+        "exit_code": 0,
+        "stdout": "{\"cpu.max\": \"100000 100000\", \"pids.max\": \"64\", \"memory.max\": \"268435456\", \"memory.swap.max\": \"0\"}\n{\"before\": {\"nr_throttled\": 2, \"throttled_usec\": 56678}, \"after\": {\"nr_throttled\": 22, \"throttled_usec\": 2047629}}\n",
+        "stderr": "",
+        "truncated": false,
+        "error_kind": null
+      },
+      "cgroup_limits": {
+        "cpu.max": "100000 100000",
+        "pids.max": "64",
+        "memory.max": "268435456",
+        "memory.swap.max": "0"
+      },
+      "counters": {
+        "before": {
+          "nr_throttled": 2,
+          "throttled_usec": 56678
+        },
+        "after": {
+          "nr_throttled": 22,
+          "throttled_usec": 2047629
+        }
+      },
+      "workers": [
+        {
+          "status": "returned",
+          "returncode": 0,
+          "stdout": "{\"status\": \"complete\", \"error_kind\": null, \"exit_code\": 0, \"stdout\": \"{\\\"cpu.max\\\": \\\"100000 100000\\\", \\\"pids.max\\\": \\\"64\\\", \\\"memory.max\\\": \\\"268435456\\\", \\\"memory.swap.max\\\": \\\"0\\\"}\\n{\\\"before\\\": {\\\"nr_throttled\\\": 2, \\\"throttled_usec\\\": 56678}, \\\"after\\\": {\\\"nr_throttled\\\": 22, \\\"throttled_usec\\\": 2047629}}\\n\", \"stderr\": \"\", \"truncated\": false}\n",
+          "stderr": "",
+          "seconds": 2.287
+        }
+      ]
+    },
+    "pids": {
+      "status": "passed",
+      "cleanup": {
+        "status": "confirmed",
+        "session": "closed",
+        "containers": [],
+        "processes": []
+      },
+      "session": "726799c60cc649e6890a775e996fca18",
+      "run": "e4595fc4e0854b10922ce61aff9f9554",
+      "runner": "agentic-mounted-726799c60cc649e6890a775e996fca18-e4595fc4e0854b10922ce61aff9f9554",
+      "run_result": {
+        "status": "completed",
+        "reason": null,
+        "answer": "Fixture tool loop completed.",
+        "usage": [
+          null,
+          null
+        ],
+        "cleanup_state": "confirmed"
+      },
+      "product_stop": {
+        "containers": [],
+        "processes": []
+      },
+      "tool_result": {
+        "exit_code": 0,
+        "stdout": "{\"cpu.max\": \"100000 100000\", \"pids.max\": \"64\", \"memory.max\": \"268435456\", \"memory.swap.max\": \"0\"}\n{\"initial\": 4, \"current\": 64, \"children\": 60, \"errno\": 11, \"before\": 0, \"after\": 1, \"reaped\": 4}\n",
+        "stderr": "",
+        "truncated": false,
+        "error_kind": null
+      },
+      "cgroup_limits": {
+        "cpu.max": "100000 100000",
+        "pids.max": "64",
+        "memory.max": "268435456",
+        "memory.swap.max": "0"
+      },
+      "counters": {
+        "initial": 4,
+        "current": 64,
+        "children": 60,
+        "errno": 11,
+        "before": 0,
+        "after": 1,
+        "reaped": 4
+      },
+      "workers": [
+        {
+          "status": "returned",
+          "returncode": 0,
+          "stdout": "{\"status\": \"complete\", \"error_kind\": null, \"exit_code\": 0, \"stdout\": \"{\\\"cpu.max\\\": \\\"100000 100000\\\", \\\"pids.max\\\": \\\"64\\\", \\\"memory.max\\\": \\\"268435456\\\", \\\"memory.swap.max\\\": \\\"0\\\"}\\n{\\\"initial\\\": 4, \\\"current\\\": 64, \\\"children\\\": 60, \\\"errno\\\": 11, \\\"before\\\": 0, \\\"after\\\": 1, \\\"reaped\\\": 4}\\n\", \"stderr\": \"\", \"truncated\": false}\n",
+          "stderr": "",
+          "seconds": 0.29
+        }
+      ]
+    },
+    "memory": {
+      "status": "passed",
+      "cleanup": {
+        "status": "confirmed",
+        "session": "closed",
+        "containers": [],
+        "processes": []
+      },
+      "session": "5056152004854f009388118872feb2a1",
+      "run": "9c7301ccde174955894cb50d4e8843d0",
+      "runner": "agentic-mounted-5056152004854f009388118872feb2a1-9c7301ccde174955894cb50d4e8843d0",
+      "run_result": {
+        "status": "completed",
+        "reason": null,
+        "answer": "Fixture tool loop completed.",
+        "usage": [
+          null,
+          null
+        ],
+        "cleanup_state": "confirmed"
+      },
+      "product_stop": {
+        "containers": [],
+        "processes": []
+      },
+      "tool_result": {
+        "exit_code": 0,
+        "stdout": "{\"cpu.max\": \"100000 100000\", \"pids.max\": \"64\", \"memory.max\": \"268435456\", \"memory.swap.max\": \"0\"}\n{\"child_exit\": -9, \"before\": {\"max\": 0, \"oom\": 0, \"oom_kill\": 0}, \"after\": {\"max\": 36, \"oom\": 1, \"oom_kill\": 1}}\n",
+        "stderr": "",
+        "truncated": false,
+        "error_kind": null
+      },
+      "cgroup_limits": {
+        "cpu.max": "100000 100000",
+        "pids.max": "64",
+        "memory.max": "268435456",
+        "memory.swap.max": "0"
+      },
+      "counters": {
+        "child_exit": -9,
+        "before": {
+          "max": 0,
+          "oom": 0,
+          "oom_kill": 0
+        },
+        "after": {
+          "max": 36,
+          "oom": 1,
+          "oom_kill": 1
+        }
+      },
+      "workers": [
+        {
+          "status": "returned",
+          "returncode": 0,
+          "stdout": "{\"status\": \"complete\", \"error_kind\": null, \"exit_code\": 0, \"stdout\": \"{\\\"cpu.max\\\": \\\"100000 100000\\\", \\\"pids.max\\\": \\\"64\\\", \\\"memory.max\\\": \\\"268435456\\\", \\\"memory.swap.max\\\": \\\"0\\\"}\\n{\\\"child_exit\\\": -9, \\\"before\\\": {\\\"max\\\": 0, \\\"oom\\\": 0, \\\"oom_kill\\\": 0}, \\\"after\\\": {\\\"max\\\": 36, \\\"oom\\\": 1, \\\"oom_kill\\\": 1}}\\n\", \"stderr\": \"\", \"truncated\": false}\n",
+          "stderr": "",
+          "seconds": 1.213
+        }
+      ]
+    },
+    "sshfs_hang": {
+      "status": "passed",
+      "cleanup": {
+        "status": "confirmed",
+        "session": "closed",
+        "containers": [],
+        "processes": []
+      },
+      "session": "72787a1cc8d140459c9ff57367a192f7",
+      "broker": "f75bfb11d7ee3b92db51c9f0407ba1112c95e1f29f337ea6803fbad1eef99b93",
+      "run": "ae0f0ba379f54815adcd54af7b74261a",
+      "runner": "agentic-mounted-72787a1cc8d140459c9ff57367a192f7-ae0f0ba379f54815adcd54af7b74261a",
+      "command_pid": "1397635",
+      "fuse_wchan_samples": [
+        "request_wait_answer",
+        "request_wait_answer"
+      ],
+      "cancel_result": {
+        "status": "cancelled",
+        "reason": "requested",
+        "answer": null,
+        "usage": null,
+        "cleanup_state": "confirmed"
+      },
+      "run_result": {
+        "status": "cancelled",
+        "reason": "requested",
+        "answer": null,
+        "usage": null,
+        "cleanup_state": "confirmed"
+      },
+      "product_stop": {
+        "containers": [],
+        "processes": []
+      },
+      "cancel_seconds": 0.142,
+      "broker_state_after": "true false",
+      "workers": [
+        {
+          "status": "returned",
+          "returncode": 137,
+          "stdout": "",
+          "stderr": "",
+          "seconds": 0.618
+        }
+      ]
+    }
+  },
+  "ownership": {
+    "bind_attempted": true,
+    "stack_attempted": true
+  },
+  "cleanup": {
+    "status": "confirmed",
+    "containers": [],
+    "networks": [],
+    "mounts": [],
+    "owned_processes": [],
+    "stack_cleanup_exit": 0
+  }
+}

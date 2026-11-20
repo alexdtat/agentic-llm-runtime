@@ -1,0 +1,238 @@
+[
+  {
+    "schema_version": 2,
+    "event_id": "b2c0c9679dd94cf38e5b90680cf1593c:1",
+    "sequence": 1,
+    "timestamp": 1795094502.5600615,
+    "session_id": "b2c0c9679dd94cf38e5b90680cf1593c",
+    "run_id": "380b98bf6e9d40e783c59d7051d9787c",
+    "type": "run.status",
+    "payload": {
+      "status": "queued"
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "b2c0c9679dd94cf38e5b90680cf1593c:2",
+    "sequence": 2,
+    "timestamp": 1795094502.5604117,
+    "session_id": "b2c0c9679dd94cf38e5b90680cf1593c",
+    "run_id": "380b98bf6e9d40e783c59d7051d9787c",
+    "type": "run.status",
+    "payload": {
+      "status": "running"
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "b2c0c9679dd94cf38e5b90680cf1593c:3",
+    "sequence": 3,
+    "timestamp": 1795094502.5604558,
+    "session_id": "b2c0c9679dd94cf38e5b90680cf1593c",
+    "run_id": "380b98bf6e9d40e783c59d7051d9787c",
+    "type": "model.started",
+    "payload": {
+      "step": 0
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "b2c0c9679dd94cf38e5b90680cf1593c:4",
+    "sequence": 4,
+    "timestamp": 1795094502.5605493,
+    "session_id": "b2c0c9679dd94cf38e5b90680cf1593c",
+    "run_id": "380b98bf6e9d40e783c59d7051d9787c",
+    "type": "model.completed",
+    "payload": {
+      "step": 0,
+      "action": {
+        "calls": [
+          {
+            "id": "call-1",
+            "tool": "ReadFile",
+            "args": {
+              "path": "config/app.yaml"
+            }
+          }
+        ]
+      },
+      "usage": null
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "b2c0c9679dd94cf38e5b90680cf1593c:5",
+    "sequence": 5,
+    "timestamp": 1795094502.560592,
+    "session_id": "b2c0c9679dd94cf38e5b90680cf1593c",
+    "run_id": "380b98bf6e9d40e783c59d7051d9787c",
+    "type": "tool.started",
+    "payload": {
+      "op_id": "deaa137bcc57499eaeffe9e84ccdf514",
+      "call": {
+        "id": "call-1",
+        "tool": "ReadFile",
+        "args": {
+          "path": "config/app.yaml"
+        }
+      }
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "b2c0c9679dd94cf38e5b90680cf1593c:6",
+    "sequence": 6,
+    "timestamp": 1795094502.560885,
+    "session_id": "b2c0c9679dd94cf38e5b90680cf1593c",
+    "run_id": "380b98bf6e9d40e783c59d7051d9787c",
+    "type": "tool.result",
+    "payload": {
+      "op_id": "deaa137bcc57499eaeffe9e84ccdf514",
+      "result": {
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "",
+        "error_kind": null,
+        "truncated": false,
+        "data": "c2VydmljZToKICBuYW1lOiBvcmRlcnMKICBsaXN0ZW46CiAgICBob3N0OiAwLjAuMC4wCiAgICBwb3J0OiA4MTM3CiAgIyDRgdGC0LDRgNGL0Lkg0L/QvtGA0YIsINCx0L7Qu9GM0YjQtSDQvdC1INC40YHQv9C+0LvRjNC30YPQtdGC0YHRjzogODA4MApsb2dnaW5nOgogIGxldmVsOiBpbmZvCg==",
+        "encoding": "base64"
+      }
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "b2c0c9679dd94cf38e5b90680cf1593c:7",
+    "sequence": 7,
+    "timestamp": 1795094502.5609345,
+    "session_id": "b2c0c9679dd94cf38e5b90680cf1593c",
+    "run_id": "380b98bf6e9d40e783c59d7051d9787c",
+    "type": "model.started",
+    "payload": {
+      "step": 1
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "b2c0c9679dd94cf38e5b90680cf1593c:8",
+    "sequence": 8,
+    "timestamp": 1795094502.5611005,
+    "session_id": "b2c0c9679dd94cf38e5b90680cf1593c",
+    "run_id": "380b98bf6e9d40e783c59d7051d9787c",
+    "type": "model.completed",
+    "payload": {
+      "step": 1,
+      "action": {
+        "calls": [
+          {
+            "id": "call-2",
+            "tool": "WriteFile",
+            "args": {
+              "path": "answer.txt",
+              "data": "ODEzNwo="
+            }
+          }
+        ]
+      },
+      "usage": null
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "b2c0c9679dd94cf38e5b90680cf1593c:9",
+    "sequence": 9,
+    "timestamp": 1795094502.5611503,
+    "session_id": "b2c0c9679dd94cf38e5b90680cf1593c",
+    "run_id": "380b98bf6e9d40e783c59d7051d9787c",
+    "type": "tool.started",
+    "payload": {
+      "op_id": "7be7f031b9fb42bab340a7ebc733db06",
+      "call": {
+        "id": "call-2",
+        "tool": "WriteFile",
+        "args": {
+          "path": "answer.txt",
+          "data": "ODEzNwo="
+        }
+      }
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "b2c0c9679dd94cf38e5b90680cf1593c:10",
+    "sequence": 10,
+    "timestamp": 1795094502.5612557,
+    "session_id": "b2c0c9679dd94cf38e5b90680cf1593c",
+    "run_id": "380b98bf6e9d40e783c59d7051d9787c",
+    "type": "tool.result",
+    "payload": {
+      "op_id": "7be7f031b9fb42bab340a7ebc733db06",
+      "result": {
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "",
+        "error_kind": null,
+        "truncated": false
+      }
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "b2c0c9679dd94cf38e5b90680cf1593c:11",
+    "sequence": 11,
+    "timestamp": 1795094502.561304,
+    "session_id": "b2c0c9679dd94cf38e5b90680cf1593c",
+    "run_id": "380b98bf6e9d40e783c59d7051d9787c",
+    "type": "model.started",
+    "payload": {
+      "step": 2
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "b2c0c9679dd94cf38e5b90680cf1593c:12",
+    "sequence": 12,
+    "timestamp": 1795094502.5613785,
+    "session_id": "b2c0c9679dd94cf38e5b90680cf1593c",
+    "run_id": "380b98bf6e9d40e783c59d7051d9787c",
+    "type": "model.completed",
+    "payload": {
+      "step": 2,
+      "action": {
+        "answer": "Smoke script finished."
+      },
+      "usage": null
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "b2c0c9679dd94cf38e5b90680cf1593c:13",
+    "sequence": 13,
+    "timestamp": 1795094502.5614164,
+    "session_id": "b2c0c9679dd94cf38e5b90680cf1593c",
+    "run_id": "380b98bf6e9d40e783c59d7051d9787c",
+    "type": "run.status",
+    "payload": {
+      "status": "finalizing"
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "b2c0c9679dd94cf38e5b90680cf1593c:14",
+    "sequence": 14,
+    "timestamp": 1795094502.5615072,
+    "session_id": "b2c0c9679dd94cf38e5b90680cf1593c",
+    "run_id": "380b98bf6e9d40e783c59d7051d9787c",
+    "type": "run.result",
+    "payload": {
+      "status": "completed",
+      "reason": null,
+      "answer": "Smoke script finished.",
+      "usage": [
+        null,
+        null,
+        null
+      ],
+      "cleanup_state": "confirmed"
+    }
+  }
+]
