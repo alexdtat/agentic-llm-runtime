@@ -97,8 +97,8 @@ def check_sftp(stack):
 
 
 @contextlib.contextmanager
-def service(app, token):
-    with ThreadingHTTPServer(('127.0.0.1', 0), JsonHandler) as server:
+def service(app, token, *, port=0, handler=JsonHandler):
+    with ThreadingHTTPServer(('127.0.0.1', port), handler) as server:
         server.app, server.token = app, token
         thread = threading.Thread(target=server.serve_forever, kwargs={'poll_interval': .03})
         thread.start()

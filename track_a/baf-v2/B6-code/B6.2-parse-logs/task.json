@@ -1,0 +1,12 @@
+{
+  "id": "B6.2",
+  "baf": "B6",
+  "level": "medium",
+  "messages": [
+    "Напиши parse_logs.py, который собирает агрегаты по часам для формата из spec.md. Пример входа находится в examples/app.log."
+  ],
+  "answer_file": "parse_logs.py",
+  "timeout_s": 180,
+  "mutable_fixture_files": [],
+  "checker": "isolated_python"
+}

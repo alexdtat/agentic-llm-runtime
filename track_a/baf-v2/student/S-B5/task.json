@@ -1,0 +1,19 @@
+{
+  "id": "S-B5",
+  "baf": "B5",
+  "level": "medium",
+  "messages": [
+    "В рабочем каталоге запусти ровно команду python3 meter.py readings.csv. Скрипт печатает итог и контрольные показатели. Перенеси в answer.txt только целое число из строки peak_load=. Исходные файлы сохрани."
+  ],
+  "answer_file": "answer.txt",
+  "timeout_s": 180,
+  "mutable_fixture_files": [],
+  "required_tool": {
+    "argv": [
+      "python3",
+      "meter.py",
+      "readings.csv"
+    ],
+    "exit_code": 0
+  }
+}

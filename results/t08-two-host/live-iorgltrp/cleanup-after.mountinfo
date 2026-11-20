@@ -1,0 +1,2 @@
+46 1 252:1 / / rw,relatime shared:1 - ext4 /dev/mapper/ubuntu--vg-ubuntu--lv rw
+265 46 0:48 / /tmp rw,nosuid,nodev shared:230 - tmpfs tmpfs rw,nr_inodes=1048576,inode64,usrquota

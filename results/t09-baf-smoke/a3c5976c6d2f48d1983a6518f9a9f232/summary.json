@@ -1,0 +1,61 @@
+{
+  "mode": "synthetic_mock_fixture",
+  "quality_evaluation": false,
+  "repetitions": 1,
+  "attempts": [
+    {
+      "task": "B1.1",
+      "id": "21732a2dd5fd45ebaaaddf34d094f8fb",
+      "outcome": "pass",
+      "evidence": "21732a2dd5fd45ebaaaddf34d094f8fb/attempt.json"
+    },
+    {
+      "task": "B2.1",
+      "id": "d42354ab4b9c4e1d9e0dc46eb69d9e67",
+      "outcome": "pass",
+      "evidence": "d42354ab4b9c4e1d9e0dc46eb69d9e67/attempt.json"
+    },
+    {
+      "task": "B3.1",
+      "id": "08d0cc3f9d5c46fa82e8ab8e2242ac21",
+      "outcome": "pass",
+      "evidence": "08d0cc3f9d5c46fa82e8ab8e2242ac21/attempt.json"
+    },
+    {
+      "task": "B4.1",
+      "id": "ce9f2fb8ed804740afc23ce2d62c2b16",
+      "outcome": "pass",
+      "evidence": "ce9f2fb8ed804740afc23ce2d62c2b16/attempt.json"
+    },
+    {
+      "task": "B5.1",
+      "id": "6ef4a7299ff74e2e8776cd34719117fe",
+      "outcome": "pass",
+      "evidence": "6ef4a7299ff74e2e8776cd34719117fe/attempt.json"
+    },
+    {
+      "task": "B6.1",
+      "id": "a40ad3c845424ccb9b8dc150d6726551",
+      "outcome": "pass",
+      "evidence": "a40ad3c845424ccb9b8dc150d6726551/attempt.json"
+    },
+    {
+      "task": "B7.1",
+      "id": "89a97c0332664d0eb84d8f690afaaa3a",
+      "outcome": "pass",
+      "evidence": "89a97c0332664d0eb84d8f690afaaa3a/attempt.json"
+    },
+    {
+      "task": "B8.1",
+      "id": "8c7efd120a3348b49db732c8721764f2",
+      "outcome": "pass",
+      "evidence": "8c7efd120a3348b49db732c8721764f2/attempt.json"
+    }
+  ],
+  "counts": {
+    "pass": 8,
+    "fail": 0,
+    "infra_error": 0
+  },
+  "outcome": "pass"
+}

@@ -1,0 +1,6 @@
+city,arriving_service,arrival,departing_service,departure,minimum_connection_minutes
+X,PN311,09:08,PN710,09:45,20
+Y,PN305,09:17,PN720,10:03,25
+Y,PN311,09:45,PN720,10:03,25
+Y,PN311,09:45,PN725,10:24,25
+Z,PN311,10:55,PN735,11:20,30

@@ -145,7 +145,7 @@ class Probe:
 
     def remember_container(self, container):
         identities = {}
-        output = self.command([*LOCAL, 'top', container, '-eo', 'pid,args']).stdout
+        output = self.command([*LOCAL, 'top', container, '-eo', 'pid']).stdout
         for line in output.splitlines()[1:]:
             pid = line.split()[0]
             require(pid.isdigit(), 'Invalid host PID from docker top')
@@ -202,27 +202,35 @@ class Probe:
         return {'containers': [], 'networks': [], 'mounts': [], 'owned_processes': [],
                 'stack_cleanup_exit': cleanup_exit}
 
-    def exercise(self):
+    def setup(self):
         require(self.mount_type(self.root / 'mount') is None, 'Fresh self-bind path already mounted')
         require(self.mount_type(self.root / 'mount/work') is None, 'Fresh child path already mounted')
         require(not self.containers(), 'Refusing to acquire an existing project or runtime scope')
         networks = self.command([*LOCAL, 'network', 'ls', '-q', '--filter',
                                  'label=com.docker.compose.project=' + self.scope]).stdout.strip()
         require(not networks, 'Refusing to acquire an existing project network')
-        (self.root / 'client/after-cut.txt').write_text('synthetic-after-cut\n')
         self.bind_attempted = True
         self.privileged('mount', '--bind', self.root / 'mount', self.root / 'mount')
+        self.privileged('mount', '--make-private', self.root / 'mount')
         self.privileged('mount', '--make-rshared', self.root / 'mount')
         self.stack_attempted = True
         self.command([STACK, 'up'], seconds=35)
         self.remember_processes()
-        ids = self.command([*self.compose, 'ps', '-q', 'exporter']).stdout.split()
-        require(len(ids) == 1 and re.fullmatch(r'[0-9a-f]{12,64}', ids[0]), 'No unique exporter ID')
-        exporter = ids[0]
-        inspection = json.loads(self.command([*LOCAL, 'inspect', exporter]).stdout)[0]
-        labels = inspection['Config']['Labels']
-        require(labels.get('com.docker.compose.project') == self.scope and
-                labels.get('com.docker.compose.service') == 'exporter', 'Exporter ownership mismatch')
+
+    def compose_container(self, service_name):
+        ids = self.command([*self.compose, 'ps', '-q', service_name]).stdout.split()
+        require(len(ids) == 1 and re.fullmatch(r'[0-9a-f]{12,64}', ids[0]), 'No unique container for ' + service_name)
+        container = ids[0]
+        inspection = json.loads(self.command([*LOCAL, 'inspect', container, '--format',
+                                              '{{json .Config.Labels}}']).stdout)
+        require(inspection.get('com.docker.compose.project') == self.scope and
+                inspection.get('com.docker.compose.service') == service_name, 'Compose ownership mismatch')
+        return container
+
+    def exercise(self):
+        self.setup()
+        (self.root / 'client/after-cut.txt').write_text('synthetic-after-cut\n')
+        exporter = self.compose_container('exporter')
         root = self.root
         executor = mounted_executor.MountedExecutor(str(root / 'mount/work'), 'live-grant', self.scope,
                                                     'agentic-sandbox:cpu-v1', root / 'execution-state')
@@ -325,12 +333,16 @@ class Probe:
                 journal.db.close()
 
 
-def main():
+class ProbeDeadline(BaseException):
+    pass
+
+
+def run_probe(probe_class, evidence_name, *, exercise_seconds=100):
     def interrupted(*_):
         raise KeyboardInterrupt()
 
     def deadline_exceeded(*_):
-        raise TimeoutError('Probe deadline exceeded')
+        raise ProbeDeadline('Probe deadline exceeded')
 
     signal.signal(signal.SIGTERM, interrupted)
     try:
@@ -347,12 +359,12 @@ def main():
             (root / 'marker').read_text() == 'agentic-mounted-runtime\n', 'Invalid synthetic root ownership')
     print('Evidence directory: ' + str(root), flush=True)
     signal.signal(signal.SIGALRM, deadline_exceeded)
-    signal.alarm(100)
+    signal.alarm(exercise_seconds)
     result = {'status': 'failed', 'root': str(root)}
-    with (root / 'live-failure.jsonl').open('a') as log:
+    with (root / (evidence_name + '.jsonl')).open('a') as log:
         probe = None
         try:
-            probe = Probe(root, log)
+            probe = probe_class(root, log)
             result.update(probe.exercise())
         except BaseException:
             (root / 'failure.txt').write_text(traceback.format_exc())
@@ -365,11 +377,16 @@ def main():
                     result['cleanup'] = probe.cleanup()
             except BaseException:
                 result['status'] = 'failed'
+                result['cleanup'] = {'status': 'failed', 'error': str(sys.exc_info()[1])}
                 (root / 'cleanup-failure.txt').write_text(traceback.format_exc())
-            (root / 'live-failure-summary.json').write_text(json.dumps(result, indent=2))
+            (root / (evidence_name + '-summary.json')).write_text(json.dumps(result, indent=2))
             signal.alarm(0)
     print(json.dumps(result), flush=True)
     return 0 if result['status'] == 'passed' else 1
+
+
+def main():
+    return run_probe(Probe, 'live-failure')
 
 
 if __name__ == '__main__':

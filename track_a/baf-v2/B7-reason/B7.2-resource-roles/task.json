@@ -1,0 +1,11 @@
+{
+  "id": "B7.2",
+  "baf": "B7",
+  "level": "medium",
+  "messages": [
+    "Определи, какие роли имеют доступ к ресурсу R по policy.yaml. Запиши имена в answer.txt по одному на строку в произвольном порядке."
+  ],
+  "answer_file": "answer.txt",
+  "timeout_s": 180,
+  "mutable_fixture_files": []
+}

@@ -1,0 +1,12 @@
+{
+  "id": "B3.2",
+  "baf": "B3",
+  "level": "medium",
+  "messages": [
+    "Сделай report.csv из таблицы в task.md, отсортируй по дате"
+  ],
+  "answer_file": "report.csv",
+  "timeout_s": 180,
+  "mutable_fixture_files": [],
+  "checker": "file"
+}

@@ -18,14 +18,22 @@ with open('/proc/self/mountinfo') as mounts:
 os.stat('/work')
 """
 
+READONLY_CHECK = """
+if not os.statvfs('/work').f_flag & os.ST_RDONLY:
+    raise RuntimeError('Expected a read-only /work')
+"""
+
 
 class MountedExecutor:
-    def __init__(self, mount, grant, scope, image, root):
+    def __init__(self, mount, grant, scope, image, root, *, access_mode='rw'):
         key(grant)
         key(scope)
         if not os.path.isabs(mount) or ',' in mount or os.path.normpath(mount) != mount:
             raise ValueError('Configure an absolute, normalized SSHFS mountpoint')
+        if access_mode not in ('ro', 'rw'):
+            raise ValueError('Mount access mode must be ro or rw')
         self.mount, self.grant = mount, grant
+        self.access_mode = access_mode
         self.containers = State(scope='mounted-' + scope, image=image)
         self.store = SessionJournals(root)
         self.sessions = self.store.load()
@@ -45,10 +53,21 @@ class MountedExecutor:
         return f"agentic-mounted-{session['id']}-{run_id}"
 
     def check_mount(self):
-        result = subprocess.run(['findmnt', '-rnC', '--mountpoint', self.mount, '-o', 'FSTYPE'],
+        columns = 'FSTYPE,VFS-OPTIONS' if self.access_mode == 'ro' else 'FSTYPE'
+        result = subprocess.run(['findmnt', '-rnC', '--mountpoint', self.mount, '-o', columns],
                                 capture_output=True, text=True, timeout=2)
-        if result.returncode or set(result.stdout.split()) != {'fuse.sshfs'}:
+        observed = [line.split() for line in result.stdout.splitlines() if line.strip()]
+        if result.returncode or {row[0] for row in observed} != {'fuse.sshfs'}:
             raise RuntimeError('SSHFS mount is unavailable')
+        if self.access_mode == 'ro':
+            for row in observed:
+                options = row[1].split(',') if len(row) == 2 else []
+                if 'ro' not in options or 'rw' in options:
+                    raise RuntimeError('Read-only SSHFS mount is required')
+
+    def check_access_mode(self, session):
+        if session.get('access_mode', 'rw') != self.access_mode:
+            raise Conflict('Export access mode changed')
 
     def run_container(self, name, *command, readonly=False, detach=False, timeout=6, input=None):
         self.check_mount()
@@ -93,10 +112,13 @@ class MountedExecutor:
                         raise Conflict('Export is already leased')
                     self.check_mount()
                     session = dict(id=sid, generation=1, active=None, closed=False,
+                                   access_mode=self.access_mode,
                                    operations={}, stopped=[])
                     self.store.save(session)
                     self.sessions[sid] = session
                 session = self.sessions[sid]
+                if not session['closed']:
+                    self.check_access_mode(session)
                 return 200, {'generation': session['generation'], 'closed': session['closed']}
             if action == 'release':
                 fields(body)
@@ -146,6 +168,7 @@ class MountedExecutor:
         return operation['result']
 
     def start(self, session, rid):
+        self.check_access_mode(session)
         if self.stopping or rid in session['stopped'] or session['active'] not in {None, rid}:
             raise Conflict('Cannot start run')
         if session['active'] == rid:
@@ -156,7 +179,10 @@ class MountedExecutor:
         name = self.name(session, rid)
         # The sandbox runs only trusted mount validation until tools arrive.
         ready = 'import time; from pathlib import Path; Path("/tmp/mount-ready").touch(); time.sleep(120)'
-        result = self.run_container(name, 'python3', '-c', MOUNT_CHECK + ready, detach=True)
+        readonly = self.access_mode == 'ro'
+        check = MOUNT_CHECK + READONLY_CHECK if readonly else MOUNT_CHECK
+        result = self.run_container(name, 'python3', '-c', check + ready,
+                                    readonly=readonly, detach=True)
         if result.returncode:
             raise RuntimeError('Cannot start mounted sandbox')
         wait = 'import time; from pathlib import Path\n' + (
@@ -201,9 +227,15 @@ class MountedExecutor:
             if any(op['request']['run_id'] == rid and op['result'] is None
                    for op in session['operations'].values()):
                 raise Conflict('An operation outcome is unknown')
-            operation = {'request': body, 'result': None}
+            denied = None
+            if self.access_mode == 'ro' and call['tool'] == 'WriteFile':
+                denied = dict(exit_code=1, stdout='', stderr='Read-only workspace', truncated=False,
+                              error_kind='command_failure')
+            operation = {'request': body, 'result': denied}
             session['operations'][op_id] = operation
             self.store.save(session)
+            if denied is not None:
+                return 200, denied
 
         # Never hold the executor lock while the worker or its descendants are running.
         value = self.execute_tool(name, call)
@@ -291,7 +323,7 @@ def main():
         raise RuntimeError('Use the local Docker socket for the mounted profile')
     backend = MountedExecutor(os.environ['SSHFS_MOUNT'], os.environ['MOUNT_GRANT'],
                               os.environ['RUNTIME_SCOPE'], os.environ.get('SANDBOX_IMAGE', 'agentic-sandbox:cpu-v1'),
-                              os.environ['STATE_DIR'])
+                              os.environ['STATE_DIR'], access_mode=os.environ.get('MOUNT_ACCESS_MODE', 'rw'))
     backend.recover()
     serve(backend, int(os.environ.get('PORT', '8081')))
 

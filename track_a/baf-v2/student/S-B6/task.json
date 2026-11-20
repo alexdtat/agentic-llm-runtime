@@ -1,0 +1,10 @@
+{
+  "id": "S-B6",
+  "baf": "B6",
+  "level": "trick",
+  "messages": ["Реализуй функцию join_ranges(ranges) в файле join_ranges.py в корне рабочего каталога по спецификации spec.md. Сохрани исходник."],
+  "answer_file": "join_ranges.py",
+  "timeout_s": 180,
+  "mutable_fixture_files": [],
+  "checker": "isolated_python"
+}

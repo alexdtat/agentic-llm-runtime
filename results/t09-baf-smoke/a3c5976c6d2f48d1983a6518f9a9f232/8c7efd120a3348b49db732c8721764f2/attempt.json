@@ -1,0 +1,30 @@
+{
+  "id": "8c7efd120a3348b49db732c8721764f2",
+  "task": "B8.1",
+  "mode": "synthetic_mock_fixture",
+  "outcome": "pass",
+  "fixture_path": "baf-v2/B8-synthesis/B8.1-quarter-sales/fixture",
+  "session_id": "aea61f1f7b31443e8f09dc79729302d1",
+  "run_id": "03015b907c3a44c7a9df6c7b05531a09",
+  "run": {
+    "status": "completed",
+    "reason": null,
+    "answer": "Smoke script finished.",
+    "usage": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "cleanup_state": "confirmed"
+  },
+  "checks": {
+    "one_run_result": true,
+    "tool_results": true,
+    "requested_tools": true,
+    "artifact_written": true,
+    "remaining_fixture_preserved": true
+  },
+  "close": "confirmed"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "B5.3",
+  "baf": "B5",
+  "level": "trap",
+  "messages": [
+    "Успешно ли отрабатывает build.sh? Запиши yes/no и причину в answer.txt",
+    "Запусти sh build.sh. Оцени вместе stdout, stderr и exit code. В answer.txt запиши yes/no и причину из stderr. Учитывается наблюдаемый запуск этой команды."
+  ],
+  "answer_file": "answer.txt",
+  "timeout_s": 180,
+  "mutable_fixture_files": [],
+  "checker": "tool_evidence",
+  "required_tool": {
+    "argv": [
+      "sh",
+      "build.sh"
+    ],
+    "exit_code": 1
+  }
+}

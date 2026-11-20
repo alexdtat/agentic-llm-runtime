@@ -1,0 +1,44 @@
+{
+  "status": "passed",
+  "mode": "two_host_mounted_mock",
+  "desktop": "alexdtat-desktop",
+  "evidence": "/tmp/agentic-two-host-evidence.iorgltrp",
+  "stages": {
+    "prepare": {
+      "status": "passed",
+      "exit_code": 0
+    },
+    "exchange": {
+      "status": "passed",
+      "exit_code": 0,
+      "session": "2c82781270ff4ffe8c69deedb92a7afb",
+      "close": "confirmed",
+      "runs": [
+        "a717e1eaf8904c05920f1353780d2425",
+        "f9dba45e0c19428696bc49c0a446321f"
+      ]
+    },
+    "cleanup": {
+      "status": "passed",
+      "exit_code": 0,
+      "docker": {
+        "com.docker.compose.project=mount-v2-b25f56be5134": {
+          "containers": [],
+          "networks": []
+        },
+        "agentic.scope=mounted-mount-v2-b25f56be5134": {
+          "containers": [],
+          "networks": []
+        }
+      },
+      "mount_ids": [
+        [],
+        []
+      ]
+    }
+  },
+  "resumed_from": "/tmp/agentic-two-host-evidence.xgz0sec3",
+  "root": "/tmp/agentic-mounted-runtime.em52xtti",
+  "scope": "mount-v2-b25f56be5134",
+  "tag": "34577139723871c73f04"
+}

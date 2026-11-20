@@ -1,0 +1,1 @@
+{"status": "passed", "sftp_read": 1, "sftp_denials": 4, "sandbox_denials": 5, "read_file": 1, "collect": 1, "unchanged_files": 5}

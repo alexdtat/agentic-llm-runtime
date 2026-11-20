@@ -1,0 +1,4 @@
+46 1 252:1 / / rw,relatime shared:1 - ext4 /dev/mapper/ubuntu--vg-ubuntu--lv rw
+265 46 0:48 / /tmp rw,nosuid,nodev shared:230 - tmpfs tmpfs rw,nr_inodes=1048576,inode64,usrquota
+6517 265 0:48 /agentic-mounted-runtime.em52xtti/mount /tmp/agentic-mounted-runtime.em52xtti/mount rw,nosuid,nodev shared:1335 - tmpfs tmpfs rw,nr_inodes=1048576,inode64,usrquota
+9647 6517 0:185 / /tmp/agentic-mounted-runtime.em52xtti/mount/work rw,nosuid,nodev,relatime shared:1356 - fuse.sshfs ubuntu@127.0.0.1:/work rw,user_id=0,group_id=0,default_permissions,allow_other

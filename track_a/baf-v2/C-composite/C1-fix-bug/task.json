@@ -1,0 +1,21 @@
+{
+  "id": "C1",
+  "baf": "C",
+  "level": "composite",
+  "messages": [
+    "Почини баг по описанию issue.md. Найди нужный модуль и прогони тесты проекта."
+  ],
+  "answer_file": "dispatch/batches.py",
+  "timeout_s": 180,
+  "mutable_fixture_files": [
+    "dispatch/batches.py"
+  ],
+  "decomposition": [
+    "B2",
+    "B1",
+    "B7",
+    "B4",
+    "B5"
+  ],
+  "checker": "isolated_python"
+}

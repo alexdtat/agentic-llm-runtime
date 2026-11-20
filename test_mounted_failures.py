@@ -15,7 +15,7 @@ from unittest.mock import Mock, patch
 from track_a.application import Application, RunError
 from track_a.http_api import Conflict
 from track_a.model_proxy import ModelProxy
-from track_a.mounted_executor import MOUNT_CHECK, MountedExecutor, main
+from track_a.mounted_executor import MOUNT_CHECK, READONLY_CHECK, MountedExecutor, main
 
 RUN_PROCESS = subprocess.run
 SCOPE = {'generation': 1, 'run_id': 'run'}
@@ -37,8 +37,9 @@ def tool_success(argv):
                                             truncated=False, error_kind=None)))
 
 
-def mounted(root):
-    return MountedExecutor('/mnt/test-export', 'test-grant', 'test', 'sandbox', root)
+def mounted(root, access_mode='rw'):
+    return MountedExecutor('/mnt/test-export', 'test-grant', 'test', 'sandbox', root,
+                           access_mode=access_mode)
 
 
 def post(executor, action, body):
@@ -54,6 +55,7 @@ class FakeSystem:
         self.tool = tool_success
         self.calls = []
         self.tools = []
+        self.collect_paths = []
         self.running = set()
         self.removal_fails = False
         self.listing_fails = False
@@ -71,6 +73,8 @@ class FakeSystem:
             if name in self.running:
                 raise AssertionError(f'Duplicate sandbox {name}')
             result = self.start_result if args[2] == '-d' else self.collect_result
+            if args[2] == '-i':
+                self.collect_paths.append(json.loads(input))
             if args[2] == '-i' or result.returncode == 0:
                 self.running.add(name)
             return result
@@ -151,8 +155,8 @@ class MountedFailureTests(unittest.TestCase):
         subprocess_patch.start()
         self.addCleanup(subprocess_patch.stop)
 
-    def executor(self, root=None):
-        executor = mounted(root or self.root / 'executor')
+    def executor(self, root=None, *, access_mode='rw'):
+        executor = mounted(root or self.root / 'executor', access_mode)
         self.addCleanup(executor.containers.journal.db.close)
         self.addCleanup(self.close_journals, executor)
         return executor
@@ -171,6 +175,97 @@ class MountedFailureTests(unittest.TestCase):
         self.provision(executor)
         self.assertEqual(post(executor, 'start', SCOPE), (200, {}))
         return executor
+
+    def test_readonly_tools_and_collect_keep_known_outcomes(self):
+        self.system.mount = completed(stdout='fuse.sshfs ro,relatime\n')
+        executor = self.executor(access_mode='ro')
+        self.provision(executor)
+        post(executor, 'start', SCOPE)
+        start = next(call for call in self.system.calls if call[:2] == ('run', '-d'))
+        self.assertTrue(start[start.index('--mount') + 1].endswith(',readonly'))
+        self.assertIn(READONLY_CHECK, start[-1])
+
+        write = {**INTENT, 'call': WRITE}
+        denied = post(executor, 'exec', write)
+        self.assertEqual(denied, (200, dict(exit_code=1, stdout='', stderr='Read-only workspace',
+                                            truncated=False, error_kind='command_failure')))
+        self.assertEqual(post(executor, 'exec', write), denied)
+        self.assertEqual(post(executor, 'operation', LOOKUP), denied)
+        with self.assertRaisesRegex(Conflict, 'different payload'):
+            post(executor, 'exec', INTENT)
+        self.assertEqual(self.system.tools, [])
+
+        read = {'id': 'read', 'tool': 'ReadFile', 'args': {'path': 'client.txt'}}
+        outcome = post(executor, 'exec', {**INTENT, 'op_id': 'read-op', 'call': read})
+        self.assertEqual(outcome[1]['data'], PAYLOAD)
+        self.system.tool = lambda argv: completed(stdout=json.dumps(
+            dict(exit_code=1, stdout='', stderr='Read-only file system',
+                 truncated=False, error_kind='command')))
+        command = post(executor, 'exec', {**INTENT, 'op_id': 'shell-op'})
+        self.assertEqual(command[1]['error_kind'], 'command_failure')
+        self.assertEqual(self.system.tools[-1], ['/bin/sh', '-c', 'printf mounted'])
+
+        post(executor, 'stop', SCOPE)
+        self.system.collect_result = completed(stdout=json.dumps({'client.txt': PAYLOAD}))
+        self.assertEqual(post(executor, 'collect', SCOPE), (200, {'files': {'client.txt': PAYLOAD}}))
+        self.assertEqual(self.system.collect_paths, [['client.txt']])
+        collector = next(call for call in self.system.calls if call[:2] == ('run', '-i'))
+        self.assertTrue(collector[collector.index('--mount') + 1].endswith(',readonly'))
+        self.assertFalse(self.system.running)
+
+    def test_readonly_mount_requires_every_exact_host_view_to_be_readonly(self):
+        executor = self.executor(access_mode='ro')
+        for output in ('fuse.sshfs\n', 'fuse.sshfs rw,relatime\n', 'fuse.sshfs ro,rw\n',
+                       'fuse.sshfs ro,relatime\nfuse.sshfs rw,relatime\n', 'ext4 ro\n'):
+            with self.subTest(output=output):
+                self.system.mount = completed(stdout=output)
+                self.assertEqual(executor.health()[0], 503)
+                with self.assertRaises(RuntimeError):
+                    post(executor, 'provision', {'grant': 'test-grant'})
+        self.system.mount = completed(stdout='fuse.sshfs ro,relatime\nfuse.sshfs ro,nosuid\n')
+        self.assertEqual(executor.health()[0], 200)
+        self.provision(executor)
+        self.assertFalse(self.system.running)
+
+    def test_grant_mode_cannot_be_overridden_or_upgraded_after_restart(self):
+        self.system.mount = completed(stdout='fuse.sshfs ro,relatime\n')
+        executor = self.executor(access_mode='ro')
+        with self.assertRaises(TypeError):
+            post(executor, 'provision', {'grant': 'test-grant', 'access_mode': 'rw'})
+        app = Application(None, None, {'owner': 'token'}, mount_owner='owner')
+        with self.assertRaises(TypeError):
+            app.create('owner', {'request_id': 'override', 'grant': 'test-grant', 'access_mode': 'rw'})
+        self.provision(executor)
+        post(executor, 'start', SCOPE)
+        write = {**INTENT, 'call': WRITE}
+        denied = post(executor, 'exec', write)
+
+        restored = self.executor()
+        restored.recover()
+        with self.assertRaisesRegex(Conflict, 'access mode changed'):
+            post(restored, 'provision', {'grant': 'test-grant'})
+        with self.assertRaisesRegex(Conflict, 'access mode changed'):
+            post(restored, 'start', {**SCOPE, 'run_id': 'next-run'})
+        self.assertEqual(post(restored, 'operation', LOOKUP), denied)
+        self.assertEqual(post(restored, 'exec', write), denied)
+        self.assertEqual(post(restored, 'release', {})[1]['cleanup_state'], 'confirmed')
+        self.assertFalse(self.system.tools)
+
+    def test_legacy_journal_without_access_mode_still_starts_readwrite(self):
+        executor = self.executor()
+        self.provision(executor)
+        legacy = executor.sessions['session']
+        del legacy['access_mode']
+        executor.store.save(legacy)
+        self.system.mount = completed(stdout='fuse.sshfs\nfuse.sshfs\n')
+        restored = self.executor()
+        restored.recover()
+        self.provision(restored)
+        post(restored, 'start', SCOPE)
+        start = next(call for call in self.system.calls if call[:2] == ('run', '-d'))
+        self.assertNotIn(',readonly', start[start.index('--mount') + 1])
+        self.assertEqual(post(restored, 'exec', {**INTENT, 'call': WRITE})[1]['exit_code'], 0)
+        post(restored, 'stop', SCOPE)
 
     def test_mount_loss_at_start_keeps_failed_sandbox_unusable(self):
         cases = (
@@ -560,6 +655,23 @@ class LiveFailureRunnerTests(unittest.TestCase):
                     probe.exercise()
                 self.assertEqual(probe.cleanup(), {'status': 'not_acquired'})
                 probe.command.assert_not_called()
+
+    def test_prepare_detaches_the_owned_self_bind_before_making_it_shared(self):
+        probe = self.runner.Probe.__new__(self.runner.Probe)
+        probe.root, probe.scope = Path('/tmp/synthetic-probe'), 'test-scope'
+        probe.mount_type = Mock(return_value=None)
+        probe.containers = Mock(return_value=[])
+        probe.command = Mock(return_value=completed(stdout=''))
+        probe.privileged = Mock()
+        probe.remember_processes = Mock()
+
+        probe.setup()
+
+        mount = probe.root / 'mount'
+        self.assertEqual([call.args for call in probe.privileged.call_args_list],
+                         [('mount', '--bind', mount, mount), ('mount', '--make-private', mount),
+                          ('mount', '--make-rshared', mount)])
+        self.assertTrue(probe.bind_attempted and probe.stack_attempted)
 
     def test_diagnostics_failure_still_attempts_owned_stack_cleanup(self):
         with tempfile.TemporaryDirectory() as root:

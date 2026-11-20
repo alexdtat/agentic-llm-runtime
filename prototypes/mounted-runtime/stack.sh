@@ -11,8 +11,16 @@ esac
 [ "$(realpath -e -- "$PROBE_ROOT")" = "$PROBE_ROOT" ] &&
 [ -O "$PROBE_ROOT" ] &&
 [ "$(cat "$PROBE_ROOT/marker")" = agentic-mounted-runtime ] &&
-[ ! -L "$PROBE_ROOT/mount" ] && [ ! -L "$PROBE_ROOT/mount/work" ] ||
+[ ! -L "$PROBE_ROOT/mount" ] ||
     die 'Invalid diagnostic directory'
+access_mode=rw
+if [ -f "$PROBE_ROOT/access-mode" ]; then
+    access_mode=$(cat "$PROBE_ROOT/access-mode")
+fi
+case "$access_mode" in
+    ro|rw) ;;
+    *) die 'Invalid export access mode' ;;
+esac
 scope=mount-v2-$(printf '%s' "$PROBE_ROOT" | sha256sum | cut -c 1-12)
 
 docker_local() {
@@ -27,16 +35,16 @@ compose() {
         -f compose.yaml -f "$PROBE_ROOT/workspace.json" "$@"
 }
 child_mount() {
-    types=$(timeout 2 findmnt -rnC --mountpoint "$PROBE_ROOT/mount/work" -o FSTYPE) || return "$?"
-    printf '%s\n' "$types" | sort -u
+    timeout -k 1 2 awk -v path="$PROBE_ROOT/mount/work" '
+        $5 == path {
+            for (i = 7; i < NF; i++) if ($i == "-") type[$(i + 1)] = 1
+        }
+        END { for (name in type) print name }
+    ' /proc/self/mountinfo
 }
 absent_child() {
-    if child_mount; then
-        die 'Child mount still present (or existed before setup)'
-    else
-        status=$?
-        [ "$status" = 1 ] || die 'Cannot inspect child mount'
-    fi
+    mount_type=$(child_mount) || die 'Cannot inspect child mount'
+    [ -z "$mount_type" ] || die 'Child mount still present (or existed before setup)'
 }
 runners() {
     docker_local 5 ps -aq --filter "label=agentic.scope=mounted-$scope"
@@ -48,6 +56,7 @@ case "${1:-}" in
         timeout 2 findmnt -rnC --mountpoint "$PROBE_ROOT/mount" -o PROPAGATION | grep -qx shared ||
             die 'Prepare the exact shared self-bind described in README'
         absent_child
+        [ ! -L "$PROBE_ROOT/mount/work" ] || die 'Invalid child mountpoint'
         [ -z "$(compose 5 ps -aq)" ] && [ -z "$(runners)" ] || die 'Diagnostic project already exists'
         diagnostic_image=$(docker_local 5 image inspect course-feasibility:2026-11-06 --format '{{.Id}}')
         [ "$diagnostic_image" = sha256:0b57fcf6e6b5d59a6a9f3255b89a1f2ba198d1870b63b6ad06d3199e1fb384f6 ] ||
@@ -55,9 +64,23 @@ case "${1:-}" in
         docker_local 5 image inspect agentic-sandbox:cpu-v1 --format '{{.Id}}'
         compose 20 up --no-build --pull never -d --wait --wait-timeout 16
         [ "$(child_mount)" = fuse.sshfs ] || die 'SSHFS did not propagate to the exact host path'
+        if [ "$access_mode" = ro ]; then
+            options=$(timeout 2 findmnt -rnC --mountpoint "$PROBE_ROOT/mount/work" -o VFS-OPTIONS)
+            [ -n "$options" ] || die 'Expected read-only SSHFS mount'
+            while IFS= read -r row; do
+                case ",$row," in
+                    *,rw,*) die 'Expected read-only SSHFS mount' ;;
+                    *,ro,*) ;;
+                    *) die 'Expected read-only SSHFS mount' ;;
+                esac
+            done <<EOF
+$options
+EOF
+        fi
         ;;
     sftp)
         docker_local 8 run --rm -i --pull never --runtime runc --read-only \
+            --label "agentic.scope=mounted-$scope" \
             --network "${scope}_file-channel" --cpus .5 --memory 128m --memory-swap 128m \
             --pids-limit 16 --user 1000:1000 --cap-drop ALL --security-opt no-new-privileges \
             --tmpfs /tmp:size=1m,mode=1777 \
@@ -67,27 +90,35 @@ case "${1:-}" in
             -o UserKnownHostsFile=/keys/known_hosts -o StrictHostKeyChecking=yes ubuntu@exporter
         ;;
     cleanup)
+        printf 'Checking runtime containers for %s\n' "$scope"
         ids=$(runners) || die 'Cannot inspect runtime containers'
         for id in $ids; do
             docker_local 7 rm -f "$id" || die 'Runtime container removal failed'
         done
         ids=$(runners) || die 'Cannot confirm runtime container removal'
         [ -z "$ids" ] || die 'Runtime containers remain'
-        if mount_type=$(child_mount); then
+        mount_type=$(child_mount) || die 'Cannot inspect child mount'
+        if [ -n "$mount_type" ]; then
             [ "$mount_type" = fuse.sshfs ] || die 'Unexpected child mount type'
-            if ! compose 5 exec -T broker fusermount3 -u /probe-mount/work; then
+            # timeout runs Compose in a separate process group. A terminal read can stop it.
+            if ! compose 5 exec -T broker fusermount3 -u /probe-mount/work </dev/null; then
                 printf '%s\n' 'Broker unmount failed; checking mount after Compose down.' >&2
             fi
-        else
-            status=$?
-            [ "$status" = 1 ] || die 'Cannot inspect the child mount'
         fi
+        printf 'Removing Compose resources for %s\n' "$scope"
         compose 12 down --timeout 2 || die 'Compose removal uncertain'
-        containers=$(compose 5 ps -aq) || die 'Cannot verify project removal'
+        containers=$(docker_local 5 ps -aq --filter "label=com.docker.compose.project=$scope") ||
+            die 'Cannot verify project removal'
+        ids=$(runners) || die 'Cannot confirm runtime container removal'
         networks=$(docker_local 5 network ls -q --filter "label=com.docker.compose.project=$scope") ||
             die 'Cannot inspect project networks'
-        [ -z "$containers" ] && [ -z "$networks" ] || die 'Compose resources remain'
-        absent_child
+        [ -z "$containers" ] && [ -z "$networks" ] && [ -z "$ids" ] || die 'Scoped Docker resources remain'
+        mount_type=$(child_mount) || die 'Cannot inspect child mount'
+        if [ -n "$mount_type" ]; then
+            [ "$mount_type" = fuse.sshfs ] || die 'Unexpected residual mount type'
+            printf '%s\n' 'Scoped Docker resources removed; SSHFS mount remains.' >&2
+            exit 3
+        fi
         printf '%s\n' 'Runtime containers, Compose resources and SSHFS mount removed; unmount the self-bind separately.'
         ;;
     *) die 'Usage: stack.sh up | scope | sftp | cleanup' ;;

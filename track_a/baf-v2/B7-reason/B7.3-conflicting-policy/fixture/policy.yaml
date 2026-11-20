@@ -1,0 +1,9 @@
+# Учитываются только правила для запрошенной пары role/resource.
+# Применяются правила с максимальным priority. Порядок строк роли не играет.
+# Если таких правил нет, доступ закрыт.
+rules:
+  - {id: Q-legacy, role: Z, resource: Q, priority: 10, effect: allow}
+  - {id: P-emergency, role: Z, resource: P, priority: 90, effect: deny}
+  - {id: Q-exception, role: Z, resource: Q, priority: 40, effect: deny}
+  - {id: Q-release, role: Z, resource: Q, priority: 40, effect: allow}
+  - {id: Q-reviewer, role: REVIEWER, resource: Q, priority: 80, effect: allow}

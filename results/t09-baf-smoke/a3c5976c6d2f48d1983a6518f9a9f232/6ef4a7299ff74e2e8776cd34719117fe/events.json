@@ -1,0 +1,236 @@
+[
+  {
+    "schema_version": 2,
+    "event_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1:1",
+    "sequence": 1,
+    "timestamp": 1795094502.7797735,
+    "session_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1",
+    "run_id": "76666097d0f94cb386b38a1aeaad2b2d",
+    "type": "run.status",
+    "payload": {
+      "status": "queued"
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1:2",
+    "sequence": 2,
+    "timestamp": 1795094502.7801416,
+    "session_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1",
+    "run_id": "76666097d0f94cb386b38a1aeaad2b2d",
+    "type": "run.status",
+    "payload": {
+      "status": "running"
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1:3",
+    "sequence": 3,
+    "timestamp": 1795094502.7801833,
+    "session_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1",
+    "run_id": "76666097d0f94cb386b38a1aeaad2b2d",
+    "type": "model.started",
+    "payload": {
+      "step": 0
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1:4",
+    "sequence": 4,
+    "timestamp": 1795094502.7802448,
+    "session_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1",
+    "run_id": "76666097d0f94cb386b38a1aeaad2b2d",
+    "type": "model.completed",
+    "payload": {
+      "step": 0,
+      "action": {
+        "calls": [
+          {
+            "id": "call-1",
+            "tool": "RunCommand",
+            "args": {
+              "command": "python3 stats.py data.csv"
+            }
+          }
+        ]
+      },
+      "usage": null
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1:5",
+    "sequence": 5,
+    "timestamp": 1795094502.7802815,
+    "session_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1",
+    "run_id": "76666097d0f94cb386b38a1aeaad2b2d",
+    "type": "tool.started",
+    "payload": {
+      "op_id": "df3968a51df346d285554f3f87b0e13b",
+      "call": {
+        "id": "call-1",
+        "tool": "RunCommand",
+        "args": {
+          "command": "python3 stats.py data.csv"
+        }
+      }
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1:6",
+    "sequence": 6,
+    "timestamp": 1795094502.7804427,
+    "session_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1",
+    "run_id": "76666097d0f94cb386b38a1aeaad2b2d",
+    "type": "tool.result",
+    "payload": {
+      "op_id": "df3968a51df346d285554f3f87b0e13b",
+      "result": {
+        "exit_code": 0,
+        "stdout": "{\"count\": 7, \"mean\": 19.428571428571427, \"median\": 7.0}",
+        "stderr": "",
+        "error_kind": null,
+        "truncated": false
+      }
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1:7",
+    "sequence": 7,
+    "timestamp": 1795094502.780482,
+    "session_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1",
+    "run_id": "76666097d0f94cb386b38a1aeaad2b2d",
+    "type": "model.started",
+    "payload": {
+      "step": 1
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1:8",
+    "sequence": 8,
+    "timestamp": 1795094502.7805848,
+    "session_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1",
+    "run_id": "76666097d0f94cb386b38a1aeaad2b2d",
+    "type": "model.completed",
+    "payload": {
+      "step": 1,
+      "action": {
+        "calls": [
+          {
+            "id": "call-2",
+            "tool": "WriteFile",
+            "args": {
+              "path": "answer.txt",
+              "data": "Nwo="
+            }
+          }
+        ]
+      },
+      "usage": null
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1:9",
+    "sequence": 9,
+    "timestamp": 1795094502.780628,
+    "session_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1",
+    "run_id": "76666097d0f94cb386b38a1aeaad2b2d",
+    "type": "tool.started",
+    "payload": {
+      "op_id": "586f5cfdac02446ca8b4accb1e142de0",
+      "call": {
+        "id": "call-2",
+        "tool": "WriteFile",
+        "args": {
+          "path": "answer.txt",
+          "data": "Nwo="
+        }
+      }
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1:10",
+    "sequence": 10,
+    "timestamp": 1795094502.7807376,
+    "session_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1",
+    "run_id": "76666097d0f94cb386b38a1aeaad2b2d",
+    "type": "tool.result",
+    "payload": {
+      "op_id": "586f5cfdac02446ca8b4accb1e142de0",
+      "result": {
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "",
+        "error_kind": null,
+        "truncated": false
+      }
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1:11",
+    "sequence": 11,
+    "timestamp": 1795094502.7807882,
+    "session_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1",
+    "run_id": "76666097d0f94cb386b38a1aeaad2b2d",
+    "type": "model.started",
+    "payload": {
+      "step": 2
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1:12",
+    "sequence": 12,
+    "timestamp": 1795094502.7808714,
+    "session_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1",
+    "run_id": "76666097d0f94cb386b38a1aeaad2b2d",
+    "type": "model.completed",
+    "payload": {
+      "step": 2,
+      "action": {
+        "answer": "Smoke script finished."
+      },
+      "usage": null
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1:13",
+    "sequence": 13,
+    "timestamp": 1795094502.7809126,
+    "session_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1",
+    "run_id": "76666097d0f94cb386b38a1aeaad2b2d",
+    "type": "run.status",
+    "payload": {
+      "status": "finalizing"
+    }
+  },
+  {
+    "schema_version": 2,
+    "event_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1:14",
+    "sequence": 14,
+    "timestamp": 1795094502.7809916,
+    "session_id": "cc4fb6b5f9bf40d8b2e22a0db3504aa1",
+    "run_id": "76666097d0f94cb386b38a1aeaad2b2d",
+    "type": "run.result",
+    "payload": {
+      "status": "completed",
+      "reason": null,
+      "answer": "Smoke script finished.",
+      "usage": [
+        null,
+        null,
+        null
+      ],
+      "cleanup_state": "confirmed"
+    }
+  }
+]

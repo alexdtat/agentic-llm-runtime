@@ -1,0 +1,11 @@
+{
+  "id": "S-B7",
+  "baf": "B7",
+  "level": "trick",
+  "messages": [
+    "Определи, какой слот единственный подходит для публикации согласно policy.md. Запиши только идентификатор слота в answer.txt. Сохрани исходник."
+  ],
+  "answer_file": "answer.txt",
+  "timeout_s": 180,
+  "mutable_fixture_files": []
+}

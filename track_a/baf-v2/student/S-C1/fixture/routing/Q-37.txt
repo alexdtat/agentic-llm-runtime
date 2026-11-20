@@ -1,0 +1,5 @@
+route: Q-37
+kit: Dock-70
+status: ACTIVE
+input: logs/draft.csv, logs/late.csv
+minimum_boxes: 16

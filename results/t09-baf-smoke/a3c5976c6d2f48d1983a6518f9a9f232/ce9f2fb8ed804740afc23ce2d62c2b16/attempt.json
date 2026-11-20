@@ -1,0 +1,28 @@
+{
+  "id": "ce9f2fb8ed804740afc23ce2d62c2b16",
+  "task": "B4.1",
+  "mode": "synthetic_mock_fixture",
+  "outcome": "pass",
+  "fixture_path": "baf/B4-edit/B4.1-install-version/fixture",
+  "session_id": "34d0f563eabe4e919734043f1659f255",
+  "run_id": "0b9b02ca5b0b400aadeca4e2c38bad88",
+  "run": {
+    "status": "completed",
+    "reason": null,
+    "answer": "Smoke script finished.",
+    "usage": [
+      null,
+      null,
+      null
+    ],
+    "cleanup_state": "confirmed"
+  },
+  "checks": {
+    "one_run_result": true,
+    "tool_results": true,
+    "requested_tools": true,
+    "artifact_written": true,
+    "remaining_fixture_preserved": true
+  },
+  "close": "confirmed"
+}
