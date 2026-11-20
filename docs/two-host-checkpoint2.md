@@ -4,7 +4,7 @@
 [Клиентский результат](../results/t08-two-host/live-iorgltrp/laptop.json) · [Серверный итог](../results/t08-two-host/live-iorgltrp/summary.json) · [События инструментов](../results/t08-two-host/live-iorgltrp/events.json)
 
 [Задание курса](../reference/course/A-agent-runtime.md) ·
-[Свидетельства однохостового прогона](../IMPLEMENTATION_HANDOFF.md)
+[Ранняя однохостовая проба SSHFS и её ограничения](../prototypes/mount-runtime-probe/PROBE_RESULT_H3aaS4XD.md)
 
 ## Что потребуется адаптировать
 

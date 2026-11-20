@@ -14,6 +14,7 @@ FROM gateway AS checks
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 COPY *.py /app/
+COPY tests/*.py /app/tests/
 COPY track_a/baf /app/track_a/baf
 COPY track_a/*.json /app/track_a/
 COPY results/baf-suite-20261106T015237658406Z /app/recordings/baf-v1

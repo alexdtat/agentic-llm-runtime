@@ -1,2 +1,0 @@
-git apply --check incremental.patch against original source
-exit_code=0

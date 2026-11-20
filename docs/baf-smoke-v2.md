@@ -9,7 +9,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m track_a.baf_smoke --output results/baf-smok
 Workflow `CPU runtime` запускает эту команду и прикладывает её артефакты к `cpu-runtime-evidence`. Отдельный набор проверяет классификацию ошибок, свежесть фикстур и границы исполнения.
 
 ```sh
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_baf_smoke
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v tests.test_baf_smoke
 ```
 
 Каталог `track_a/baf-v2/smoke.json` выбирает исторические простые задачи Б1–Б5 и новые простые задачи Б6–Б8. Для каждой попытки стандартный v2 `Application` создаёт свежую сессию с копией её `fixture/`. Штатный последовательный харнес получает ответы от скриптового mock через валидатор `ModelProxy`, выполняет вызовы через `FixtureExecutor`, публикует события и возвращает снимок файлов после подтверждённой остановки. Внутрипроцессный транспорт использует v2 routes без сокетов.

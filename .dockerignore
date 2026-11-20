@@ -3,6 +3,8 @@
 !Dockerfile
 !requirements.txt
 !*.py
+!tests/
+!tests/*.py
 !track_a/
 !track_a/*.py
 !track_a/*.json

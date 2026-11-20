@@ -13,13 +13,13 @@
 | A-5.3 · очистка | Остановка удаляет контейнер, неопределённый исход блокирует повтор. | Mounted на одном хосте подтвердил отмену с остановкой отделившегося писателя и очистку после ENOTCONN. При наблюдаемом ожидании FUSE отмена завершилась за 0,142 с, остановка и очистка подтверждены. |
 | A-5.4 · сеть | Sandbox `--network none`, отдельный канал exporter/broker | RunCommand обнаружил только интерфейс lo. Подключение к адресу работающего локального mock из отдельного сетевого namespace получило ECONNREFUSED. |
 | A-5.5 · секреты и модель | В запуск sandbox не передаются env-флаги; отдельные ключи монтируются в exporter/broker. Application вызывает модель через Model Proxy. | Тестовая переменная присутствовала у исполнителя и отсутствовала в sandbox. Docker socket в sandbox отсутствовал. Локальный mock Model Proxy получил запрос Application и наблюдение инструмента. |
-| A-5.6 · накладные расходы | Курс требует cold start, задержку exec и накладные расходы памяти. | Для mounted нет серии из ≥10 повторов с медианой и p95. |
+| A-5.6 · накладные расходы | Курс требует cold start, задержку exec и накладные расходы памяти. | Выполнено 12 повторов на desktop. [Сырые значения, медиана и p95](checkpoint2-evidence/measurements.json). |
 
-[Аргументы Docker](../track_a/executor.py) · [MountedExecutor](../track_a/mounted_executor.py) · [Worker](../track_a/worker.py) · [Application](../track_a/application.py) · [Exporter и broker](../prototypes/mounted-runtime/compose.yaml) · [Валидация CPU-v1](validation-cpu-v1.md) · [Тесты CPU-v1](../test_runtime_integration.py) · [Mounted handoff](../IMPLEMENTATION_HANDOFF.md)
+[Аргументы Docker](../track_a/executor.py) · [MountedExecutor](../track_a/mounted_executor.py) · [Worker](../track_a/worker.py) · [Application](../track_a/application.py) · [Exporter и broker](../prototypes/mounted-runtime/compose.yaml) · [Проверка CPU workflow](https://github.com/alexdtat/agentic-llm-runtime/actions/runs/44729876856) · [Тесты CPU-v1](../tests/test_runtime_integration.py)
 
 ## Проверка на одноразовом стенде
 
-Контракт аргументов воспроизводится из корня checkout командой `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_mounted_limits`. Docker CLI и проверка монтирования заменены тестовыми заглушками. [Тесты контракта](../test_mounted_limits.py)
+Контракт аргументов воспроизводится из корня checkout командой `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v tests.test_mounted_limits`. Docker CLI и проверка монтирования заменены тестовыми заглушками. [Тесты контракта](../tests/test_mounted_limits.py)
 
 На уже запущенном одноразовом mounted-стенде с cgroup v2 передайте следующий код как один инструмент `RunCommand` с Python. Он выводит только выбранные параметры процесса, монтирований и cgroup. Для `/tmp` создаётся один временный файл до 4 КиБ, который сразу закрывается и удаляется.
 

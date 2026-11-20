@@ -120,7 +120,7 @@ findmnt, Docker CLI и private transport. Отдельный дочерний Py
 себя после durable intent и синтетического побочного эффекта для проверки recovery.
 
 ```sh
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_mounted_runtime test_mounted_failures
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v tests.test_mounted_runtime tests.test_mounted_failures
 ```
 
 Покрыты отказ start, неизвестный исход команды, восстановление и дедупликация,
@@ -132,11 +132,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_mounted_runtime test_mount
 Проверка health ищет запись fuse.sshfs через findmnt. Для RO также проверяются
 флаги VFS точной точки монтирования.
 
-Эти offline проверки моделируют инфраструктурные ответы. Реальный обрыв SSHFS,
-cached/disconnected FUSE, зависший I/O и исчезновение всех процессов после cleanup
-требуют live-проверки. Само наличие mountinfo и успешный stat('/work') не доказывают,
-что удалённый экспорт доступен. Свидетельства T08 сохранены в
-results/t08-mounted-failures/report.md.
+Офлайн-тесты моделируют ответы инфраструктуры. На хосте отдельно проверен обрыв SSHFS во время операции и подтверждена очистка. [Трасса и результат](../../results/t08-mounted-failures/live-rhsykxdx/verification.md).
 
 На обычном согласованном Linux-хосте фактический обрыв SSHFS проверяется одной
 командой из корня checkout. Нужны UID 1000, `/dev/fuse`, доступ к локальному Docker,
