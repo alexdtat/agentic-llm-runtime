@@ -231,7 +231,7 @@ def load_frozen_task(plan_path, expected_digest, task_id, repeat):
     task_data = (task_dir / 'task.json').read_bytes()
     if hashlib.sha256(task_data).hexdigest() != task['files']['task.json']:
         raise AttemptError('task_changed')
-    message, = json.loads(task_data, object_pairs_hook=unique_object)['messages']
+    message = '\n\n'.join(json.loads(task_data, object_pairs_hook=unique_object)['messages'])
     with directory(task_dir / 'fixture') as fd:
         fixture_dirs, fixture_files = inventory(fd)
     expected_files = {name[len('fixture/'):]: value for name, value in task['files'].items()

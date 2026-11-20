@@ -177,10 +177,11 @@ class Rehearsal:
                 f'Docker resources remain for {scope_for(root)}')
         return resources
 
-    def inspect_fields(self, kind, ident, fields, members):
+    def inspect_fields(self, kind, ident, fields, members=None):
         # Project identity and member keys only. The Docker log never contains Config.Env.
         template = '\n'.join('{{json ' + field + '}}' for field in fields)
-        template += '{{range $id, $unused := ' + members + '}}{{println}}{{json $id}}{{end}}'
+        if members:
+            template += '{{range $id, $unused := ' + members + '}}{{println}}{{json $id}}{{end}}'
         result = self.command([*LOCAL, kind, 'inspect', '--format', template, ident])
         return [json.loads(line) for line in result.stdout.splitlines()]
 
@@ -445,6 +446,9 @@ class Rehearsal:
         self.suite_digest = plan['suite_sha256']
         baf_attempt.persist(self.plan, plan)
         _, fixture, _ = baf_grade.source_task(TASK)
+        return self.setup_fixture(fixture)
+
+    def setup_fixture(self, fixture):
         self.root = prepare(None, fixture=fixture)
         self.scope = scope_for(self.root)
         self.summary.update(root=str(self.root), scope=self.scope)
@@ -488,23 +492,25 @@ class Rehearsal:
                 'Expected one propagated writable SSHFS mount under the private peer group')
         return 'passed', 0
 
-    def attempt(self):
+    def attempt(self, *, task_id=TASK, repeat=1, proxy=None, provider_label='local/ScriptedModel',
+                runtime_revision='working-checkout'):
         grant, owner = secrets.token_hex(24), secrets.token_hex(24)
         executor = MountedExecutor(str(self.root / 'mount/work'), grant, self.scope, baf_grade.IMAGE,
                                    self.root / 'execution-state')
         executor.recover()
         with contextlib.ExitStack() as services:
             backend = services.enter_context(service(executor, secrets.token_hex(24)))
-            model = services.enter_context(service(ScriptedModel(TASK), secrets.token_hex(24)))
+            model = services.enter_context(service(proxy or ScriptedModel(task_id), secrets.token_hex(24)))
             backend = baf_attempt.MountedClient(backend.base, backend.token, grant)
             model = baf_attempt.MountedClient(model.base, model.token, grant)
             app = Application(backend, model, {'local': owner}, self.root / 'app-state', mount_owner='local')
             api = services.enter_context(service(app, owner))
             mounted = baf_attempt.MountedClient(api.base, owner, grant)
-            self.folder, receipt = baf_attempt.run_attempt(
-                mounted, plan_path=self.plan, suite_digest=self.suite_digest, task_id=TASK, repeat=1,
+            self.folder, self.receipt = baf_attempt.run_attempt(
+                mounted, plan_path=self.plan, suite_digest=self.suite_digest, task_id=task_id, repeat=repeat,
                 grant=grant, export=self.root / 'client', output=self.evidence / 'attempts',
-                provider_label='local/ScriptedModel', runtime_revision='working-checkout')
+                provider_label=provider_label, runtime_revision=runtime_revision)
+            receipt = self.receipt
             self.summary['stages']['attempt'].update(receipt=str(self.folder / 'attempt.json'),
                                                       close=receipt['close'],
                                                       reason=receipt.get('reason'))
@@ -512,11 +518,11 @@ class Rehearsal:
                 self.summary['trace'] = str(self.folder / 'events.json')
             return receipt['outcome'], 0 if receipt['grade_ready'] else 1
 
-    def grade(self):
+    def grade(self, *, task_id=TASK):
         snapshot = self.folder / 'snapshot'
         events = baf_grade.read_trace(self.folder / 'events.json', snapshot)
         isolated = partial(baf_grade.IsolatedPython, scope='mounted-' + self.scope)
-        grade = baf_grade.grade(TASK, snapshot, events, isolated_python=isolated)
+        grade = baf_grade.grade(task_id, snapshot, events, isolated_python=isolated)
         path = self.evidence / 'grade.json'
         baf_attempt.persist(path, grade)
         self.summary['grade'] = str(path)

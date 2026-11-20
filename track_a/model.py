@@ -18,13 +18,14 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 
 class Model:
-    def __init__(self):
+    def __init__(self, *, opener=None):
         self.backend = os.environ.get('MODEL_BACKEND', 'mock')
         if self.backend not in {'mock', 'openai-compatible'}:
             raise ValueError('Unknown model backend')
         self.base = os.environ.get('MODEL_BASE_URL', '').rstrip('/')
         self.name = os.environ.get('MODEL_NAME', '')
         self.key = os.environ.get('MODEL_API_KEY', '')
+        self.opener = opener
         if self.backend != 'mock':
             url = urllib.parse.urlsplit(self.base)
             if (url.scheme not in {'http', 'https'} or not url.netloc or url.username
@@ -51,7 +52,8 @@ class Model:
             headers['Authorization'] = 'Bearer ' + self.key
         request = urllib.request.Request(self.base + '/chat/completions',
                                          data=json.dumps(payload).encode(), headers=headers)
-        with urllib.request.build_opener(NoRedirect).open(request, timeout=min(20, timeout)) as response:
+        opener = self.opener or urllib.request.build_opener(NoRedirect)
+        with opener.open(request, timeout=min(20, timeout)) as response:
             raw = response.read(2 * 1024 * 1024 + 1)
         if len(raw) > 2 * 1024 * 1024:
             raise ValueError('Model response exceeds limit')
